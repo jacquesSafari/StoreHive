@@ -1,12 +1,16 @@
 - git branch	//list all available branches
+- git branch -a	//list all available remote branches (This is the one you will most likely use)
 - git checkout [branch name]	//move to yourbranch
 
 - git status	//status of your local working environment
 - git status -s	//a more summarised status
 
-- git add /path/to/file
+- git add /path/to/file	//add an untracked file
 - git add /path/to/directory/*	//add all untracked files (The ones with the ?)
 
+- git remote update	//obvious
+- git pull	//pull everything
+- git pull origin [branch_name]	//pull only changes to this branch
 - git commit -am "commit message"	//very obvious
 - git push -u origin [your_current_working_branch]	//There are different ways of pushing, this is just how I do it
  
