@@ -1,6 +1,6 @@
 - git branch	//list all available branches
 - git branch -a	//list all available remote branches (This is the one you will most likely use)
-- git checkout [branch name]	//move to yourbranch
+- git checkout -t origin/[branch name]	//move to your branch
 
 - git status	//status of your local working environment
 - git status -s	//a more summarised status
