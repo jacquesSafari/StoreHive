@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="roboto_thin">roboto_thin</string>
+    <string name="roboto_thin_italic">roboto_thin_italic</string>
+    <string name="roboto_light">roboto_light</string>
+    <string name="roboto_light_italic">roboto_light_italic</string>
+    <string name="roboto_regular">roboto_regular</string>
+    <string name="roboto_italic">roboto_italic</string>
+    <string name="roboto_medium">roboto_medium</string>
+    <string name="roboto_medium_italic">roboto_medium_italic</string>
+    <string name="roboto_bold">roboto_bold</string>
+    <string name="roboto_bold_italic">roboto_bold_italic</string>
+    <string name="roboto_black">roboto_black</string>
+    <string name="roboto_black_italic">roboto_black_italic</string>
+    <string name="roboto_condensed_light">roboto_condensed_light</string>
+    <string name="roboto_condensed_light_italic">roboto_condensed_light_italic</string>
+    <string name="roboto_condensed_regular">roboto_condensed_regular</string>
+    <string name="roboto_condensed_italic">roboto_condensed_italic</string>
+    <string name="roboto_condensed_bold">roboto_condensed_bold</string>
+    <string name="roboto_condensed_bold_italic">roboto_condensed_bold_italic</string>
+    <string name="roboto_slab_thin">roboto_slab_thin</string>
+    <string name="roboto_slab_light">roboto_slab_light</string>
+    <string name="roboto_slab_regular">roboto_slab_regular</string>
+    <string name="roboto_slab_bold">roboto_slab_bold</string>
+
+</resources>

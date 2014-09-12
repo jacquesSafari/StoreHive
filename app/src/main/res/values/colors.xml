@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="apptheme_color">#ff8b00</color>
+    <color name="white">@android:color/white</color>
+    <color name="sh_light_gray">#CCCCCC</color>
+    <color name="blue_color_scheme_1">#6DCAEC</color>
+    <color name="blue_color_scheme_2">#33B5E5</color>
+    <color name="blue_color_scheme_3">#24ADDE</color>
+    <color name="blue_color_scheme_4">#16A5D7</color>
+</resources>

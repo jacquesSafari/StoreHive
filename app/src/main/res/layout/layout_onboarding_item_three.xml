@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+        android:id="@+id/app_progress_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/ProgressTheme"
+        android:indeterminate="true"
+        android:layout_alignParentTop="true"
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin">
+
+        <TextView
+            android:id="@+id/app_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:gravity="center"
+            android:layout_marginTop="50dp"
+            android:textSize="24sp"/>
+
+        <LinearLayout
+            android:id="@+id/layout_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
+
+            <com.store.hive.custom.FloatLabelLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:floatLabelTextAppearance="@style/FloatLabel">
+
+                <com.devspark.robototextview.widget.RobotoEditText
+                    android:id="@+id/user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/sh_full_name"
+                    android:singleLine="true"
+                    android:inputType="textPersonName|textCapWords"
+                    android:imeOptions="actionNext"
+                    android:nextFocusDown="@+id/user_email"
+                    app:typeface="roboto_condensed_light"/>
+
+            </com.store.hive.custom.FloatLabelLayout>
+
+            <com.store.hive.custom.FloatLabelLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:floatLabelTextAppearance="@style/FloatLabel">
+
+                <com.devspark.robototextview.widget.RobotoAutoCompleteTextView
+                    android:id="@+id/user_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/sh_email"
+                    android:singleLine="true"
+                    android:inputType="textEmailAddress"
+                    android:imeOptions="actionNext"
+                    android:nextFocusDown="@+id/user_password"
+                    app:typeface="roboto_condensed_light"/>
+
+            </com.store.hive.custom.FloatLabelLayout>
+
+            <com.store.hive.custom.FloatLabelLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:floatLabelTextAppearance="@style/FloatLabel">
+
+                <com.devspark.robototextview.widget.RobotoEditText
+                    android:id="@+id/user_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/sh_password"
+                    android:password="true"
+                    android:singleLine="true"
+                    android:inputType="textPassword"
+                    android:imeOptions="actionNext"
+                    android:nextFocusDown="@+id/user_password_two"
+                    app:typeface="roboto_condensed_light"/>
+
+            </com.store.hive.custom.FloatLabelLayout>
+
+            <com.store.hive.custom.FloatLabelLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:floatLabelTextAppearance="@style/FloatLabel">
+
+                <com.devspark.robototextview.widget.RobotoEditText
+                    android:id="@+id/user_password_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/sh_password_match"
+                    android:password="true"
+                    android:singleLine="true"
+                    android:inputType="textPassword"
+                    android:imeOptions="actionDone"
+                    android:nextFocusDown="@+id/registerBtn"
+                    app:typeface="roboto_condensed_light"/>
+
+            </com.store.hive.custom.FloatLabelLayout>
+
+            <com.devspark.robototextview.widget.RobotoButton
+                android:id="@+id/registerBtn"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sh_register"
+                android:textColor="@android:color/white"
+                app:typeface="roboto_condensed_light"/>
+
+            <com.devspark.robototextview.widget.RobotoTextView
+                android:id="@+id/loginLink"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/sh_sign_in_here"
+                android:textColor="@color/apptheme_color"
+                app:typeface="roboto_condensed_light"
+                android:padding="5dp"/>
+
+        </LinearLayout>
+
+        <include
+            layout="@layout/layout_sign_in"
+            android:id="@+id/sign_in_layout"/>
+
+    </RelativeLayout>
+</RelativeLayout>
