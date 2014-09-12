@@ -9,8 +9,11 @@
     tools:context=".MainActivity">
 
     <TextView
-
+        android:id="@+id/txt_welcome"
+        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Welcome To Store Hive"
+        android:textSize="@dimen/sh_text_large"/>
 
 </RelativeLayout>

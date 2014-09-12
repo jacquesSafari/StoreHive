@@ -51,16 +51,22 @@ public class RequestHandler{
         Response.Listener<JSONObject> listener = new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(TAG, "Response is: "+response.toString());
+
                 try{
-                    boolean isSuccess = response.getBoolean("isSuccesfull");
+                    boolean isSuccess = Boolean.valueOf(response.getString("isSuccessfull"));
 
                     if(isSuccess){
-                        callBack.onRequestComplete(new ResponseResult(isSuccess));
+                        Log.d(TAG, "is Successful");
+
+                        callBack.onRequestComplete(new ResponseResult(true));
                     } else {
+                        Log.d(TAG, "is not Successful");
                         String reason = response.getString("errorMessage");
-                        callBack.onRequestComplete(new ResponseResult(isSuccess, reason));
+                        callBack.onRequestComplete(new ResponseResult(false, reason));
                     }
                 }catch (JSONException ex){
+                    Log.d(TAG, ex.getMessage());
                     callBack.onRequestComplete(null);
                 }
 
@@ -77,8 +83,6 @@ public class RequestHandler{
 
         JSONObject jsonObject = createJsonObject(storeOwner);
         if(jsonObject != null){
-            Log.d(TAG, jsonObject.toString());
-
             JsonObjectRequest req =new JsonObjectRequest(url, jsonObject, listener, errorListener);
             getRequestQueue(context).add(req);
         }

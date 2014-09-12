@@ -3,6 +3,7 @@ package com.store.hive;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -341,27 +342,39 @@ public class OnBoardingActivity extends ActionBarActivity {
 
         }
 
-        private void performRegistrationRemoteCall(String name, String last, String username, String password){
+        private void performRegistrationRemoteCall(final String name, final String last, String username, String password){
 
             if(ServiceUtil.isConnected(getActivity())){
-                RequestHandler.getInstance().registerStoreOwner(new StoreOwner(name, last, username, password, "1234"), getActivity(), new OnRequestCompleteLister() {
+                String deviceID = Settings.Secure.getString(getActivity().getContentResolver(),
+                        Settings.Secure.ANDROID_ID);
+
+                RequestHandler.getInstance().registerStoreOwner(new StoreOwner(name, last, username, password, deviceID), getActivity(), new OnRequestCompleteLister() {
                     @Override
                     public void onRequestComplete(ResponseResult response) {
-                        Log.d(TAG, "Response is: "+response);
-                        boolean isSuccess = response.isSuccesfull();
 
-                        if(isSuccess){
-                            Toast.makeText(getActivity(), "Success", Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(getActivity(), MainActivity.class));
+                        if (response != null) {
+                            boolean isSuccess = response.isSuccesfull();
+
+                            if (isSuccess) {
+                                Toast.makeText(getActivity(), "Success", Toast.LENGTH_LONG).show();
+
+                                Intent intent = new Intent(getActivity(), MainActivity.class);
+                                intent.putExtra("user_full_name", name + " " + last);
+                                startActivity(intent);
+                                getActivity().finish();
+                            } else {
+                                Toast.makeText(getActivity(), "Error: " + response.getErrorMessage(), Toast.LENGTH_LONG).show();
+                            }
                         } else {
-                            Toast.makeText(getActivity(), "Not Successfull", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Something bad happened", Toast.LENGTH_LONG).show();
                         }
+
                         smoothProgressBar.setVisibility(View.GONE);
                     }
                 });
             } else {
                 smoothProgressBar.setVisibility(View.GONE);
-                Toast.makeText(getActivity(), "Please connected to a network", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Please connect to a network", Toast.LENGTH_LONG).show();
             }
 
         }
