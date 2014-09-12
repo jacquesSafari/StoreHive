@@ -2,6 +2,7 @@ package com.store.hive.custom;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.Editable;
@@ -17,6 +18,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.store.hive.R;
+import com.store.hive.utils.AppConfig;
 
 
 /**
@@ -90,17 +92,20 @@ public class FloatLabelLayout extends FrameLayout {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (TextUtils.isEmpty(s)) {
-                    // The text is empty, so hide the label if it is visible
-                    if (mLabel.getVisibility() == View.VISIBLE) {
-                        hideLabel();
-                    }
-                } else {
-                    // The text is not empty, so show the label if it is not visible
-                    if (mLabel.getVisibility() != View.VISIBLE) {
-                        showLabel();
+                if(AppConfig.isMethodPossible(14)){
+                    if (TextUtils.isEmpty(s)) {
+                        // The text is empty, so hide the label if it is visible
+                        if (mLabel.getVisibility() == View.VISIBLE) {
+                            hideLabel();
+                        }
+                    } else {
+                        // The text is not empty, so show the label if it is not visible
+                        if (mLabel.getVisibility() != View.VISIBLE) {
+                            showLabel();
+                        }
                     }
                 }
+
             }
 
             @Override
@@ -142,6 +147,7 @@ public class FloatLabelLayout extends FrameLayout {
     /**
      * Show the label using an animation
      */
+    @TargetApi(14)
     private void showLabel() {
 
         mLabel.setVisibility(View.VISIBLE);
@@ -157,6 +163,7 @@ public class FloatLabelLayout extends FrameLayout {
     /**
      * Hide the label using an animation
      */
+    @TargetApi(14)
     private void hideLabel() {
         mLabel.setAlpha(1f);
         mLabel.setTranslationY(0f);
@@ -171,6 +178,7 @@ public class FloatLabelLayout extends FrameLayout {
                     }
                 }).start();
     }
+
 
     /**
      * Helper method to convert dips to pixels.
