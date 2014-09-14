@@ -1,26 +1,23 @@
 package com.storehive.app.domain;
 
-import java.io.Serializable;
 
-public class StoreOwner implements Serializable{
+public class StoreOwner{
 
-	private static final long serialVersionUID = -2594845867839372868L;
-	
-	private String ID;
+	private String id;
 	private String username;
 	private String name;
 	private String surname;
 	private String password;
-	private String registrationDate; //generated on backend
+	private String registrationDate; 
 	private String deviceID;
 	
 	public StoreOwner(){}
 	
 	public String getID() {
-		return ID;
+		return id;
 	}
 	public void setID(String iD) {
-		ID = iD;
+		id = iD;
 	}
 	public String getUsername() {
 		return username;

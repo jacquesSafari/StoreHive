@@ -10,7 +10,7 @@ public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException>
 
 	@Override
 	public Response toResponse(RuntimeException exception) {
-		return Response.status(Status.INTERNAL_SERVER_ERROR).header("personal-reason", exception.getMessage()).build();
+		return Response.status(Status.INTERNAL_SERVER_ERROR).header("Application Error", exception.getMessage()).build();
 	}
 
 }
