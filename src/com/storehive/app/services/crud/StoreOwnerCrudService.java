@@ -5,4 +5,5 @@ import com.storehive.app.repository.MongoResporitoryService;
 
 public interface StoreOwnerCrudService extends MongoResporitoryService<StoreOwner> {
 	
+	public boolean doesStoreOwnerExist(String username);
 }

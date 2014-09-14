@@ -10,6 +10,7 @@ import com.storehive.app.domain.StoreOwner;
 import com.storehive.app.services.app.BusinessServices;
 import com.storehive.app.services.crud.StoreOwnerCrudService;
 import com.storehive.app.services.crud.impl.StoreOwnerCrudServiceImpl;
+import com.storehive.app.utilities.Message;
 import com.storehive.app.utilities.factory.ApplicationFactory;
 
 public class BusinessServicesImpl implements BusinessServices{
@@ -20,17 +21,19 @@ public class BusinessServicesImpl implements BusinessServices{
 		stcs = new StoreOwnerCrudServiceImpl();
 	}
 	@Override
-	public String registerClient(JSONObject newClient) {
-		// TODO Auto-generated method stub
+	public Message registerClient(JSONObject newClient) {
 		HashMap<String, String> clientDetails = new HashMap<String, String>();
 		clientDetails.put("username", newClient.get("username").toString());
 		clientDetails.put("name", newClient.get("name").toString());
 		clientDetails.put("surname", newClient.get("surname").toString());
 		clientDetails.put("registrationDate", new DateTime().toString());
+		clientDetails.put("deviceID", newClient.get("deviceID").toString());
 		clientDetails.put("password",newClient.get("password").toString());
 		
 		StoreOwner a = ApplicationFactory.buildStoreOwner(clientDetails);
 		return stcs.createEntity(a);
 	}
 
+	
 }
+

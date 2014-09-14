@@ -12,6 +12,7 @@ public class ApplicationFactory {
 		s.setSurname(ownerDetails.get("surname"));
 		s.setPassword(ownerDetails.get("password"));
 		s.setUsername(ownerDetails.get("username"));
+		s.setDeviceID(ownerDetails.get("deviceID"));
 		s.setRegistrationDate(ownerDetails.get("registrationDate"));
 		
 		return s;

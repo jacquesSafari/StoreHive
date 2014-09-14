@@ -2,8 +2,6 @@ package com.storehive.app.domain;
 
 import java.io.Serializable;
 
-import org.joda.time.DateTime;
-
 public class StoreOwner implements Serializable{
 
 	private static final long serialVersionUID = -2594845867839372868L;
@@ -13,7 +11,8 @@ public class StoreOwner implements Serializable{
 	private String name;
 	private String surname;
 	private String password;
-	private String registrationDate;
+	private String registrationDate; //generated on backend
+	private String deviceID;
 	
 	public StoreOwner(){}
 	
@@ -53,6 +52,14 @@ public class StoreOwner implements Serializable{
 	}
 	public void setRegistrationDate(String registrationDate) {
 		this.registrationDate = registrationDate;
+	}
+
+	public String getDeviceID() {
+		return deviceID;
+	}
+
+	public void setDeviceID(String deviceID) {
+		this.deviceID = deviceID;
 	}
 	
 	

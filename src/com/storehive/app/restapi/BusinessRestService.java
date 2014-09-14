@@ -13,6 +13,7 @@ import org.json.simple.JSONObject;
 
 import com.storehive.app.services.app.BusinessServices;
 import com.storehive.app.services.app.impl.BusinessServicesImpl;
+import com.storehive.app.utilities.Message;
 
 @Path("/business")
 public class BusinessRestService {
@@ -27,16 +28,24 @@ public class BusinessRestService {
 	@Path("/newStoreOwner")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@SuppressWarnings("unchecked")
 	public JSONObject registerClient(JSONObject newClient){
-		String username = bss.registerClient(newClient);
-		JSONObject success = new JSONObject();
-		success.put("username", username);
-		return success;
+		Message success = bss.registerClient(newClient);
+		JSONObject message = new JSONObject();
 		
+		if(success.getPrimaryMessage().equals("true")){
+			message.put("isSuccessfull", success.getPrimaryMessage());
+		}else{
+			message.put("isSuccessfull", success.getPrimaryMessage());
+			message.put("errorMessage", success.getSupportingMessage());
+		}
+		return message;
 	}
+	
 	
 	@GET
 	@Produces("application/json")
+	@SuppressWarnings("unchecked")
 	public JSONObject testRest(){
 		JSONObject j = new JSONObject();
 		j.put("name", "tyrone");

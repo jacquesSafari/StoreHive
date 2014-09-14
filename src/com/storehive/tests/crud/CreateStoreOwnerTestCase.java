@@ -27,21 +27,45 @@ public class CreateStoreOwnerTestCase {
 	public static void tearDownAfterClass() throws Exception {
 	}
 
-	public void createStoreOwnerTestFail(){
-		
-	}
-	
 	@Test
 	public void createStoreOwnerTestPass(){
 		HashMap<String, String> details = new HashMap<String, String>();
 		details.put("name", "Tyrone");
 		details.put("surname", "Adams");
-		details.put("username", "labamba");
+		details.put("username", "peter");
 		details.put("password", "1234568789");
 		details.put("reagistrationDate",new DateTime().toString());
 		
 		StoreOwner a = ApplicationFactory.buildStoreOwner(details);
 		
-		Assert.assertTrue("labamba".equals(crudService.createEntity(a)));
+		Assert.assertEquals("true",crudService.createEntity(a));
+	}
+	
+	@Test
+	public void createStoreOwnerTestFail(){
+		HashMap<String, String> details = new HashMap<String, String>();
+		details.put("name", "Tyrone");
+		details.put("surname", "Adams");
+		details.put("username", "james");
+		details.put("password", "1234568789");
+		details.put("reagistrationDate",new DateTime().toString());
+		
+		StoreOwner a = ApplicationFactory.buildStoreOwner(details);
+		
+		Assert.assertFalse("labamba".equals(crudService.createEntity(a)));
+	}
+	
+	@Test
+	public void createStoreOwnerHandleFail(){
+		HashMap<String, String> details = new HashMap<String, String>();
+		details.put("name", "Tyrone");
+		details.put("surname", "Adams");
+		details.put("username", "james");
+		details.put("password", "1234568789");
+		details.put("reagistrationDate",new DateTime().toString());
+		
+		StoreOwner a = ApplicationFactory.buildStoreOwner(details);
+		
+		Assert.assertEquals("username exists",crudService.createEntity(a));
 	}
 }
