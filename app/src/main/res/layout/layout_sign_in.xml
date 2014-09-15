@@ -19,6 +19,14 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true">
 
+            <com.devspark.robototextview.widget.RobotoTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/sh_sign_in_to_store"
+                app:typeface="roboto_condensed_light"
+                android:textSize="@dimen/sh_text_medium"/>
+
         <com.store.hive.custom.FloatLabelLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,7 +36,7 @@
                 android:id="@+id/user_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="User name"
+                android:hint="@string/sh_user_name"
                 android:singleLine="true"
                 android:inputType="textEmailAddress"
                 android:imeOptions="actionNext"
@@ -47,7 +55,7 @@
                 android:id="@+id/user_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
+                android:hint="@string/sh_password"
                 android:password="true"
                 android:inputType="textNoSuggestions"
                 android:imeOptions="actionDone"
@@ -56,21 +64,20 @@
 
         <com.devspark.robototextview.widget.RobotoButton
             android:id="@+id/signinBtn"
-            android:paddingTop="10dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign in"
-            android:textColor="@android:color/white"
+            android:text="@string/sh_sign_in"
             app:typeface="roboto_condensed_light"
           />
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/registerLink"
-            android:paddingTop="20dp"
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Or register here"
+            android:text="@string/sh_register_here"
             android:textColor="@color/apptheme_color"
             app:typeface="roboto_condensed_light"
             android:clickable="true"

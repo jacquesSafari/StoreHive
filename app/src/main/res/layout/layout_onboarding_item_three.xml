@@ -27,7 +27,7 @@
             android:text="@string/app_name"
             android:gravity="center"
             android:layout_marginTop="50dp"
-            android:textSize="24sp"/>
+            android:textSize="@dimen/sh_text_large"/>
 
         <LinearLayout
             android:id="@+id/layout_register"
@@ -35,7 +35,16 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/app_name">
+
+            <com.devspark.robototextview.widget.RobotoTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sh_register_store"
+                android:gravity="center"
+                app:typeface="roboto_condensed_light"
+                android:textSize="@dimen/sh_text_medium"/>
 
             <com.store.hive.custom.FloatLabelLayout
                 android:layout_width="match_parent"
@@ -131,11 +140,24 @@
                 app:typeface="roboto_condensed_light"
                 android:padding="5dp"/>
 
+
+
         </LinearLayout>
 
         <include
             layout="@layout/layout_sign_in"
             android:id="@+id/sign_in_layout"/>
+        <com.devspark.robototextview.widget.RobotoButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:text="@string/sh_not_now"
+            app:typeface="roboto_condensed_light"
+            android:background="@drawable/btn_transparent_background"
+            android:textColor="@color/blue_color_scheme_4"
+            android:drawableRight="@drawable/ic_action_forward"
+            android:onClick="continueToMainActivity"/>
 
     </RelativeLayout>
 </RelativeLayout>

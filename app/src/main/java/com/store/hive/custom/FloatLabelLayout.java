@@ -1,8 +1,5 @@
 package com.store.hive.custom;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.Editable;
@@ -17,12 +14,12 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.nineoldandroids.animation.Animator;
 import com.store.hive.R;
-import com.store.hive.utils.AppConfig;
 
 
 /**
- * Created by ARMORICA\tinashe on 2014/04/25.
+ * Created by tinashe.
  */
 public class FloatLabelLayout extends FrameLayout {
     private static final long ANIMATION_DURATION = 150;
@@ -92,19 +89,19 @@ public class FloatLabelLayout extends FrameLayout {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(AppConfig.isMethodPossible(14)){
-                    if (TextUtils.isEmpty(s)) {
-                        // The text is empty, so hide the label if it is visible
-                        if (mLabel.getVisibility() == View.VISIBLE) {
-                            hideLabel();
-                        }
-                    } else {
-                        // The text is not empty, so show the label if it is not visible
-                        if (mLabel.getVisibility() != View.VISIBLE) {
-                            showLabel();
-                        }
+
+                if (TextUtils.isEmpty(s)) {
+                    // The text is empty, so hide the label if it is visible
+                    if (mLabel.getVisibility() == View.VISIBLE) {
+                        hideLabel();
+                    }
+                } else {
+                    // The text is not empty, so show the label if it is not visible
+                    if (mLabel.getVisibility() != View.VISIBLE) {
+                        showLabel();
                     }
                 }
+
 
             }
 
@@ -147,36 +144,51 @@ public class FloatLabelLayout extends FrameLayout {
     /**
      * Show the label using an animation
      */
-    @TargetApi(14)
     private void showLabel() {
 
         mLabel.setVisibility(View.VISIBLE);
         mLabel.setAlpha(0f);
         mLabel.setTranslationY(mLabel.getHeight());
-        mLabel.animate()
+        com.nineoldandroids.view.ViewPropertyAnimator.animate(mLabel)
                 .alpha(1f)
                 .translationY(0f)
                 .setDuration(ANIMATION_DURATION)
-                .setListener(null).start();
+                .start();
     }
 
     /**
      * Hide the label using an animation
      */
-    @TargetApi(14)
     private void hideLabel() {
         mLabel.setAlpha(1f);
         mLabel.setTranslationY(0f);
-        mLabel.animate()
+        com.nineoldandroids.view.ViewPropertyAnimator.animate(mLabel)
                 .alpha(0f)
-                .translationY(mLabel.getHeight())
+                .translationX(mLabel.getHeight())
                 .setDuration(ANIMATION_DURATION)
-                .setListener(new AnimatorListenerAdapter() {
+                .setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         mLabel.setVisibility(View.GONE);
                     }
-                }).start();
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                })
+                .start();
+
     }
 
 

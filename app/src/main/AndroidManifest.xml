@@ -7,18 +7,18 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
-    <!--Not Necessary - only used for testing reading device phone number -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.READ_SMS"/>
+    <!-- Not Necessary - only used for testing reading device phone number -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_SMS" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-
-        <activity android:name=".LauncherActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar">
+        <activity
+            android:name=".LauncherActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,13 +26,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".Main2Activity"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".OnBoardingActivity"
-            android:label=" "
-            android:icon="@android:color/transparent">
+            android:icon="@android:color/transparent"
+            android:label=" " >
+        </activity>
+        <activity
+            android:name=".store_owner.MainActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main" >
         </activity>
     </application>
 

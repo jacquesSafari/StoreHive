@@ -2,24 +2,27 @@
 <resources>
 
     <string name="app_name">Store Hive</string>
-
     <string name="sh_settings">Settings</string>
     <string name="sh_register">Register</string>
     <string name="sh_sign_in">Sign in</string>
-    <string name="sh_ok">Ok</string>
+    <string name="sh_ok">OK</string>
     <string name="sh_no">No</string>
     <string name="sh_yes">Yes</string>
     <string name="sh_cancel">Cancel</string>
     <string name="sh_welcome">Welcome!</string>
     <string name="sh_swipe_instruction">Swipe to learn about StoreHive</string>
-    <string name="sh_already_have_account">Already have an account?</string>
+    <string name="sh_already_have_account">Already have a store?</string>
     <string name="sh_action_sign_in">Sign in!</string>
     <string name="sh_full_name">Full name</string>
     <string name="sh_email">Email</string>
     <string name="sh_password">Password</string>
+    <string name="sh_user_name">User name</string>
     <string name="sh_password_match">Password match</string>
     <string name="sh_register_here">Or register here!</string>
     <string name="sh_sign_in_here">Or sign in here!</string>
+    <string name="sh_not_now">Not now</string>
+    <string name="sh_register_store">Register Your Store.</string>
+    <string name="sh_sign_in_to_store">Sign In To Your Store.</string>
     <string name="error_enter_user_name">Enter Username</string>
     <string name="sh_error_enter_password">Enter Password</string>
     <string name="sh_error_invalid_email_or_password">Invalid email or password</string>
@@ -31,5 +34,20 @@
     <string name="sh_error_passwords_do_not_match">Passwords Do Not Match</string>
     <string name="sh_error_invalid_email">Enter Valid Email Address</string>
     <string name="sh_error_user_exists">Username already exists</string>
+    <string name="sh_error_default">There was a problem executing your request.\nPlease try again.</string>
+    <string name="sh_error_no_network">You are not connected to any reliable network.\nPlease connect and try again.</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="sh_all_items">All Items</string>
+    <string name="sh_most_recent">Most Recent</string>
+    <string name="sh_toggle_view">Toggle View</string>
+    <string name="sh_search">Search</string>
 
 </resources>

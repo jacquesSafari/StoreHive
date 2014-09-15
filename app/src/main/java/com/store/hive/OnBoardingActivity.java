@@ -11,7 +11,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,19 +26,23 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.nineoldandroids.animation.Animator;
 import com.store.hive.custom.ClickSpan;
 import com.store.hive.custom.viewpagerindicator.CirclePageIndicator;
+import com.store.hive.model.people.RegisteredUser;
 import com.store.hive.model.people.StoreOwner;
 import com.store.hive.model.response.ResponseResult;
 import com.store.hive.service.OnRequestCompleteLister;
 import com.store.hive.service.RequestHandler;
 import com.store.hive.service.ServiceUtil;
 import com.store.hive.utils.AccountsManager;
+import com.store.hive.utils.AppConfig;
 
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
 
 public class OnBoardingActivity extends ActionBarActivity {
 
+    @SuppressWarnings("unused")
     private static final String TAG = OnBoardingActivity.class.getName();
+
     private ViewPager mViewPager;
     private OnBoardingPagerAdapter mOnBoardingPagerAdapter;
 
@@ -62,6 +65,12 @@ public class OnBoardingActivity extends ActionBarActivity {
         if(mViewPager != null){
             mViewPager.setCurrentItem(2);
         }
+    }
+
+    public void continueToMainActivity(View view){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     public class OnBoardingPagerAdapter extends FragmentStatePagerAdapter {
@@ -325,14 +334,15 @@ public class OnBoardingActivity extends ActionBarActivity {
                         email.setError(getString(R.string.sh_error_invalid_email));
                     }
                     else{
-                       smoothProgressBar.setVisibility(View.VISIBLE);
-                       String firstName, last_name;
+                        smoothProgressBar.setVisibility(View.VISIBLE);
+                        String firstName, last_name;
                         String[] full_name = user_name.split(" ");
                         firstName = full_name[0];
+
                         if(full_name.length == 1){
                             last_name = " ";
                         } else {
-                            last_name = full_name[1];
+                            last_name = full_name[full_name.length - 1];
                         }
 
                         performRegistrationRemoteCall(firstName, last_name, user_mail, user_pass);
@@ -356,25 +366,38 @@ public class OnBoardingActivity extends ActionBarActivity {
                             boolean isSuccess = response.isSuccesfull();
 
                             if (isSuccess) {
-                                Toast.makeText(getActivity(), "Success", Toast.LENGTH_LONG).show();
-
-                                Intent intent = new Intent(getActivity(), MainActivity.class);
-                                intent.putExtra("user_full_name", name + " " + last);
+                                Intent intent = new Intent(getActivity(), com.store.hive.store_owner.MainActivity.class);
+                                intent.putExtra(getString(R.string.sh_pref_full_name), name + " " + last);
+                                AppConfig.getInstance().saveAuthState(getActivity(), new RegisteredUser(true, name + " " + last));
                                 startActivity(intent);
                                 getActivity().finish();
+
                             } else {
-                                Toast.makeText(getActivity(), "Error: " + response.getErrorMessage(), Toast.LENGTH_LONG).show();
+                                if(getView() != null){
+                                    AutoCompleteTextView email_textView = (AutoCompleteTextView)getView().findViewById(R.id.user_email);
+                                    email_textView.requestFocus();
+                                    email_textView.setError(response.getErrorMessage());
+                                } else {
+                                    Toast.makeText(getActivity(), response.getErrorMessage(), Toast.LENGTH_LONG).show();
+                                }
+
                             }
                         } else {
-                            Toast.makeText(getActivity(), "Something bad happened", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), getString(R.string.sh_error_default), Toast.LENGTH_LONG).show();
                         }
 
                         smoothProgressBar.setVisibility(View.GONE);
                     }
+
+                    @Override
+                    public void onRequestError(){
+                        smoothProgressBar.setVisibility(View.GONE);
+                        Toast.makeText(getActivity(), getString(R.string.sh_error_default), Toast.LENGTH_LONG).show();
+                    }
                 });
             } else {
                 smoothProgressBar.setVisibility(View.GONE);
-                Toast.makeText(getActivity(), "Please connect to a network", Toast.LENGTH_LONG).show();
+                ServiceUtil.showNoConnectionDialog(getActivity());
             }
 
         }

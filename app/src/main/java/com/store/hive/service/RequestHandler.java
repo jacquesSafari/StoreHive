@@ -51,23 +51,19 @@ public class RequestHandler{
         Response.Listener<JSONObject> listener = new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, "Response is: "+response.toString());
 
                 try{
                     boolean isSuccess = Boolean.valueOf(response.getString("isSuccessfull"));
 
                     if(isSuccess){
-                        Log.d(TAG, "is Successful");
-
                         callBack.onRequestComplete(new ResponseResult(true));
                     } else {
-                        Log.d(TAG, "is not Successful");
                         String reason = response.getString("errorMessage");
                         callBack.onRequestComplete(new ResponseResult(false, reason));
                     }
                 }catch (JSONException ex){
                     Log.d(TAG, ex.getMessage());
-                    callBack.onRequestComplete(null);
+                    callBack.onRequestError();
                 }
 
 
@@ -77,7 +73,8 @@ public class RequestHandler{
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "That didn't work:"+ error.toString());
+                Log.d(TAG, "That didn't work: "+ error.toString());
+                callBack.onRequestError();
             }
         };
 

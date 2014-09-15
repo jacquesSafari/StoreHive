@@ -7,4 +7,5 @@ import com.store.hive.model.response.ResponseResult;
  */
 public interface OnRequestCompleteLister {
     public abstract void onRequestComplete(ResponseResult response);
+    public abstract void onRequestError();
 }
