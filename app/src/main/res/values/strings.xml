@@ -51,5 +51,6 @@
     <string name="sh_search">Search</string>
     <string name="sh_products">Products</string>
     <string name="sh_details_about_app">All the necessary details about \nStore Hive</string>
+    <string name="sh_swipe_to_refresh">Swipe to Refresh</string>
 
 </resources>
