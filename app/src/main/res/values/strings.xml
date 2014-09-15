@@ -49,5 +49,7 @@
     <string name="sh_most_recent">Most Recent</string>
     <string name="sh_toggle_view">Toggle View</string>
     <string name="sh_search">Search</string>
+    <string name="sh_products">Products</string>
+    <string name="sh_details_about_app">All the necessary details about \nStore Hive</string>
 
 </resources>

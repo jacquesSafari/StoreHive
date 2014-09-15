@@ -72,6 +72,7 @@
     <style name="Theme.Apptheme.Widget" parent="@style/Theme.AppCompat">
         <item name="android:popupMenuStyle">@style/PopupMenu.Apptheme</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Apptheme</item>
+        <item name="android:textColorHint">@color/sh_light_gray</item>
     </style>
 
 </resources>

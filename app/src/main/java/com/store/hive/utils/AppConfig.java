@@ -1,9 +1,12 @@
 package com.store.hive.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.store.hive.OnBoardingActivity;
 import com.store.hive.R;
 import com.store.hive.model.people.RegisteredUser;
 
@@ -36,5 +39,17 @@ public class AppConfig {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return new RegisteredUser(preferences.getBoolean(context.getString(R.string.sh_pref_is_logged_in), false),
                 preferences.getString(context.getString(R.string.sh_pref_full_name), ""));
+    }
+
+    public static void logoutUser(Activity activity){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(activity.getString(R.string.sh_pref_is_logged_in), false);
+        editor.commit();
+
+        Intent intent = new Intent(activity, OnBoardingActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(intent);
+        activity.finish();
     }
 }

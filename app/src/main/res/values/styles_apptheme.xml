@@ -59,6 +59,7 @@
     <style name="Theme.Apptheme.Widget" parent="@style/Theme.AppCompat">
         <item name="popupMenuStyle">@style/PopupMenu.Apptheme</item>
         <item name="dropDownListViewStyle">@style/DropDownListView.Apptheme</item>
+        <item name="android:textColorHint">@color/sh_light_gray</item>
     </style>
 
     <style name="FloatLabel">
