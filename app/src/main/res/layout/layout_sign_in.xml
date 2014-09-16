@@ -33,7 +33,7 @@
             app:floatLabelTextAppearance="@style/FloatLabel">
 
             <com.devspark.robototextview.widget.RobotoEditText
-                android:id="@+id/user_email"
+                android:id="@+id/login_user_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sh_user_name"
@@ -52,7 +52,7 @@
             app:floatLabelTextAppearance="@style/FloatLabel">
 
             <com.devspark.robototextview.widget.RobotoEditText
-                android:id="@+id/user_password"
+                android:id="@+id/login_user_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sh_password"

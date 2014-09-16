@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -282,6 +283,7 @@ public class OnBoardingActivity extends ActionBarActivity {
                         }
                     });
                     setUpOnRegisterClickLister(thirdView);
+                    setUpOnLoginClickLister(thirdView);
                     return thirdView;
             }
 
@@ -358,17 +360,17 @@ public class OnBoardingActivity extends ActionBarActivity {
                 String deviceID = Settings.Secure.getString(getActivity().getContentResolver(),
                         Settings.Secure.ANDROID_ID);
 
-                RequestHandler.getInstance().registerStoreOwner(new StoreOwner(name, last, username, password, deviceID), getActivity(), new OnRequestCompleteLister() {
+                RequestHandler.getInstance(getActivity()).registerStoreOwner(new StoreOwner(name, last, username, password, deviceID), getActivity(), new OnRequestCompleteLister() {
                     @Override
                     public void onRequestComplete(ResponseResult response) {
 
                         if (response != null) {
-                            boolean isSuccess = response.isSuccesfull();
+                            boolean isSuccess = response.isSuccessful();
 
                             if (isSuccess) {
                                 Intent intent = new Intent(getActivity(), com.store.hive.store_owner.MainActivity.class);
                                 intent.putExtra(getString(R.string.sh_pref_full_name), name + " " + last);
-                                AppConfig.getInstance().saveAuthState(getActivity(), new RegisteredUser(true, name + " " + last));
+                                AppConfig.saveAuthState(getActivity(), new RegisteredUser(true, name + " " + last));
                                 startActivity(intent);
                                 getActivity().finish();
 
@@ -403,6 +405,64 @@ public class OnBoardingActivity extends ActionBarActivity {
         }
 
         private void setUpOnLoginClickLister(View rootView){
+
+            final EditText email_txt = (EditText)rootView.findViewById(R.id.login_user_email);
+            final EditText password_txt = (EditText)rootView.findViewById(R.id.login_user_password);
+            Button login_btn = (Button)rootView.findViewById(R.id.signinBtn);
+
+            login_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String userName = email_txt.getText().toString();
+                    String password = password_txt.getText().toString();
+
+                    if(TextUtils.isEmpty(userName)){
+                        email_txt.requestFocus();
+                        email_txt.setError("");
+                    } else
+                        if(TextUtils.isEmpty(password)){
+                            password_txt.requestFocus();
+                            password_txt.setError("");
+                        } else {
+                            smoothProgressBar.setVisibility(View.VISIBLE);
+
+                            if(ServiceUtil.isConnected(getActivity())){
+                                RequestHandler.getInstance(getActivity()).authenticateStoreOwner(getActivity(), userName, password, new OnRequestCompleteLister() {
+                                    @Override
+                                    public void onRequestComplete(ResponseResult response) {
+                                        smoothProgressBar.setVisibility(View.GONE);
+
+                                        if (response != null) {
+                                            boolean isSuccess = response.isSuccessful();
+
+                                            if(isSuccess){
+                                                Toast.makeText(getActivity(), "Login Successfull", Toast.LENGTH_LONG).show();
+                                            } else {
+                                                Log.d(TAG, response.getErrorMessage());
+
+                                                email_txt.requestFocus();
+                                                email_txt.setError(response.getErrorMessage());
+                                            }
+
+
+                                        } else {
+                                            Toast.makeText(getActivity(), getString(R.string.sh_error_default), Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onRequestError() {
+                                        smoothProgressBar.setVisibility(View.GONE);
+                                        Toast.makeText(getActivity(), getString(R.string.sh_error_default), Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            } else {
+                                smoothProgressBar.setVisibility(View.GONE);
+                                ServiceUtil.showNoConnectionDialog(getActivity());
+                            }
+                        }
+                }
+            });
 
         }
 
