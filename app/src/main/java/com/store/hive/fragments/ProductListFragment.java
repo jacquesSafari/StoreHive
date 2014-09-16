@@ -44,30 +44,56 @@ public class ProductListFragment extends Fragment implements SwipeRefreshLayout.
         refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setColorScheme(R.color.apptheme_color, R.color.white, R.color.apptheme_color, R.color.white);
+        simulateGetData();
 
         listView = (ListView)rootView.findViewById(R.id.product_list);
         products = ProductListGenerator.getSampleProducts();
         adapter = new ProductListAdapter(getActivity(), R.layout.layout_product_item, products);
         listView.setAdapter(adapter);
 
-
         return rootView;
     }
 
     @Override
     public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override public void run() {
-                refreshLayout.setRefreshing(false);
-            }
-        }, 3000);
+        simulateGetData();
 
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        if(refreshLayout != null){
+            simulateGetData();
+        }
+    }
+
+    private void simulateGetData(){
+        new Handler().postDelayed(new Runnable() {
+            @Override public void run() {
+                refreshLayout.setRefreshing(false);
+                listView.smoothScrollToPosition(0);
+            }
+        }, 3000);
+
+        refreshLayout.setRefreshing(true);
+    }
+
     public void filterProductItems(String query){
-        Log.d(TAG, query);
+       // Log.d(TAG, query);
 
         adapter.getFilter().filter(query);
+    }
+
+    public void reloadAdapterAfterSearch(){
+        simulateGetData();
+
+        products = ProductListGenerator.getSampleProducts();
+        adapter.clear();
+        adapter.addAll(products);
+        adapter.notifyDataSetChanged();
+
     }
 
     public void showEmptySearchResults(){

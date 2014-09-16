@@ -10,6 +10,7 @@
     <string name="sh_yes">Yes</string>
     <string name="sh_cancel">Cancel</string>
     <string name="sh_welcome">Welcome!</string>
+    <string name="sh_logout">Logout</string>
     <string name="sh_swipe_instruction">Swipe to learn about StoreHive</string>
     <string name="sh_already_have_account">Already have a store?</string>
     <string name="sh_action_sign_in">Sign in!</string>

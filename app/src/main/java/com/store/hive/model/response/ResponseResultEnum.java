@@ -8,7 +8,7 @@ public enum ResponseResultEnum {
     isSuccessful{
         @Override
         public String getKey(){
-            return "isSuccessfull";
+            return "isSuccessful";
         }
     },
     errorMessage{

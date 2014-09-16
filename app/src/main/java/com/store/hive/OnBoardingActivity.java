@@ -29,6 +29,7 @@ import com.store.hive.custom.ClickSpan;
 import com.store.hive.custom.viewpagerindicator.CirclePageIndicator;
 import com.store.hive.model.people.RegisteredUser;
 import com.store.hive.model.people.StoreOwner;
+import com.store.hive.model.response.ErrorCodes;
 import com.store.hive.model.response.ResponseResult;
 import com.store.hive.service.OnRequestCompleteLister;
 import com.store.hive.service.RequestHandler;
@@ -436,12 +437,24 @@ public class OnBoardingActivity extends ActionBarActivity {
                                             boolean isSuccess = response.isSuccessful();
 
                                             if(isSuccess){
-                                                Toast.makeText(getActivity(), "Login Successfull", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_LONG).show();
+                                                Intent intent = new Intent(getActivity(), com.store.hive.store_owner.MainActivity.class);
+                                                startActivity(intent);
+                                                getActivity().finish();
+
                                             } else {
                                                 Log.d(TAG, response.getErrorMessage());
 
-                                                email_txt.requestFocus();
-                                                email_txt.setError(response.getErrorMessage());
+                                                if(response.getErrorCode().equals(ErrorCodes.LOG_ERR_1)){
+                                                    email_txt.requestFocus();
+                                                    email_txt.setError(response.getErrorMessage());
+
+                                                } else {
+                                                    password_txt.requestFocus();
+                                                    password_txt.setError(response.getErrorMessage());
+                                                }
+
+
                                             }
 
 

@@ -25,13 +25,13 @@ public enum StoreOwnerEnum {
         password {
             @Override
             public String getKey() {
-                return null;
+                return "password";
             }
         },
         deviceId {
             @Override
             public String getKey() {
-                return "password";
+                return "deviceId";
             }
         };
 

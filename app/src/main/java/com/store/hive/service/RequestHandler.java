@@ -106,7 +106,8 @@ public class RequestHandler{
                         callBack.onRequestComplete(new ResponseResult(true));
                     } else {
                         String reason = response.getString(ResponseResultEnum.errorMessage.getKey());
-                        callBack.onRequestComplete(new ResponseResult(false, reason));
+                        String errorCode = response.getString(ResponseResultEnum.errorCode.getKey());
+                        callBack.onRequestComplete(new ResponseResult(isSuccess, reason, errorCode));
                     }
                 }catch (JSONException ex){
                     Log.d(TAG, ex.getMessage());
@@ -144,7 +145,8 @@ public class RequestHandler{
                         callBack.onRequestComplete(new ResponseResult(true));
                     } else {
                         String reason = response.getString(ResponseResultEnum.errorMessage.getKey());
-                        callBack.onRequestComplete(new ResponseResult(false, reason));
+                        String errorCode = response.getString(ResponseResultEnum.errorCode.getKey());
+                        callBack.onRequestComplete(new ResponseResult(isSuccess, reason, errorCode));
                     }
                 }catch (JSONException ex){
                     Log.d(TAG, ex.getMessage());

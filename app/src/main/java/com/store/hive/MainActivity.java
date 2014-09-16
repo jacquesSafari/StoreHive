@@ -94,6 +94,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 menu.findItem(R.id.action_toggle).setVisible(true);
+
+                ProductListFragment fragment = (ProductListFragment) mSectionsPagerAdapter.getRegisteredFragment(0);
+
+                if(fragment != null){
+                    fragment.reloadAdapterAfterSearch();
+                }
                 return true;
             }
 
