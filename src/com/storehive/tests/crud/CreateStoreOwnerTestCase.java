@@ -1,7 +1,5 @@
 package com.storehive.tests.crud;
 
-import java.util.HashMap;
-
 import junit.framework.Assert;
 
 import org.joda.time.DateTime;
@@ -9,9 +7,11 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.mongodb.BasicDBObject;
 import com.storehive.app.domain.StoreOwner;
 import com.storehive.app.services.crud.StoreOwnerCrudService;
 import com.storehive.app.services.crud.impl.StoreOwnerCrudServiceImpl;
+import com.storehive.app.utilities.ResponseResult;
 import com.storehive.app.utilities.factory.ApplicationFactory;
 
 public class CreateStoreOwnerTestCase {
@@ -28,44 +28,36 @@ public class CreateStoreOwnerTestCase {
 	}
 
 	@Test
-	public void createStoreOwnerTestPass(){
-		HashMap<String, String> details = new HashMap<String, String>();
-		details.put("name", "Tyrone");
-		details.put("surname", "Adams");
-		details.put("username", "peter");
-		details.put("password", "1234568789");
-		details.put("reagistrationDate",new DateTime().toString());
-		
-		StoreOwner a = ApplicationFactory.buildStoreOwner(details);
-		
-		Assert.assertEquals("true",crudService.createEntity(a));
+	public void runTests(){
+		createStoreOwnerTestPass();
+		createStoreOwnerHandleFail();
 	}
 	
-	@Test
-	public void createStoreOwnerTestFail(){
-		HashMap<String, String> details = new HashMap<String, String>();
+	private void createStoreOwnerTestPass(){
+		BasicDBObject details = new BasicDBObject();
 		details.put("name", "Tyrone");
 		details.put("surname", "Adams");
-		details.put("username", "james");
+		details.put("username", "tyrone");
 		details.put("password", "1234568789");
-		details.put("reagistrationDate",new DateTime().toString());
+		details.put("deviceID", "aaaa");
+		details.put("registrationDate",new DateTime().toString());
 		
 		StoreOwner a = ApplicationFactory.buildStoreOwner(details);
-		
-		Assert.assertFalse("labamba".equals(crudService.createEntity(a)));
+		ResponseResult output = crudService.createEntity(a);
+		Assert.assertEquals(true, output.isSuccessful());
 	}
 	
-	@Test
-	public void createStoreOwnerHandleFail(){
-		HashMap<String, String> details = new HashMap<String, String>();
+	private void createStoreOwnerHandleFail(){
+		BasicDBObject details = new BasicDBObject();
 		details.put("name", "Tyrone");
 		details.put("surname", "Adams");
-		details.put("username", "james");
+		details.put("username", "tyrone");
 		details.put("password", "1234568789");
-		details.put("reagistrationDate",new DateTime().toString());
+		details.put("deviceID", "aaaa");
+		details.put("registrationDate",new DateTime().toString());
 		
 		StoreOwner a = ApplicationFactory.buildStoreOwner(details);
-		
-		Assert.assertEquals("username exists",crudService.createEntity(a));
+		ResponseResult output = crudService.createEntity(a);
+		Assert.assertEquals(false, output.isSuccessful());
 	}
 }

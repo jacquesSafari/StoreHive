@@ -3,7 +3,6 @@ package com.storehive.app.services.crud.impl;
 import java.net.UnknownHostException;
 import java.util.List;
 
-import org.apache.catalina.connector.OutputBuffer;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import com.mongodb.BasicDBObject;
@@ -13,7 +12,9 @@ import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
 import com.storehive.app.domain.StoreOwner;
 import com.storehive.app.services.crud.StoreOwnerCrudService;
-import com.storehive.app.utilities.Message;
+import com.storehive.app.utilities.ErrorCodes;
+import com.storehive.app.utilities.ResponseResult;
+import com.storehive.app.utilities.factory.ApplicationFactory;
 
 public class StoreOwnerCrudServiceImpl implements StoreOwnerCrudService{
 
@@ -26,8 +27,8 @@ public class StoreOwnerCrudServiceImpl implements StoreOwnerCrudService{
 		return client.getDB("storehive");
 	}
 	@Override
-	public Message createEntity(StoreOwner a) {
-		Message output = new Message();
+	public ResponseResult createEntity(StoreOwner a) {
+		ResponseResult output = new ResponseResult();
 		if(!doesStoreOwnerExist(a.getUsername())){
 			try{
 				StrongPasswordEncryptor encryptor = new StrongPasswordEncryptor();
@@ -35,20 +36,22 @@ public class StoreOwnerCrudServiceImpl implements StoreOwnerCrudService{
 				storeOwner.put("username", a.getUsername());
 				storeOwner.put("name", a.getName());
 				storeOwner.put("surname", a.getSurname());
-				storeOwner.put("registration_date", a.getRegistrationDate());
-				storeOwner.put("device_id", a.getDeviceID());
+				storeOwner.put("registrationDate", a.getRegistrationDate());
+				storeOwner.put("deviceId", a.getDeviceID());
 				storeOwner.put("password", encryptor.encryptPassword(a.getPassword()));
 				
 				DBCollection storeOwners = getDB().getCollection("storeowners");
 				storeOwners.insert(storeOwner);
-				output.setPrimaryMessage("true");
+				output.setSuccessful(true);
 			}catch(NullPointerException e){
-				output.setPrimaryMessage("false");
-				output.setSupportingMessage("something crazy went wrong, dont stress");
+				output.setSuccessful(false);
+				output.setErrorCode(ErrorCodes.REG_ERR_1);
+				output.setErrorMessage("something crazy went wrong, dont stress");
 			}
 		}else{
-			output.setPrimaryMessage("false");
-			output.setSupportingMessage("username exists");
+			output.setSuccessful(false);
+			output.setErrorCode(ErrorCodes.REG_ERR_1);
+			output.setErrorMessage("username exists");
 		}
 		return output;
 	}
@@ -66,7 +69,7 @@ public class StoreOwnerCrudServiceImpl implements StoreOwnerCrudService{
 	}
 
 	@Override
-	public Message updateEntity(StoreOwner a) {
+	public ResponseResult updateEntity(StoreOwner a) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -86,6 +89,20 @@ public class StoreOwnerCrudServiceImpl implements StoreOwnerCrudService{
 			return true;
 		
 		return false;
+	}
+
+	@Override
+	public StoreOwner findStoreOwnerByUsername(String username) {
+		BasicDBObject query = new BasicDBObject("username",username);
+		DBCursor ownersFound = getDB().getCollection("storeowners").find(query);
+		StoreOwner found = null;
+		try{
+			if(ownersFound.hasNext())
+				found = ApplicationFactory.buildStoreOwner((BasicDBObject)ownersFound.next());
+		}catch(NullPointerException npe){
+			npe.printStackTrace();
+		}
+		return found;
 	}
 
 }

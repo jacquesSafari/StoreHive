@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import com.storehive.app.services.app.BusinessServices;
 import com.storehive.app.services.app.impl.BusinessServicesImpl;
-import com.storehive.app.utilities.Message;
+import com.storehive.app.utilities.ResponseResult;
 
 public class LoginClientTestCase {
 	
@@ -31,25 +31,25 @@ public class LoginClientTestCase {
 		JSONObject clientToLogIn = new JSONObject();
 		clientToLogIn.put("username", "tyrones");
 		clientToLogIn.put("password", "1234568789");
-		Message output = bss.loginClient(clientToLogIn);
-		Assert.assertEquals("false", output.getPrimaryMessage());
-		Assert.assertEquals("The username provided does not exist.",output.getSupportingMessage());
+		ResponseResult output = bss.loginClient(clientToLogIn);
+		Assert.assertEquals(false, output.isSuccessful());
+		Assert.assertEquals("The username provided does not exist.",output.getErrorMessage());
 	}
 
 	private void loginTFUsernamePasswordIncorrect(){
 		JSONObject clientToLogIn = new JSONObject();
 		clientToLogIn.put("username", "tyrone");
 		clientToLogIn.put("password", "1234568789s");
-		Message output = bss.loginClient(clientToLogIn);
-		Assert.assertEquals("false", output.getPrimaryMessage());
-		Assert.assertEquals("The password provided is incorrect.",output.getSupportingMessage());
+		ResponseResult output = bss.loginClient(clientToLogIn);
+		Assert.assertEquals(false, output.isSuccessful());
+		Assert.assertEquals("The password provided is incorrect.",output.getErrorMessage());
 	}
 	
 	private void loginTPUsernameAndPasswordCorrect(){
 		JSONObject clientToLogIn = new JSONObject();
 		clientToLogIn.put("username", "tyrone");
 		clientToLogIn.put("password", "1234568789");
-		Message output = bss.loginClient(clientToLogIn);
-		Assert.assertEquals("true", output.getPrimaryMessage());
+		ResponseResult output = bss.loginClient(clientToLogIn);
+		Assert.assertEquals(true, output.isSuccessful());
 	}
 }

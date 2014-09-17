@@ -1,6 +1,0 @@
-apply plugin: 'war'
-
-repositories {
-   flatDir { dirs "lib" }
-   mavenCentral()
-}

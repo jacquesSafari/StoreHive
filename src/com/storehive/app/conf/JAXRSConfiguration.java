@@ -1,4 +1,4 @@
-package com.storehive.app.restapi;
+package com.storehive.app.conf;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
