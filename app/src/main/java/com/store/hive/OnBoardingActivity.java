@@ -26,6 +26,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.nineoldandroids.animation.Animator;
 import com.store.hive.custom.ClickSpan;
+import com.store.hive.custom.CustomDialog;
 import com.store.hive.custom.viewpagerindicator.CirclePageIndicator;
 import com.store.hive.model.people.RegisteredUser;
 import com.store.hive.model.people.StoreOwner;

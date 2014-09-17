@@ -36,7 +36,8 @@
     <string name="sh_error_invalid_email">Enter Valid Email Address</string>
     <string name="sh_error_user_exists">Username already exists</string>
     <string name="sh_error_default">There was a problem executing your request.\nPlease try again.</string>
-    <string name="sh_error_no_network">You are not connected to any reliable network.\nPlease connect and try again.</string>
+    <string name="sh_error_no_network">An internet connection is required to complete this action. Please check your connection and try again.</string>
+    <string name="sh_no_connectivity">No Connectivity</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
