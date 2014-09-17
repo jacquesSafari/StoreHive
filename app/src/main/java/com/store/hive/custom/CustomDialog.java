@@ -68,10 +68,10 @@ public class CustomDialog {
             builder.setPositiveButton(positiveButton, positiveListener);
         }
         if(negativeButton != null){
-            builder.setPositiveButton(negativeButton, negativeListener);
+            builder.setNegativeButton(negativeButton, negativeListener);
         }
         if(neutralButton != null){
-            builder.setPositiveButton(neutralButton, neutralListener);
+            builder.setNeutralButton(neutralButton, neutralListener);
         }
 
 
