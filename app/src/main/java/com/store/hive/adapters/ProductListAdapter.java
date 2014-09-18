@@ -80,7 +80,12 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
         holder.textPrice.setText(product.getPrice());
         holder.textDesc.setText(product.getDescription());
 
-        holder.networkImageView.setImageUrl(product.getImgUrl(), mImageLoader);
+        holder.networkImageView.setDefaultImageResId(R.drawable.prdct_no_img);
+        holder.networkImageView.setErrorImageResId(R.drawable.prdct_no_img);
+        if(product.hasImage()){
+            holder.networkImageView.setImageUrl(product.getImgUrl(), mImageLoader);
+        }
+
 
         return convertView;
 

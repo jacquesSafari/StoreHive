@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -116,13 +117,14 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_toggle:
-                if(mViewType == ViewType.LIST){
+              /*  if(mViewType == ViewType.LIST){
                     mViewType = ViewType.GRID;
                     item.setIcon(getResources().getDrawable(R.drawable.ic_action_grid));
                 } else {
                     mViewType = ViewType.LIST;
                     item.setIcon(getResources().getDrawable(R.drawable.ic_action_list));
-                }
+                }*/
+                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
                 return true;
             case R.id.action_settings:
                 return true;

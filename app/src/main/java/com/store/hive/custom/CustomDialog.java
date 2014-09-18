@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.store.hive.R;
@@ -75,6 +77,11 @@ public class CustomDialog {
         }
 
 
+    }
+
+    private void buildDialogListItems(ListView listView, String[] items){
+        ArrayAdapter adapter = new ArrayAdapter(context, R.layout.simple_list_item_1, items);
+        listView.setAdapter(adapter);
     }
 
 

@@ -30,4 +30,5 @@ dependencies {
     compile 'com.daimajia.easing:library:1.0.0@aar'
     compile 'com.daimajia.androidanimations:library:1.1.2@aar'
     compile 'com.github.castorflex.smoothprogressbar:library:0.5.2'
+    compile "com.google.android.gms:play-services:4.0.+"
 }

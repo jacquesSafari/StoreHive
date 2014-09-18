@@ -4,6 +4,8 @@
     <string name="sh_api_url">http://41.185.26.135/api/business/</string>
     <string name="sh_api_register_user_path">newStoreOwner/</string>
     <string name="sh_api_login_path">login/</string>
+    <string name="sh_gcm_api_key">AIzaSyC5F832e4PtT1GLKPXEAISAwiiqh_uSgKs</string>
+    <string name="sh_client_api_key">AIzaSyCQFNeAAtWWwya4GYEQsgPtmu_wCLsFmA8</string>
 
     <string name="sh_pref_is_logged_in">is_logged_in</string>
     <string name="sh_pref_full_name">user_full_name</string>
