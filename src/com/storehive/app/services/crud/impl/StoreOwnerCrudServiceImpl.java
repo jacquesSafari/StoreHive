@@ -26,6 +26,7 @@ public class StoreOwnerCrudServiceImpl implements StoreOwnerCrudService{
 	private DB getDB(){
 		return client.getDB("storehive");
 	}
+	
 	@Override
 	public ResponseResult createEntity(StoreOwner a) {
 		ResponseResult output = new ResponseResult();

@@ -14,7 +14,7 @@ import com.storehive.app.services.crud.impl.StoreOwnerCrudServiceImpl;
 import com.storehive.app.utilities.ResponseResult;
 import com.storehive.app.utilities.factory.ApplicationFactory;
 
-public class CreateStoreOwnerTestCase {
+public class StoreOwnerCRUDTest {
 	
 	private static StoreOwnerCrudService crudService;
 	

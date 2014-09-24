@@ -10,4 +10,5 @@ public interface BusinessServices {
 	public ResponseResult registerClient(JSONObject jsonObject);
 	
 	public ResponseResult loginClient(JSONObject jsonObject);
+	
 }

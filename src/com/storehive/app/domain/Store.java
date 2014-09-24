@@ -8,11 +8,11 @@ public class Store {
 	private String ownerEmail;
 	private String shopName;
 	private String description;
-	private String lastOpenedDAte;
-	private double latitude;
-	private double longitude;
+	private String lastOpenedDate;
 	private boolean isOpen;
 	private List<Products> products;
+	private Location location;
+	
 	public String getId() {
 		return id;
 	}
@@ -37,23 +37,11 @@ public class Store {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getLastOpenedDAte() {
-		return lastOpenedDAte;
+	public String getLastOpenedDate() {
+		return lastOpenedDate;
 	}
-	public void setLastOpenedDAte(String lastOpenedDAte) {
-		this.lastOpenedDAte = lastOpenedDAte;
-	}
-	public double getLatitude() {
-		return latitude;
-	}
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
-	}
-	public double getLongitude() {
-		return longitude;
-	}
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
+	public void setLastOpenedDate(String lastOpenedDate) {
+		this.lastOpenedDate = lastOpenedDate;
 	}
 	public boolean isOpen() {
 		return isOpen;
@@ -66,6 +54,12 @@ public class Store {
 	}
 	public void setProducts(List<Products> products) {
 		this.products = products;
+	}
+	public Location getLocation() {
+		return location;
+	}
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 	
 	
