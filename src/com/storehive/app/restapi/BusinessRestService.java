@@ -1,18 +1,13 @@
 package com.storehive.app.restapi;
 
-import java.io.IOException;
 import java.net.UnknownHostException;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.glassfish.jersey.media.sse.EventOutput;
-import org.glassfish.jersey.media.sse.OutboundEvent;
-import org.glassfish.jersey.media.sse.SseFeature;
 import org.json.simple.JSONObject;
 
 import com.storehive.app.services.app.BusinessServices;
@@ -69,44 +64,44 @@ public class BusinessRestService {
 		return message;
 	}
 	
-	@GET
-	@Path("push")
-	@Produces(SseFeature.SERVER_SENT_EVENTS)
-	@SuppressWarnings("unchecked")
-	public EventOutput testRest(){
-		final EventOutput eventOutput = new EventOutput();
-		
-		new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    for (int i = 0; i < 10; i++) {
-                        Thread.sleep(5000);
-                    	final OutboundEvent.Builder eventBuilder = new OutboundEvent.Builder();
-                        eventBuilder.name("message-to-client");
-                        eventBuilder.data(String.class,"Hello world " + i + "!");
-                        
-                        final OutboundEvent event = eventBuilder.build();
-                        eventOutput.write(event);
-                    }
-                } catch (IOException e) {
-                    throw new RuntimeException(
-                        "Error when writing the event.", e);
-                } catch (InterruptedException e) {
-					e.printStackTrace();
-				} finally {
-                    try {
-                        eventOutput.close();
-                    } catch (IOException ioClose) {
-                        throw new RuntimeException(
-                            "Error when closing the event output.", ioClose);
-                    }
-                }
-            }
-            
-        }).start();
-        return eventOutput;
-	}
+//	@GET
+//	@Path("push")
+//	@Produces(SseFeature.SERVER_SENT_EVENTS)
+//	@SuppressWarnings("unchecked")
+//	public EventOutput testRest(){
+//		final EventOutput eventOutput = new EventOutput();
+//		
+//		new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    for (int i = 0; i < 10; i++) {
+//                        Thread.sleep(5000);
+//                    	final OutboundEvent.Builder eventBuilder = new OutboundEvent.Builder();
+//                        eventBuilder.name("message-to-client");
+//                        eventBuilder.data(String.class,"Hello world " + i + "!");
+//                        
+//                        final OutboundEvent event = eventBuilder.build();
+//                        eventOutput.write(event);
+//                    }
+//                } catch (IOException e) {
+//                    throw new RuntimeException(
+//                        "Error when writing the event.", e);
+//                } catch (InterruptedException e) {
+//					e.printStackTrace();
+//				} finally {
+//                    try {
+//                        eventOutput.close();
+//                    } catch (IOException ioClose) {
+//                        throw new RuntimeException(
+//                            "Error when closing the event output.", ioClose);
+//                    }
+//                }
+//            }
+//            
+//        }).start();
+//        return eventOutput;
+//	}
 	
 	
 }

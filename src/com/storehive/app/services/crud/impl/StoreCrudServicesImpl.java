@@ -4,8 +4,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.context.RequestScoped;
-
 import org.bson.types.ObjectId;
 
 import com.mongodb.BasicDBObject;
@@ -19,7 +17,6 @@ import com.storehive.app.utilities.ErrorCodes;
 import com.storehive.app.utilities.ResponseResult;
 import com.storehive.app.utilities.factory.ApplicationFactory;
 
-@RequestScoped
 public class StoreCrudServicesImpl implements StoreCrudServices {
 
 	private MongoClient client;

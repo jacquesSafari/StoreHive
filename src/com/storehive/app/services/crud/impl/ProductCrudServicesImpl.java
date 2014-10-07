@@ -50,6 +50,7 @@ public class ProductCrudServicesImpl implements ProductCrudServices {
 				DBCollection storeProduct = getDB().getCollection("product_collection");
 				storeProduct.insert(newProduct);
 				output.setSuccessful(true);
+				output.setErrorMessage(newProduct.getString("productName"));
 			}catch(NullPointerException e){
 				e.printStackTrace();
 				output.setSuccessful(false);
@@ -70,9 +71,10 @@ public class ProductCrudServicesImpl implements ProductCrudServices {
 		DBCursor findQuery = getDB().getCollection("product_collection").find(product);
 		Products productFound = null;
 		
-		if(findQuery.hasNext())
+		if(findQuery.hasNext()){
 			productFound = ApplicationFactory.buildProduct((BasicDBObject)findQuery.next());
-		
+			productFound.setId(((BasicDBObject)findQuery.next()).getObjectId("_id").toString());
+		}
 		return productFound;
 	}
 

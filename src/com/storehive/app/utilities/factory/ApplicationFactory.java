@@ -31,7 +31,6 @@ public class ApplicationFactory {
 	
 	public static Store buildStore(BasicDBObject storeDetails){
 		Store s = new Store();
-		s.setId(storeDetails.getObjectId("_id").toString());
 		s.setDescription(storeDetails.getString("description"));
 		s.setLastOpenedDate(storeDetails.getString("lastOpenedDate"));
 		s.setOwnerEmail(storeDetails.getString("ownerEmail"));
@@ -51,7 +50,6 @@ public class ApplicationFactory {
 	
 	public static Products buildProduct(BasicDBObject productDetails){
 		Products p = new Products();
-		p.setId(productDetails.getObjectId("_id").toString());
 		p.setProductName(productDetails.getString("productName"));
 		p.setPrice(productDetails.getString("price"));
 		p.setDescription(productDetails.getString("description"));
