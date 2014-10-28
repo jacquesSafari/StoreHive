@@ -154,8 +154,7 @@
             android:layout_alignParentBottom="true"
             android:text="@string/sh_not_now"
             app:typeface="roboto_condensed_light"
-            android:background="@drawable/btn_transparent_background"
-            android:textColor="@color/blue_color_scheme_4"
+            android:textColor="@color/theme_primary_dark"
             android:drawableRight="@drawable/ic_action_forward"
             android:onClick="continueToMainActivity"/>
 

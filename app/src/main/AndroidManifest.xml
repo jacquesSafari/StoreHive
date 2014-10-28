@@ -33,7 +33,6 @@
         </activity>
         <activity
             android:name=".OnBoardingActivity"
-            android:icon="@android:color/transparent"
             android:label=" " >
         </activity>
         <activity

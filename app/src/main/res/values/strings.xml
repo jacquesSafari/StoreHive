@@ -49,10 +49,13 @@
     <string name="hello_world">Hello world!</string>
     <string name="sh_all_items">All Items</string>
     <string name="sh_most_recent">Most Recent</string>
+    <string name="sh_most_popular">Popular</string>
     <string name="sh_toggle_view">Toggle View</string>
     <string name="sh_search">Search</string>
     <string name="sh_products">Products</string>
     <string name="sh_details_about_app">All the necessary details about \nStore Hive</string>
     <string name="sh_swipe_to_refresh">Swipe to Refresh</string>
+    <string name="sh_options">Options</string>
+    <string name="sh_map">Map</string>
 
 </resources>

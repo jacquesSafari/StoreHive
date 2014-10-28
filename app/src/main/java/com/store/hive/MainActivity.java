@@ -1,84 +1,89 @@
 package com.store.hive;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
+import com.store.hive.custom.AppAlertDialog;
 import com.store.hive.fragments.ProductListFragment;
+import com.store.hive.tabs.MaterialTab;
+import com.store.hive.tabs.MaterialTabHost;
+import com.store.hive.tabs.MaterialTabListener;
 
 
-public class MainActivity extends ActionBarActivity implements ActionBar.TabListener, SearchView.OnQueryTextListener {
+public class MainActivity extends BaseActivity implements SearchView.OnQueryTextListener, MaterialTabListener {
 
 
-    SectionsPagerAdapter mSectionsPagerAdapter;
+    private SectionsPagerAdapter mSectionsPagerAdapter;
 
-    ViewPager mViewPager;
+    private ViewPager mViewPager;
 
     private ViewType mViewType = ViewType.LIST;
 
     private SearchView mSearchView;
 
+    private AppAlertDialog dialog;
+
+    private MaterialTabHost mTabHost;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected int getLayoutResource() {
+        return R.layout.default_activity_main;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.default_activity_main);
 
-        // Set up the action bar.
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        // When swiping between different sections, select the corresponding
-        // tab. We can also use ActionBar.Tab#select() to do this if we have
-        // a reference to the Tab.
+        mTabHost = (MaterialTabHost) findViewById(R.id.materialTabHost);
+
+
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
+                // when user do a swipe the selected tab change
+                mTabHost.setSelectedNavigationItem(position);
             }
         });
 
-        // For each of the sections in the app, add a tab to the action bar.
+        // insert all tabs from pagerAdapter data
         for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-            // Create a tab with text corresponding to the page title defined by
-            // the adapter. Also specify this Activity object, which implements
-            // the TabListener interface, as the callback (listener) for when
-            // this tab is selected.
-            actionBar.addTab(
-                    actionBar.newTab()
+            mTabHost.addTab(
+                    mTabHost.newTab()
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
-                            .setTabListener(this));
+                            .setTabListener(this)
+            );
         }
+
+        // set the first item selected
+        mTabHost.setSelectedNavigationItem(0);
     }
 
 
@@ -127,26 +132,63 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 startActivity(new Intent(getApplicationContext(), MapsActivity.class));
                 return true;
             case R.id.action_settings:
+              //  testDialog();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        // When the given tab is selected, switch to the corresponding page in
-        // the ViewPager.
-        mViewPager.setCurrentItem(tab.getPosition());
+    private void testDialog(){
+        String[] items = {"Title and Message", "Message Only", "Message Title no Icon"};
+        final Activity activity = this;
+        dialog = new AppAlertDialog.Builder(this)
+                .setItems(items, new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        dialog.dismiss();
+
+                        switch (position){
+                            case 0:
+                                dialog = new AppAlertDialog.Builder(activity)
+                                        .setMessage(R.string.sh_details_about_app)
+                                        .setTitle(R.string.sh_already_have_account)
+                                        .setPositiveButton(R.string.sh_ok, null)
+                                        .build();
+                                break;
+                            case 1:
+                                dialog = new AppAlertDialog.Builder(activity)
+                                        .setMessage(R.string.sh_already_have_account)
+                                        .setPositiveButton(R.string.sh_ok, null)
+                                        .build();
+                                dialog.show();
+                                break;
+                            case 2:
+                                dialog = new AppAlertDialog.Builder(activity)
+                                        .setMessage(R.string.sh_details_about_app)
+                                        .setTitle(R.string.sh_already_have_account)
+                                        .setPositiveButton(R.string.sh_ok, null)
+                                        .build();
+                                break;
+                        }
+                        dialog.show();
+                    }
+                })
+                .setIcon(R.drawable.ic_action_info)
+                .setTitle(R.string.sh_options)
+                .build();
+     //  dialog.show();
+
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.sh_details_about_app)
+                .setTitle(R.string.sh_already_have_account)
+                .setPositiveButton(R.string.sh_ok, null)
+                .show();
+
+
     }
 
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
 
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
 
     @Override
     public boolean onQueryTextChange(String s) {
@@ -162,6 +204,22 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     @Override
     public boolean onQueryTextSubmit(String s){
         return false;
+    }
+
+    @Override
+    public void onTabSelected(MaterialTab tab) {
+
+        mViewPager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabReselected(MaterialTab tab) {
+
+    }
+
+    @Override
+    public void onTabUnselected(MaterialTab tab) {
+        tab.setTextColor(getResources().getColor(R.color.theme_accent));
     }
 
     /**
@@ -211,7 +269,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         @Override
         public int getCount() {
             // Show 2 total pages.
-            return 2;
+            return 3;
         }
 
         @Override
@@ -223,7 +281,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 case 1:
                     return getString(R.string.sh_most_recent).toUpperCase(l);
                 case 2:
-                    return getString(R.string.title_section3).toUpperCase(l);
+                    return getString(R.string.sh_most_popular).toUpperCase(l);
             }
             return null;
         }

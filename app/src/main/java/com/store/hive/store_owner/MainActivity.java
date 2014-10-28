@@ -18,10 +18,13 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.store.hive.BaseActivity;
+import com.store.hive.BaseMainActivity;
 import com.store.hive.R;
 import com.store.hive.utils.AppConfig;
 
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends BaseMainActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
@@ -35,9 +38,13 @@ public class MainActivity extends ActionBarActivity
     private CharSequence mTitle;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected int getLayoutResource() {
+        return R.layout.owner_activity_main;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.owner_activity_main);
 
         String name = getIntent().getStringExtra("user_full_name");
         getSupportActionBar().setSubtitle(name);

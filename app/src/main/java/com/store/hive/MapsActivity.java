@@ -150,12 +150,8 @@ public class MapsActivity extends Activity implements
     public void onConnected(Bundle bundle) {
         mLocation = mLocationClient.getLastLocation();
 
-        String address = new GetAddressTask(this).doInBackground(mLocation);
+        new GetAddressTask(this).execute(mLocation);
 
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(mLocation.getLatitude(), mLocation.getLongitude()))
-                .alpha(0.7f)
-                .title(address));
     }
 
     @Override
@@ -198,15 +194,6 @@ public class MapsActivity extends Activity implements
             mContext = context;
         }
 
-        /**
-         * Get a Geocoder instance, get the latitude and longitude
-         * look up the address, and return it
-         *
-         * @params params One or more Location objects
-         * @return A string containing the address of the current
-         * location, or an empty string if no address can be found,
-         * or an error message
-         */
         @Override
         protected String doInBackground(Location... params) {
             Geocoder geocoder =
@@ -259,6 +246,14 @@ public class MapsActivity extends Activity implements
             } else {
                 return " " ;
             }
+        }
+
+        @Override
+        public void onPostExecute(String address){
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(mLocation.getLatitude(), mLocation.getLongitude()))
+                    .alpha(0.7f)
+                    .title(address));
         }
 
     }

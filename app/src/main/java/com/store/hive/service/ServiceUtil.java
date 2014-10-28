@@ -1,14 +1,12 @@
 package com.store.hive.service;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.store.hive.R;
-import com.store.hive.custom.CustomDialog;
+import com.store.hive.custom.AppAlertDialog;
 
 /**
  * Created by tinashe
@@ -26,7 +24,7 @@ public class ServiceUtil {
 
     public static void showNoConnectionDialog(Activity activity){
 
-        CustomDialog dialog = new CustomDialog.Builder(activity)
+        AppAlertDialog dialog = new AppAlertDialog.Builder(activity)
                 .setTitle(R.string.sh_no_connectivity)
                 .setIcon(R.drawable.ic_action_info)
                 .setMessage(R.string.sh_error_no_network)

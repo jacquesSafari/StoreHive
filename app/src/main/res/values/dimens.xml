@@ -13,4 +13,8 @@
     <dimen name="navigation_drawer_width">240dp</dimen>
     <dimen name="sh_dialog_padding">12dp</dimen>
 
+    <dimen name="tabhostHeight">45dp</dimen>
+    <dimen name="tabSelectorHeight">4dp</dimen>
+    <dimen name="materialTextTab">14sp</dimen>
+
 </resources>

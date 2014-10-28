@@ -56,6 +56,13 @@
         app:typeface="roboto_condensed_regular"
         android:textSize="@dimen/sh_text_medium"
         android:paddingBottom="@dimen/sh_dialog_padding"
-        android:paddingTop="@dimen/sh_dialog_padding"/>
+        android:paddingTop="@dimen/sh_dialog_padding"
+        android:visibility="gone"/>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
 </LinearLayout>

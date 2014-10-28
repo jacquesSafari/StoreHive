@@ -1,12 +1,19 @@
 package com.store.hive.model.response;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by tinashe
  */
 public class ResponseResult {
 
+    @SerializedName("isSuccessful")
     private boolean isSuccessful;
+
+    @SerializedName("errorMessage")
     private String errorMessage;
+
+    @SerializedName("errorCode")
     private String errorCode;
 
     public ResponseResult(boolean isSuccessful) {
