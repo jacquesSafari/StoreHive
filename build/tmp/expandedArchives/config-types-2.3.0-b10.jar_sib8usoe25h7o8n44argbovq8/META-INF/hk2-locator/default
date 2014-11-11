@@ -1,0 +1,10 @@
+#
+# Generated on Thu Jul 24 17:45:34 UTC 2014 by hk2-inhabitant-generator
+#
+
+[org.jvnet.hk2.config.types.PropertyInjector]S
+contract={org.jvnet.hk2.config.ConfigInjector}
+name=property
+qualifier={org.jvnet.hk2.config.InjectionTarget}
+metadata=@name={required,datatype\:java.lang.String,leaf},@value={required,datatype\:java.lang.String,leaf},keyed-as={org.jvnet.hk2.config.types.Property},target={org.jvnet.hk2.config.types.Property},@description={optional,datatype\:java.lang.String,leaf},key={@name}
+

@@ -1,0 +1,36 @@
+Manifest-Version: 1.0
+Export-Package: org.glassfish.hk2.bootstrap;version="2.3.0";uses:="com
+ .sun.enterprise.module.bootstrap,org.glassfish.hk2.api,org.jvnet.hk2.
+ annotations",org.glassfish.hk2.bootstrap.impl;version="2.3.0";uses:="
+ org.glassfish.hk2.api,org.glassfish.hk2.bootstrap,org.glassfish.hk2.u
+ tilities",com.sun.enterprise.module;version="2.3.0";uses:="org.glassf
+ ish.hk2.api,org.jvnet.hk2.annotations",com.sun.enterprise.module.boot
+ strap;version="2.3.0";uses:="com.sun.enterprise.module,org.glassfish.
+ hk2.api,org.glassfish.hk2.bootstrap,org.glassfish.hk2.utilities,org.j
+ vnet.hk2.annotations",com.sun.enterprise.module.common_impl;version="
+ 2.3.0";uses:="com.sun.enterprise.module,com.sun.enterprise.module.boo
+ tstrap,org.glassfish.hk2.api",com.sun.enterprise.module.single;versio
+ n="2.3.0";uses:="com.sun.enterprise.module,com.sun.enterprise.module.
+ bootstrap,com.sun.enterprise.module.impl,org.glassfish.hk2.api",com.s
+ un.enterprise.module.impl;version="2.3.0";uses:="com.sun.enterprise.m
+ odule,com.sun.enterprise.module.common_impl,org.glassfish.hk2.api",or
+ g.glassfish.hk2.inhabitants;version="2.3.0"
+Built-By: java_re
+Tool: Bnd-2.1.0.20130426-122213
+Bundle-Name: HK2 core module
+Created-By: Apache Maven Bundle Plugin
+Bundle-Vendor: Oracle Corporation
+Build-Jdk: 1.7.0_65
+Bundle-Version: 2.3.0.b10
+Bnd-LastModified: 1406223616640
+Bundle-ManifestVersion: 2
+Bundle-License: https://glassfish.java.net/nonav/public/CDDL+GPL_1_1.h
+ tml
+Bundle-Description: Generic Modules subsystem
+Bundle-SymbolicName: org.glassfish.hk2.core
+Bundle-DocURL: http://www.oracle.com
+Import-Package: org.glassfish.hk2.api;version="[2.3,3)",org.glassfish.
+ hk2.utilities;version="[2.3,3)",org.jvnet.hk2.annotations;version="[2
+ .3,3)",org.jvnet.hk2.config;resolution:=optional
+Archiver-Version: Plexus Archiver
+

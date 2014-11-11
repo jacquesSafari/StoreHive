@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Class-Path: $hk2-utils.$jar $javax.inject.$jar $hk2-api.$jar $aopallia
+ nce-repackaged.$jar $config-types.$jar $core.$jar $hk2-config.$jar $t
+ iger-types.$jar $bean-validator.$jar $hk2-locator.$jar $javax.inject.
+ $jar $javassist.$jar $hk2-runlevel.$jar $class-model.$jar $asm-all-re
+ packaged.$jar
+Built-By: java_re
+Tool: Bnd-2.1.0.20130426-122213
+Bundle-Name: HK2 module of HK2 itself
+Created-By: Apache Maven Bundle Plugin
+Bundle-Vendor: Oracle Corporation
+Build-Jdk: 1.7.0_65
+Bundle-Version: 2.3.0.b10
+Bnd-LastModified: 1406223940876
+Bundle-ManifestVersion: 2
+Bundle-License: https://glassfish.java.net/nonav/public/CDDL+GPL_1_1.h
+ tml
+Bundle-Description: This is so that other modules can depend on HK2 as
+  an HK2 module.
+Bundle-SymbolicName: org.glassfish.hk2.hk2
+Bundle-DocURL: http://www.oracle.com
+Archiver-Version: Plexus Archiver
+
