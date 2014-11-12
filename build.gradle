@@ -1,4 +1,8 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
 apply plugin: 'war'
+
+version = '1.0 SNAPSHOT'
 
 repositories {
    mavenCentral()                                               
@@ -37,8 +41,4 @@ dependencies {
 
 war {
 	from configurations.compile.collect { zipTree it }
-}
-
-test {
-        srcDir = ["testCases/crud"]  // Note @Peter's comment below
 }

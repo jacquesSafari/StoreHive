@@ -1,6 +1,5 @@
 package main.java.com.storehive.application.services.app.impl;
 
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class StoreOperationServicesImpl implements StoreOperationServices {
 	private StoreCrudServices scs;
 	private ProductCrudServices pcs;
 	
-	public StoreOperationServicesImpl() throws UnknownHostException{
+	public StoreOperationServicesImpl(){
 		cs = new CategoryCrudServiceImpl();
 		scs = new StoreCrudServicesImpl();
 		pcs = new ProductCrudServicesImpl();

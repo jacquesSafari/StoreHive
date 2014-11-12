@@ -1,7 +1,5 @@
 package main.java.com.storehive.application.services.app.impl;
 
-import java.net.UnknownHostException;
-
 import main.java.com.storehive.application.domain.StoreOwner;
 import main.java.com.storehive.application.services.app.BusinessServices;
 import main.java.com.storehive.application.services.crud.StoreOwnerCrudService;
@@ -20,7 +18,7 @@ public class BusinessServicesImpl implements BusinessServices{
 
 	private StoreOwnerCrudService stcs;
 	
-	public BusinessServicesImpl() throws UnknownHostException {
+	public BusinessServicesImpl(){
 		stcs = new StoreOwnerCrudServiceImpl();
 	}
 	@Override
