@@ -12,10 +12,10 @@ public class ApplicationFactory {
 
 	public static StoreOwner buildStoreOwner(BasicDBObject ownerDetails){
 		StoreOwner s = new StoreOwner();
-		s.setName(ownerDetails.get("name").toString());
-		s.setSurname(ownerDetails.get("surname").toString());
+//		s.setId(ownerDetails.get("_id").toString());
+		s.setEmail(ownerDetails.get("email").toString());
 		s.setPassword(ownerDetails.get("password").toString());
-		s.setUsername(ownerDetails.get("username").toString());
+		s.setFullname(ownerDetails.get("fullname").toString());
 		s.setDeviceID(ownerDetails.get("deviceId").toString());
 		s.setRegistrationDate(ownerDetails.get("registrationDate").toString());
 		

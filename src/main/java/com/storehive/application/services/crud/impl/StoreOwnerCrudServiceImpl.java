@@ -1,5 +1,6 @@
 package main.java.com.storehive.application.services.crud.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import main.java.com.storehive.application.domain.StoreOwner;
@@ -7,9 +8,12 @@ import main.java.com.storehive.application.repository.MongoResource;
 import main.java.com.storehive.application.services.crud.StoreOwnerCrudService;
 import main.java.com.storehive.application.utilities.ErrorCodes;
 import main.java.com.storehive.application.utilities.ResponseResult;
+import main.java.com.storehive.application.utilities.Utilities;
 import main.java.com.storehive.application.utilities.factory.ApplicationFactory;
 
+import org.bson.types.ObjectId;
 import org.jasypt.util.password.StrongPasswordEncryptor;
+import org.mongodb.morphia.Morphia;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -31,18 +35,17 @@ public class StoreOwnerCrudServiceImpl implements StoreOwnerCrudService{
 	@Override
 	public ResponseResult createEntity(StoreOwner a) {
 		ResponseResult output = new ResponseResult();
-		if(!doesStoreOwnerExist(a.getUsername())){
+		if(!doesStoreOwnerExist(a.getEmail())){
 			try{
 				StrongPasswordEncryptor encryptor = new StrongPasswordEncryptor();
 				BasicDBObject storeOwner = new BasicDBObject();
-				storeOwner.put("username", a.getUsername());
-				storeOwner.put("name", a.getName());
-				storeOwner.put("surname", a.getSurname());
+				storeOwner.put("fullname", a.getFullname());
+				storeOwner.put("email", a.getEmail());
 				storeOwner.put("registrationDate", a.getRegistrationDate());
 				storeOwner.put("deviceId", a.getDeviceID());
 				storeOwner.put("password", encryptor.encryptPassword(a.getPassword()));
 				
-				DBCollection storeOwners = getDB().getCollection("storeowners");
+				DBCollection storeOwners = getDB().getCollection("store_owners_collection");
 				storeOwners.insert(storeOwner);
 				output.setSuccessful(true);
 			}catch(NullPointerException e){
@@ -53,7 +56,7 @@ public class StoreOwnerCrudServiceImpl implements StoreOwnerCrudService{
 		}else{
 			output.setSuccessful(false);
 			output.setErrorCode(ErrorCodes.REG_ERR_1);
-			output.setErrorMessage("username exists");
+			output.setErrorMessage("email already exists");
 		}
 		return output;
 	}
@@ -66,8 +69,14 @@ public class StoreOwnerCrudServiceImpl implements StoreOwnerCrudService{
 
 	@Override
 	public List<StoreOwner> getAllEntities() {
-		// TODO Auto-generated method stub
-		return null;
+		DBCollection storeOwnerCollection = getDB().getCollection("store_owners_collection");
+		DBCursor cursor = storeOwnerCollection.find();
+		List<StoreOwner> allStoreOwners = new ArrayList<StoreOwner>();
+		while(cursor.hasNext()){
+			StoreOwner found = ApplicationFactory.buildStoreOwner((BasicDBObject)cursor.next());
+			allStoreOwners.add(found);
+		}
+		return allStoreOwners;
 	}
 
 	@Override
@@ -78,14 +87,17 @@ public class StoreOwnerCrudServiceImpl implements StoreOwnerCrudService{
 
 	@Override
 	public boolean deleteEntity(StoreOwner a) {
-		// TODO Auto-generated method stub
-		return false;
+		DBCollection storeOwner = getDB().getCollection("store_owners_collection");
+		BasicDBObject toBeRemoved = new BasicDBObject();
+//		toBeRemoved.put("_id", new ObjectId(a.getId()));
+		storeOwner.remove(toBeRemoved);
+		return true;
 	}
 
 	@Override
 	public boolean doesStoreOwnerExist(String username) {
-		BasicDBObject storeOwner = new BasicDBObject("username",username);
-		DBCursor storeOwners = getDB().getCollection("storeowners").find(storeOwner);
+		BasicDBObject storeOwner = new BasicDBObject("email",username);
+		DBCursor storeOwners = getDB().getCollection("store_owners_collection").find(storeOwner);
 		
 		if(storeOwners.hasNext())
 			return true;
@@ -94,9 +106,9 @@ public class StoreOwnerCrudServiceImpl implements StoreOwnerCrudService{
 	}
 
 	@Override
-	public StoreOwner findStoreOwnerByUsername(String username) {
-		BasicDBObject query = new BasicDBObject("username",username);
-		DBCursor ownersFound = getDB().getCollection("storeowners").find(query);
+	public StoreOwner findStoreOwnerByEmail(String email) {
+		BasicDBObject query = new BasicDBObject("email",email);
+		DBCursor ownersFound = getDB().getCollection("store_owners_collection").find(query);
 		StoreOwner found = null;
 		try{
 			if(ownersFound.hasNext())

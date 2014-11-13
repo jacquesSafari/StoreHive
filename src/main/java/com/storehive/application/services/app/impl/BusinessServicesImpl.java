@@ -24,9 +24,8 @@ public class BusinessServicesImpl implements BusinessServices{
 	@Override
 	public ResponseResult registerClient(JSONObject newClient) {
 		BasicDBObject clientDetails = new BasicDBObject();
-		clientDetails.put("username", newClient.get("username").toString());
-		clientDetails.put("name", newClient.get("name").toString());
-		clientDetails.put("surname", newClient.get("surname").toString());
+		clientDetails.put("fullname", newClient.get("fullname").toString());
+		clientDetails.put("email", newClient.get("email").toString());
 		clientDetails.put("registrationDate", new DateTime().toString());
 		clientDetails.put("deviceId", newClient.get("deviceId").toString());
 		clientDetails.put("password",newClient.get("password").toString());
@@ -38,7 +37,7 @@ public class BusinessServicesImpl implements BusinessServices{
 	@Override
 	public ResponseResult loginClient(JSONObject clientToLogin) {
 		ResponseResult loginOutput = new ResponseResult();
-		StoreOwner ownerExists = stcs.findStoreOwnerByUsername(clientToLogin.get("username").toString());
+		StoreOwner ownerExists = stcs.findStoreOwnerByEmail(clientToLogin.get("email").toString());
 		
 		if(ownerExists==null){
 			loginOutput.setSuccessful(false);

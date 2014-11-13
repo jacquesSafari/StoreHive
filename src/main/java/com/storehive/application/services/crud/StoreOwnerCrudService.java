@@ -5,7 +5,7 @@ import main.java.com.storehive.application.repository.MongoResporitoryService;
 
 public interface StoreOwnerCrudService extends MongoResporitoryService<StoreOwner> {
 	
-	public boolean doesStoreOwnerExist(String username);
+	public boolean doesStoreOwnerExist(String email);
 	
-	public StoreOwner findStoreOwnerByUsername(String username);
+	public StoreOwner findStoreOwnerByEmail(String email);
 }
