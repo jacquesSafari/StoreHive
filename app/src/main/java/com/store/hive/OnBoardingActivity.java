@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.nineoldandroids.animation.Animator;
@@ -106,9 +108,13 @@ public class OnBoardingActivity extends ActionBarActivity {
         private static final int MAX_ANIM_DURATION = 700;
         private SmoothProgressBar smoothProgressBar;
 
+        private ImageLoader mImageLoader;
+
         @Override
         public View onCreateView(LayoutInflater inflater,
                                  ViewGroup container, Bundle savedInstanceState) {
+
+            mImageLoader = RequestHandler.getInstance(getActivity()).getImageLoader();
 
             Bundle args = getArguments();
             int position = args.getInt(ARG_POSITION);
@@ -195,6 +201,15 @@ public class OnBoardingActivity extends ActionBarActivity {
                 case 2:
                    View secondView = inflater.inflate(
                             R.layout.layout_onboarding_item_two, container, false);
+                    NetworkImageView tatenda = (NetworkImageView) secondView.findViewById(R.id.tatenda);
+                    tatenda.setImageUrl("https://lh5.googleusercontent.com/-_euXZpm6CY8/AAAAAAAAAAI/AAAAAAAAAC0/l9nhcNVeuQc/s120-c/photo.jpg", mImageLoader);
+
+                    NetworkImageView tyron = (NetworkImageView) secondView.findViewById(R.id.tyron);
+                    tyron.setImageUrl("https://lh4.googleusercontent.com/-vY1GomDZySA/AAAAAAAAAAI/AAAAAAAAAg0/CWjoLGlRHy0/s120-c/photo.jpg", mImageLoader);
+
+                    NetworkImageView tinashe = (NetworkImageView) secondView.findViewById(R.id.tinashe);
+                    tinashe.setImageUrl("https://lh6.googleusercontent.com/-Dm29aCF5xy8/AAAAAAAAAAI/AAAAAAAABE8/01V7rKghQt0/s120-c/photo.jpg", mImageLoader);
+
                     return secondView;
                 case 3:
                     View thirdView = inflater.inflate(

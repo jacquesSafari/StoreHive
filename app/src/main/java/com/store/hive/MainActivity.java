@@ -6,7 +6,7 @@ import java.util.Locale;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -25,13 +25,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.store.hive.custom.AppAlertDialog;
-import com.store.hive.fragments.ProductListFragment;
-import com.store.hive.tabs.MaterialTab;
-import com.store.hive.tabs.MaterialTabHost;
-import com.store.hive.tabs.MaterialTabListener;
+import com.store.hive.custom.SlidingTabLayout;
+import com.store.hive.fragments.ProductListFragment;;
 
 
-public class MainActivity extends BaseActivity implements SearchView.OnQueryTextListener, MaterialTabListener {
+public class MainActivity extends BaseActivity implements SearchView.OnQueryTextListener {
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -44,7 +42,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     private AppAlertDialog dialog;
 
-    private MaterialTabHost mTabHost;
 
 
     @Override
@@ -62,28 +59,14 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        mTabHost = (MaterialTabHost) findViewById(R.id.materialTabHost);
+        SlidingTabLayout mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
+        mSlidingTabLayout.setCustomTabView(R.layout.tab_indicator, R.id.tab_title);
 
+        Resources res = getResources();
+        mSlidingTabLayout.setSelectedIndicatorColors(res.getColor(R.color.theme_accent));
+        mSlidingTabLayout.setDistributeEvenly(true);
+        mSlidingTabLayout.setViewPager(mViewPager);
 
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                // when user do a swipe the selected tab change
-                mTabHost.setSelectedNavigationItem(position);
-            }
-        });
-
-        // insert all tabs from pagerAdapter data
-        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-            mTabHost.addTab(
-                    mTabHost.newTab()
-                            .setText(mSectionsPagerAdapter.getPageTitle(i))
-                            .setTabListener(this)
-            );
-        }
-
-        // set the first item selected
-        mTabHost.setSelectedNavigationItem(0);
     }
 
 
@@ -206,21 +189,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         return false;
     }
 
-    @Override
-    public void onTabSelected(MaterialTab tab) {
-
-        mViewPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabReselected(MaterialTab tab) {
-
-    }
-
-    @Override
-    public void onTabUnselected(MaterialTab tab) {
-        tab.setTextColor(getResources().getColor(R.color.theme_accent));
-    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

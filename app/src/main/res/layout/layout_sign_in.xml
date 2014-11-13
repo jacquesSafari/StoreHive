@@ -62,14 +62,13 @@
                 app:typeface="roboto_condensed_light"/>
         </com.store.hive.custom.FloatLabelLayout>
 
-        <com.devspark.robototextview.widget.RobotoButton
+        <Button
             android:id="@+id/signinBtn"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/sh_sign_in"
-            app:typeface="roboto_condensed_light"
-          />
+            android:textColor="@android:color/white"/>
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/registerLink"

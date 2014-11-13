@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion '21.0.1'
+    buildToolsVersion '21.1.1'
 
     defaultConfig {
         applicationId "com.store.hive"
@@ -22,7 +22,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':volley')
     compile files('libs/gson-2.3.jar')
     compile 'com.android.support:appcompat-v7:21.0.0'
     compile 'com.github.johnkil.android-robototextview:robototextview:2.2.0'
@@ -30,6 +29,7 @@ dependencies {
     compile 'com.daimajia.easing:library:1.0.0@aar'
     compile 'com.daimajia.androidanimations:library:1.1.2@aar'
     compile 'com.github.castorflex.smoothprogressbar:library:0.5.2'
-    compile 'com.google.android.gms:play-services:6.1.11'
+    compile 'com.google.android.gms:play-services:6.1.71'
     compile 'com.github.markushi:android-ui:1.2'
+    compile 'com.mcxiaoke.volley:library:1.0.7@aar'
 }

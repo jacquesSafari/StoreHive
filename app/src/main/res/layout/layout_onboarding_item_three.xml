@@ -120,14 +120,14 @@
 
             </com.store.hive.custom.FloatLabelLayout>
 
-            <com.devspark.robototextview.widget.RobotoButton
+            <Button
                 android:id="@+id/registerBtn"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sh_register"
                 android:textColor="@android:color/white"
-                app:typeface="roboto_condensed_light"/>
+               />
 
             <com.devspark.robototextview.widget.RobotoTextView
                 android:id="@+id/loginLink"
@@ -147,16 +147,14 @@
         <include
             layout="@layout/layout_sign_in"
             android:id="@+id/sign_in_layout"/>
-        <com.devspark.robototextview.widget.RobotoButton
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:text="@string/sh_not_now"
-            app:typeface="roboto_condensed_light"
-            android:textColor="@color/theme_primary_dark"
-            android:drawableRight="@drawable/ic_action_forward"
-            android:onClick="continueToMainActivity"/>
+            android:onClick="continueToMainActivity"
+            android:textColor="@android:color/white"/>
 
     </RelativeLayout>
 </RelativeLayout>

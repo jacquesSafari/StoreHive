@@ -1,20 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/activity_vertical_margin">
+    android:padding="64dp"
+    android:gravity="center">
 
-    <com.devspark.robototextview.widget.RobotoTextView
-        android:id="@+id/txt_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/sh_details_about_app"
-        android:textSize="@dimen/sh_text_large"
-        android:gravity="center"
-        android:textColor="@color/apptheme_color"
-        app:typeface="roboto_condensed_light"/>
+
+        <com.store.hive.custom.CircularNetworkImageView
+            android:id="@+id/tatenda"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            tools:background="@android:color/black"
+            android:layout_alignParentLeft="true"
+            />
+
+
+        <com.store.hive.custom.CircularNetworkImageView
+            android:id="@+id/tyron"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            tools:background="@android:color/black"
+            android:layout_alignParentRight="true"
+            />
+
+
+        <com.store.hive.custom.CircularNetworkImageView
+            android:id="@+id/tinashe"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="32dp"
+            tools:background="@android:color/black"
+            android:layout_below="@+id/tatenda"
+            android:layout_centerHorizontal="true"/>
+
 
 </RelativeLayout>

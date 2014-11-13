@@ -2,9 +2,9 @@
 <resources>
 
     <array name="sh_progress_colors">
-        <item>@color/apptheme_color</item>
+        <item>@color/sh_dark_grey</item>
         <item>@color/white</item>
-        <item>@color/apptheme_color</item>
+        <item>@color/sh_dark_grey</item>
         <item>@color/white</item>
     </array>
 </resources>
