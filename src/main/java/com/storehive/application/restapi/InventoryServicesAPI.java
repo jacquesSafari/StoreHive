@@ -32,20 +32,20 @@ public class InventoryServicesAPI {
 	@Path("/addProductToInventory")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONObject addProduct(JSONObject newProduct){
+	public void addProduct(JSONObject newProduct){
 		
-		ResponseResult success = ss.addProductToStore(newProduct);
-		JSONObject message = new JSONObject();
-		
-		if(success.isSuccessful()){
-			message.put(ResponseResultEnum.isSuccessful, success.isSuccessful());
-			message.put("productName", success.getErrorMessage());
-		}else{
-			message.put(ResponseResultEnum.isSuccessful, success.isSuccessful());
-			message.put(ResponseResultEnum.statusCode, success.getErrorCode());
-			message.put(ResponseResultEnum.statusMessage, success.getErrorMessage());
-		}
-		return message;
+//		ResponseResult success = ss.addProductToStore(newProduct);
+//		JSONObject message = new JSONObject();
+//		
+//		if(success.isSuccessful()){
+//			message.put(ResponseResultEnum.isSuccessful, success.isSuccessful());
+//			message.put("productName", success.getErrorMessage());
+//		}else{
+//			message.put(ResponseResultEnum.isSuccessful, success.isSuccessful());
+//			message.put(ResponseResultEnum.statusCode, success.getErrorCode());
+//			message.put(ResponseResultEnum.statusMessage, success.getErrorMessage());
+//		}
+//		return message;
 	}
 //	updateProductDetails
 	
@@ -59,19 +59,19 @@ public class InventoryServicesAPI {
 	@GET
 	@Path("/getAllCategories")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getAllCategories(){
-		List<Category> allCategories = ss.getCategoriesAvailable();
-		JSONArray all = new JSONArray();
-		if(allCategories.size()>0){
-			for(Category c:allCategories){
-				JSONObject j = new JSONObject();
-				j.put("_id", c.getId());
-				j.put("categoryName", c.getCategoryName());
-				j.put("categoryDescription", c.getCategoryDescription());
-				all.add(j);
-			}
-		}
-		
-		return all.toJSONString();
+	public void getAllCategories(){
+//		List<Category> allCategories = ss.getCategoriesAvailable();
+//		JSONArray all = new JSONArray();
+//		if(allCategories.size()>0){
+//			for(Category c:allCategories){
+//				JSONObject j = new JSONObject();
+//				j.put("_id", c.getId());
+//				j.put("categoryName", c.getCategoryName());
+//				j.put("categoryDescription", c.getCategoryDescription());
+//				all.add(j);
+//			}
+//		}
+//		
+//		return all.toJSONString();
 	}
 }

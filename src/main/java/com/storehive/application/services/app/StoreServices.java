@@ -19,4 +19,5 @@ public interface StoreServices {
 	public ResponseResult deleteStoreOwnerProfile(Integer id);
 		
 	public ResponseResult loginUser(String username,String password);
+	
 }

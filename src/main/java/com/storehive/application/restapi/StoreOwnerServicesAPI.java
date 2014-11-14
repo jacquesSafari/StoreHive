@@ -54,7 +54,7 @@ public class StoreOwnerServicesAPI {
 			message.put(ResponseResultEnum.isSuccessful, success.isSuccessful());
 			message.put(ResponseResultEnum.statusCode, success.getErrorCode());
 			message.put(ResponseResultEnum.link, success.getLink());
-			message.put("email", so.getId());
+			message.put("id", so.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
