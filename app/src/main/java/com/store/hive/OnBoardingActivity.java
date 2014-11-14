@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.daimajia.androidanimations.library.Techniques;
@@ -36,6 +37,7 @@ import com.store.hive.model.response.ResponseResult;
 import com.store.hive.service.OnRequestCompleteLister;
 import com.store.hive.service.RequestHandler;
 import com.store.hive.service.ServiceUtil;
+import com.store.hive.service.StoreHiveAPI;
 import com.store.hive.utils.AccountsManager;
 import com.store.hive.utils.AppConfig;
 
@@ -217,9 +219,6 @@ public class OnBoardingActivity extends ActionBarActivity {
 
                     smoothProgressBar = (SmoothProgressBar)thirdView.findViewById(R.id.app_progress_indicator);
 
-                    Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "fonts/handsean.ttf");
-                    ((TextView)thirdView.findViewById(R.id.app_name)).setTypeface(tf);
-
                     final View registerLayout = thirdView.findViewById(R.id.layout_register);
                     final View signInLayout = thirdView.findViewById(R.id.sign_in_layout);
 
@@ -352,40 +351,33 @@ public class OnBoardingActivity extends ActionBarActivity {
                     }
                     else{
                         smoothProgressBar.setVisibility(View.VISIBLE);
-                        String firstName, last_name;
-                        String[] full_name = user_name.split(" ");
-                        firstName = full_name[0];
 
-                        if(full_name.length == 1){
-                            last_name = " ";
-                        } else {
-                            last_name = full_name[full_name.length - 1];
-                        }
-
-                        performRegistrationRemoteCall(firstName, last_name, user_mail, user_pass);
+                        performRegistrationRemoteCall(user_name, user_mail, user_pass);
                     }
                 }
             });
 
         }
 
-        private void performRegistrationRemoteCall(final String name, final String last, String username, String password){
+        private void performRegistrationRemoteCall(final String fullName, String username, String password){
 
             if(ServiceUtil.isConnected(getActivity())){
                 String deviceID = Settings.Secure.getString(getActivity().getContentResolver(),
                         Settings.Secure.ANDROID_ID);
 
-                RequestHandler.getInstance(getActivity()).registerStoreOwner(new StoreOwner(name, last, username, password, deviceID), getActivity(), new OnRequestCompleteLister() {
+
+                StoreHiveAPI.registerStoreOwner(getActivity(), new StoreOwner(fullName, username, password, deviceID), new Response.Listener<ResponseResult>() {
                     @Override
-                    public void onRequestComplete(ResponseResult response) {
+                    public void onResponse(ResponseResult response) {
+                        smoothProgressBar.setVisibility(View.GONE);
 
                         if (response != null) {
                             boolean isSuccess = response.isSuccessful();
 
                             if (isSuccess) {
                                 Intent intent = new Intent(getActivity(), com.store.hive.store_owner.MainActivity.class);
-                                intent.putExtra(getString(R.string.sh_pref_full_name), name + " " + last);
-                                AppConfig.saveAuthState(getActivity(), new RegisteredUser(true, name + " " + last));
+                                intent.putExtra(getString(R.string.sh_pref_full_name), fullName);
+                                AppConfig.saveAuthState(getActivity(), new RegisteredUser(true, fullName));
                                 startActivity(intent);
                                 getActivity().finish();
 
@@ -403,15 +395,10 @@ public class OnBoardingActivity extends ActionBarActivity {
                             Toast.makeText(getActivity(), getString(R.string.sh_error_default), Toast.LENGTH_LONG).show();
                         }
 
-                        smoothProgressBar.setVisibility(View.GONE);
-                    }
 
-                    @Override
-                    public void onRequestError(){
-                        smoothProgressBar.setVisibility(View.GONE);
-                        Toast.makeText(getActivity(), getString(R.string.sh_error_default), Toast.LENGTH_LONG).show();
                     }
                 });
+
             } else {
                 smoothProgressBar.setVisibility(View.GONE);
                 ServiceUtil.showNoConnectionDialog(getActivity());
@@ -431,6 +418,7 @@ public class OnBoardingActivity extends ActionBarActivity {
                     String userName = email_txt.getText().toString();
                     String password = password_txt.getText().toString();
 
+
                     if(TextUtils.isEmpty(userName)){
                         email_txt.requestFocus();
                         email_txt.setError("");
@@ -442,22 +430,24 @@ public class OnBoardingActivity extends ActionBarActivity {
                             smoothProgressBar.setVisibility(View.VISIBLE);
 
                             if(ServiceUtil.isConnected(getActivity())){
-                                RequestHandler.getInstance(getActivity()).authenticateStoreOwner(getActivity(), userName, password, new OnRequestCompleteLister() {
+                                StoreOwner owner = new StoreOwner();
+                                owner.setUserName(userName);
+                                owner.setPassword(password);
+
+                                StoreHiveAPI.authenticateStoreOwner(getActivity(), owner, new Response.Listener<ResponseResult>() {
                                     @Override
-                                    public void onRequestComplete(ResponseResult response) {
+                                    public void onResponse(ResponseResult response) {
                                         smoothProgressBar.setVisibility(View.GONE);
 
                                         if (response != null) {
                                             boolean isSuccess = response.isSuccessful();
 
                                             if(isSuccess){
-                                                Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_LONG).show();
                                                 Intent intent = new Intent(getActivity(), com.store.hive.store_owner.MainActivity.class);
                                                 startActivity(intent);
                                                 getActivity().finish();
 
                                             } else {
-                                                Log.d(TAG, response.getErrorMessage());
 
                                                 if(response.getErrorCode().equals(ErrorCodes.LOG_ERR_1)){
                                                     email_txt.requestFocus();
@@ -476,13 +466,9 @@ public class OnBoardingActivity extends ActionBarActivity {
                                             Toast.makeText(getActivity(), getString(R.string.sh_error_default), Toast.LENGTH_LONG).show();
                                         }
                                     }
-
-                                    @Override
-                                    public void onRequestError() {
-                                        smoothProgressBar.setVisibility(View.GONE);
-                                        Toast.makeText(getActivity(), getString(R.string.sh_error_default), Toast.LENGTH_LONG).show();
-                                    }
                                 });
+
+
                             } else {
                                 smoothProgressBar.setVisibility(View.GONE);
                                 ServiceUtil.showNoConnectionDialog(getActivity());

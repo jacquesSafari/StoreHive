@@ -1,15 +1,29 @@
 package com.store.hive.model.products;
 
+import com.google.gson.annotations.SerializedName;
+import com.store.hive.model.JSONModel;
+
 /**
  * Created by tinashe
  */
-public class Product {
+public class Product extends JSONModel{
 
+    @SerializedName("productId")
     private String productId;
+
+    @SerializedName("productName")
     private String productName;
+
+    @SerializedName("description")
     private String description;
+
+    @SerializedName("category")
     private String category;
+
+    @SerializedName("price")
     private String price;
+
+    @SerializedName("imgUrl")
     private String imgUrl;
 
 

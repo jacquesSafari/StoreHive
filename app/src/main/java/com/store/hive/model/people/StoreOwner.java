@@ -1,30 +1,42 @@
 package com.store.hive.model.people;
 
+import com.google.gson.annotations.SerializedName;
+import com.store.hive.model.JSONModel;
+
 /**
  * Created by tinashe
  */
-public class StoreOwner {
+public class StoreOwner extends JSONModel {
 
-    private String firstName;
-    private String lastName;
+    @SerializedName("fullname")
+    private String fullName;
+
+    @SerializedName("email")
     private String userName;
+
+    @SerializedName("password")
     private String password;
+
+    @SerializedName("deviceId")
     private String deviceID;
 
-    public StoreOwner(String firstName, String lastName, String userName, String password, String deviceID) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public StoreOwner(){
+
+    }
+
+    public StoreOwner(String fullName, String userName, String password, String deviceID) {
+        this.fullName = fullName;
         this.userName = userName;
         this.password = password;
         this.deviceID = deviceID;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFirstName(String first_name) {
-        this.firstName = firstName;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getPassword() {
@@ -43,13 +55,6 @@ public class StoreOwner {
         this.userName = userName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String last_name) {
-        this.lastName = lastName;
-    }
 
     public String getDeviceID() {
         return deviceID;

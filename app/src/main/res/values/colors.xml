@@ -11,5 +11,5 @@
 
     <color name="theme_primary">@color/apptheme_color</color>
     <color name="theme_primary_dark">#ff9100</color>
-    <color name="theme_accent">@color/white</color>
+    <color name="theme_accent">@color/theme_primary_dark</color>
 </resources>

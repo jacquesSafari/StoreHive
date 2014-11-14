@@ -1,44 +1,41 @@
 package com.store.hive.service;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.JsonRequest;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Map;
 
-/**
- * Created by tinashe
- */
-public class GSonRequest<T> extends Request<T> {
-    private final Gson gson = new Gson();
+
+public class GSonRequest<T> extends JsonRequest<T> {
+    private final Gson gson = GsonUtil.getInstance();
     private final Class<T> clazz;
-    private final Map<String, String> headers;
+
     private final Response.Listener<T> listener;
 
     /**
      * Make a GET request and return a parsed object from JSON.
-     *
+     * @param method type of method, GET or POST
      * @param url URL of the request to make
      * @param clazz Relevant class object, for Gson's reflection
-     * @param headers Map of request headers
      */
-    public GSonRequest(String url, Class<T> clazz, Map<String, String> headers,
+    public GSonRequest(int method, String url, Class<T> clazz, Object jsonRequest,
                        Response.Listener<T> listener, Response.ErrorListener errorListener) {
-        super(Request.Method.GET, url, errorListener);
+        super(method, url, (jsonRequest == null) ? null : GsonUtil.getInstance().toJson(jsonRequest), listener,
+                errorListener);
+
         this.clazz = clazz;
-        this.headers = headers;
         this.listener = listener;
     }
 
-    @Override
-    public Map<String, String> getHeaders() throws AuthFailureError {
-        return headers != null ? headers : super.getHeaders();
+    public GSonRequest(String url, Class<T> returnType, Object jsonRequest, Response.Listener<T> listener,
+                       Response.ErrorListener errorListener) {
+        this(jsonRequest == null ? Method.GET : Method.POST, url, returnType, jsonRequest,
+                listener, errorListener);
     }
 
     @Override
