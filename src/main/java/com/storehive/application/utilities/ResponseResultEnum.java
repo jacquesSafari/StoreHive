@@ -8,18 +8,25 @@ public enum ResponseResultEnum {
             return "isSuccessfull";
         }
     },
-    errorMessage{
+    statusMessage{
         @Override
         public String getKey(){
-            return "errorMessage";
+            return "statusMessage";
         }
     },
-    errorCode{
+    statusCode{
         @Override
         public String getKey(){
-            return "errorCode";
+            return "statusCode";
         }
-    };
+    },
+    link{
+    	@Override
+        public String getKey(){
+            return "link";
+        }
+    }
+    ;
 
     abstract public String getKey();
 }

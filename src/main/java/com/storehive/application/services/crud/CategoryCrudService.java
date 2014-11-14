@@ -1,13 +1,8 @@
 package main.java.com.storehive.application.services.crud;
 
 import main.java.com.storehive.application.domain.Category;
-import main.java.com.storehive.application.repository.MongoResporitoryService;
+import main.java.com.storehive.application.repository.JPAService;
 
-public interface CategoryCrudService extends MongoResporitoryService<Category> {
+public interface CategoryCrudService extends JPAService<Category, Integer>{
 	
-	public boolean doesCategoryExist(String categoryName);
-	
-	public Category findCategoryByName(String categoryName);
-	
-	public int countCategoriesAvailable();
 }

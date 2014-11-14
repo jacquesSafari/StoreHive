@@ -1,9 +1,8 @@
 package main.java.com.storehive.application.services.crud;
 
 import main.java.com.storehive.application.domain.Store;
-import main.java.com.storehive.application.repository.MongoResporitoryService;
+import main.java.com.storehive.application.domain.Storeowner;
+import main.java.com.storehive.application.repository.JPAService;
 
-public interface StoreCrudServices extends MongoResporitoryService<Store> {
-
-	public Store findStoreByProperty(String property,String value);
+public interface StoreCrudServices extends JPAService<Store, Integer>{
 }

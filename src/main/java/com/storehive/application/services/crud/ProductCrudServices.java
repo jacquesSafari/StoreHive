@@ -1,11 +1,8 @@
 package main.java.com.storehive.application.services.crud;
 
-import main.java.com.storehive.application.domain.Products;
-import main.java.com.storehive.application.repository.MongoResporitoryService;
+import main.java.com.storehive.application.domain.Product;
+import main.java.com.storehive.application.repository.JPAService;
 
-public interface ProductCrudServices extends MongoResporitoryService<Products> {
-	
-	public boolean doesProductExist(String productName);
-	
-	public Products findStoreByProperty(String property,String value);
+public interface ProductCrudServices  extends JPAService<Product, Integer>{
+
 }

@@ -1,11 +1,9 @@
 package main.java.com.storehive.application.services.crud;
 
-import main.java.com.storehive.application.domain.StoreOwner;
-import main.java.com.storehive.application.repository.MongoResporitoryService;
+import main.java.com.storehive.application.domain.Storeowner;
+import main.java.com.storehive.application.repository.JPAService;
 
-public interface StoreOwnerCrudService extends MongoResporitoryService<StoreOwner> {
-	
-	public boolean doesStoreOwnerExist(String email);
-	
-	public StoreOwner findStoreOwnerByEmail(String email);
+
+public interface StoreOwnerCrudService extends JPAService<Storeowner, Integer>{
+
 }

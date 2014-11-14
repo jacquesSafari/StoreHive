@@ -20,7 +20,7 @@ public class StoreServicesAPI {
 	private StoreOperationServices ss;
 	
 	public StoreServicesAPI(){
-		ss = new StoreOperationServicesImpl();
+//		ss = new StoreOperationServicesImpl();
 	}
 	
 	@POST
@@ -37,8 +37,8 @@ public class StoreServicesAPI {
 			message.put("ownerEmail", success.getErrorMessage());
 		}else{
 			message.put(ResponseResultEnum.isSuccessful, success.isSuccessful());
-			message.put(ResponseResultEnum.errorCode, success.getErrorCode());
-			message.put(ResponseResultEnum.errorMessage, success.getErrorMessage());
+			message.put(ResponseResultEnum.statusCode, success.getErrorCode());
+			message.put(ResponseResultEnum.statusMessage, success.getErrorMessage());
 		}
 		return message;
 	}

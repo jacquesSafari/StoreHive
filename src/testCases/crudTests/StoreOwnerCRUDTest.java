@@ -1,32 +1,29 @@
 package testCases.crudTests;
 
-import main.java.com.storehive.application.domain.StoreOwner;
+import java.util.Date;
+
+import main.java.com.storehive.application.domain.Storeowner;
 import main.java.com.storehive.application.services.crud.StoreOwnerCrudService;
 import main.java.com.storehive.application.services.crud.impl.StoreOwnerCrudServiceImpl;
-import main.java.com.storehive.application.utilities.ResponseResult;
-import main.java.com.storehive.application.utilities.Utilities;
-import main.java.com.storehive.application.utilities.factory.ApplicationFactory;
 
-import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mongodb.morphia.Morphia;
 
-import com.mongodb.BasicDBObject;
 
 public class StoreOwnerCRUDTest {
 	
-	private static StoreOwnerCrudService crudService;
-	private StoreOwner a;
-	private static Morphia morphia; 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-		crudService = new StoreOwnerCrudServiceImpl();
-		morphia = new Morphia();
-		morphia.mapPackage(Utilities.DOMAIN_CLASS_PATH);
+	private StoreOwnerCrudService socs;
+	private Storeowner s;
+    
+    public StoreOwnerCRUDTest() {
+    	socs = new StoreOwnerCrudServiceImpl();
 	}
-
+	
+    @BeforeClass
+    public static void setUpClass(){
+    }
+    
 	@Test
 	public void runTests(){
 		createStoreOwner();
@@ -37,33 +34,25 @@ public class StoreOwnerCRUDTest {
 	}
 	
 	private void createStoreOwner(){
-		BasicDBObject details = new BasicDBObject();
-		details.put("fullname", "Tyrone Adams");
-		details.put("email", "tyrone@gmail.com");
-		details.put("password", "1234568789");
-		details.put("deviceId", "aaaa");
-		details.put("registrationDate",new DateTime().toString());
+		s = new Storeowner();
+		s.setEmail("tyrondms@gmail.com");
+		s.setFullname("Tyrone Adams");
+		s.setPassword("123456");
+		s.setDeviceId("123456");
+		s.setRegisteredDate(new Date());
 		
-		a = 
-		ResponseResult output = crudService.createEntity(a);
-		Assert.assertEquals(true, output.isSuccessful());
+		Assert.assertNotNull(socs.createEntity(s));
 	}
 	
 	private void readStoreOwner(){
-		Assert.assertEquals("Tyrone Adams",crudService.findStoreOwnerByEmail(a.getEmail()).getFullname());
 	}
 	
 	private void readAllStoreOwners(){
-		Assert.assertTrue(crudService.getAllEntities().size()>0);
 	}
 
 	private void updateStoreOwner(){
-		//TODO: Need to still assess how to perform the opertation
 	}
 	
 	private void deleteStoreOwner(){
-		crudService.deleteEntity(a);
-		
-		Assert.assertNull(crudService.findStoreOwnerByEmail(a.getEmail()));
 	}
 }

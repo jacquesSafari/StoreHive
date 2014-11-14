@@ -25,7 +25,7 @@ public class InventoryServicesAPI {
 	private StoreOperationServices ss;
 	
 	public InventoryServicesAPI(){
-		ss = new StoreOperationServicesImpl();
+//		ss = new StoreOperationServicesImpl();
 	}
 //	addProductToInventory
 	@POST
@@ -42,8 +42,8 @@ public class InventoryServicesAPI {
 			message.put("productName", success.getErrorMessage());
 		}else{
 			message.put(ResponseResultEnum.isSuccessful, success.isSuccessful());
-			message.put(ResponseResultEnum.errorCode, success.getErrorCode());
-			message.put(ResponseResultEnum.errorMessage, success.getErrorMessage());
+			message.put(ResponseResultEnum.statusCode, success.getErrorCode());
+			message.put(ResponseResultEnum.statusMessage, success.getErrorMessage());
 		}
 		return message;
 	}

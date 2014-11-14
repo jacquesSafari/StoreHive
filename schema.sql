@@ -12,7 +12,7 @@ create table storeowner
 (
  id int PRIMARY KEY AUTO_INCREMENT,
  fullname varchar(255) NOT NULL,
- email varchar(255) NOT NULL,
+ email varchar(255) NOT NULL UNIQUE,
  password varchar(255) NOT NULL,
  registered_date date NOT NULL,
  device_id varchar(255) NOT NULL
@@ -60,19 +60,22 @@ create table shoppinglistitem
  li_id int,
  FOREIGN KEY (li_id) REFERENCES shoppinglist(id)
 );
+create table transaction
+(
+ id int PRIMARY KEY AUTO_INCREMENT,
+ time_stamp DATETIME,
+ amount_due int, 
+ s_id int,
+ FOREIGN KEY (s_id) REFERENCES store(id)
+);
 create table transactiongoods
 (
  id int PRIMARY KEY AUTO_INCREMENT,
  quantity int,
  total int, 
  p_id int,
- FOREIGN KEY (p_id) REFERENCES product(id)
+ t_id int,
+ FOREIGN KEY (p_id) REFERENCES product(id),
+ FOREIGN KEY (t_id) REFERENCES transaction(id)
 );
-create table transaction
-(
- id int PRIMARY KEY AUTO_INCREMENT,
- time_stamp DATETIME,
- amount_due int, 
- l_id int,
- FOREIGN KEY (l_id) REFERENCES storelocation(id)
-);
+

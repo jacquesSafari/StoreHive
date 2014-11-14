@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="StoreHivePU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>main.java.com.storehive.application.domain.Category</class>
+        <class>main.java.com.storehive.application.domain.Product</class>
+        <class>main.java.com.storehive.application.domain.Shoppinglist</class>
+        <class>main.java.com.storehive.application.domain.Shoppinglistitem</class>
+        <class>main.java.com.storehive.application.domain.Store</class>
+        <class>main.java.com.storehive.application.domain.Storelocation</class>
+        <class>main.java.com.storehive.application.domain.Storeowner</class>
+        <class>main.java.com.storehive.application.domain.Transaction</class>
+        <class>main.java.com.storehive.application.domain.Transactiongood</class>
+        <properties>
+            	<!-- Configuring JDBC properties -->
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/storehive" />
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.password" value="root"/>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			
+			<!-- Hibernate properties -->
+		    <property name="hibernate.show_sql" value="true"/>
+		    <property name="hibernate.format_sql" value="true"/>
+		    <property name="hibernate.use_sql_comments" value="true"/>
+        </properties>
+	</persistence-unit>
+</persistence>
+

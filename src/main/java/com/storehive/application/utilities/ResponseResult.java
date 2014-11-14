@@ -5,22 +5,12 @@ public class ResponseResult {
     private boolean isSuccessful;
     private String errorMessage;
     private String errorCode;
-
+    private String link;
+    
     public ResponseResult(){}
     		
     public ResponseResult(boolean isSuccessful) {
         this.isSuccessful = isSuccessful;
-    }
-
-    public ResponseResult(boolean isSuccessful, String errorMessage) {
-        this.isSuccessful = isSuccessful;
-        this.errorMessage = errorMessage;
-    }
-
-    public ResponseResult(boolean isSuccessful, String errorMessage, String errorCode) {
-        this.isSuccessful = isSuccessful;
-        this.errorMessage = errorMessage;
-        this.errorCode = errorCode;
     }
 
     public boolean isSuccessful() {
@@ -45,6 +35,14 @@ public class ResponseResult {
 
 	public void setErrorCode(String errorCode) {
 		this.errorCode = errorCode;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 
     
