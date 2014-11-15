@@ -65,4 +65,10 @@ public class StoreOwnerCrudServiceImpl implements StoreOwnerCrudService{
 		return (Storeowner)em.merge(entity);
 	}
 
+	@Override
+	public void deleteByQueryWithId(Integer id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

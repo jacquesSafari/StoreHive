@@ -1,7 +1,5 @@
 package main.java.com.storehive.application.restapi;
 
-import java.util.Date;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -11,20 +9,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import main.java.com.storehive.application.domain.Store;
-import main.java.com.storehive.application.domain.Storelocation;
 import main.java.com.storehive.application.domain.Storeowner;
 import main.java.com.storehive.application.services.app.StoreOperationServices;
 import main.java.com.storehive.application.services.app.impl.StoreOperationServicesImpl;
-import main.java.com.storehive.application.services.crud.StoreCrudServices;
-import main.java.com.storehive.application.services.crud.StoreLocationServices;
 import main.java.com.storehive.application.services.crud.StoreOwnerCrudService;
-import main.java.com.storehive.application.services.crud.impl.StoreCrudServicesImpl;
-import main.java.com.storehive.application.services.crud.impl.StoreLocationServicesImpl;
 import main.java.com.storehive.application.services.crud.impl.StoreOwnerCrudServiceImpl;
 import main.java.com.storehive.application.utilities.ResponseResult;
 import main.java.com.storehive.application.utilities.ResponseResultEnum;
 
-import org.joda.time.DateTime;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -35,14 +27,10 @@ public class StoreServicesAPI {
 	
 	private StoreOperationServices ss;
 	private StoreOwnerCrudService scs;
-	private StoreCrudServices sc;
-	private StoreLocationServices sls;
 	
 	public StoreServicesAPI(){
 		ss = new StoreOperationServicesImpl();
 		scs = new StoreOwnerCrudServiceImpl();
-		sc = new StoreCrudServicesImpl();
-		sls = new StoreLocationServicesImpl();
 	}
 	
 	@POST
@@ -66,6 +54,7 @@ public class StoreServicesAPI {
 			store.setOwnerEmail(storeBelongTo.getEmail());
 			store.setStoreowner(storeBelongTo);
 			store.setIsOpen("false");
+			
 			
 			ResponseResult r = ss.registerStore(store);
 			
@@ -99,6 +88,7 @@ public class StoreServicesAPI {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String openStore(String s){
+		
 		JSONObject message = new JSONObject();
 		JSONParser jp = new JSONParser();
 		Object c;
@@ -106,24 +96,10 @@ public class StoreServicesAPI {
 			c = jp.parse(s);
 			JSONObject j = (JSONObject)c;
 			
-			Storelocation sl = new Storelocation();
-			sl.setLatitude(j.get("latitude").toString());
-			sl.setLongitude(j.get("longitude").toString());
-			
-			sls.createEntity(sl);
-			
-			Integer storeId = Integer.valueOf(j.get("storeId").toString());
-			
-			Store storeToOpen = sc.findById(Store.class, storeId);
-			storeToOpen.setLastOpenedDate(new DateTime().toDate());
-			storeToOpen.setIsOpen(j.get("isOpen").toString());
-			storeToOpen.setStorelocation(sl);
-			
-			message = ss.openStore(storeToOpen);
+			message = ss.openStore(j);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
 		return message.toJSONString();
 	}
 	
@@ -132,6 +108,7 @@ public class StoreServicesAPI {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String closeStore(String s){
+
 		JSONObject message = new JSONObject();
 		JSONParser jp = new JSONParser();
 		Object c;
@@ -139,17 +116,10 @@ public class StoreServicesAPI {
 			c = jp.parse(s);
 			JSONObject j = (JSONObject)c;
 			
-			Integer storeId = Integer.valueOf(j.get("storeId").toString());
-			
-			Store storeToClose = sc.findById(Store.class, storeId);
-			
-			storeToClose.setIsOpen(j.get("isOpen").toString());
-			storeToClose.setLastOpenedDate(new DateTime().toDate());
-			message = ss.openStore(storeToClose);
+			message = ss.closeStore(j);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
 		return message.toJSONString();
 	}
 }

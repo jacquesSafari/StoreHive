@@ -6,9 +6,9 @@ import javax.persistence.EntityManager;
 
 import main.java.com.storehive.application.domain.Storelocation;
 import main.java.com.storehive.application.listeners.EMListener;
-import main.java.com.storehive.application.services.crud.StoreLocationServices;
+import main.java.com.storehive.application.services.crud.StoreLocationCrudServices;
 
-public class StoreLocationServicesImpl implements StoreLocationServices {
+public class StoreLocationServicesImpl implements StoreLocationCrudServices {
 
 	private EntityManager em; 
 	
@@ -60,6 +60,13 @@ public class StoreLocationServicesImpl implements StoreLocationServices {
 	public Storelocation update(Storelocation entity) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void deleteByQueryWithId(Integer id) {
+		em.getTransaction().begin();
+		em.createNativeQuery("DELETE from storelocation where s_id = :sid").setParameter("sid", id).executeUpdate();
+		em.getTransaction().commit();
 	}
 
 }

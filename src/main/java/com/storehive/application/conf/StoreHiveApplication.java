@@ -8,6 +8,7 @@ import javax.ws.rs.ApplicationPath;
 import main.java.com.storehive.application.restapi.InventoryServicesAPI;
 import main.java.com.storehive.application.restapi.StoreOwnerServicesAPI;
 import main.java.com.storehive.application.restapi.StoreServicesAPI;
+import main.java.com.storehive.application.restapi.StoreTransactionServicesAPI;
 
 @ApplicationPath("api")//defines relative base url for all services in deployment
 public class StoreHiveApplication extends JAXRSConfiguration {
@@ -21,6 +22,7 @@ public class StoreHiveApplication extends JAXRSConfiguration {
 		singletons.add(new StoreOwnerServicesAPI());//add our rest resources
 		singletons.add(new StoreServicesAPI());
 		singletons.add(new InventoryServicesAPI());
+		singletons.add(new StoreTransactionServicesAPI());
 	}
 
 	@Override

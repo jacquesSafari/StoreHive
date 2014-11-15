@@ -22,8 +22,10 @@ public class Storelocation implements Serializable {
 
 	private String longitude;
 
-	//bi-directional one-to-one association to Store
-	@OneToOne(mappedBy="storelocation")
+	//bi-directional many-to-one association to Store
+	@ManyToOne
+	@JoinColumn(name="s_id",
+            nullable=false)
 	private Store store;
 
 	public Storelocation() {

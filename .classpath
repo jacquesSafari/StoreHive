@@ -23,7 +23,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/javax.annotation-api-1.2.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jersey-guava-2.13.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/gson-2.2.4.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v7.0"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/antlr-2.7.7.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/hibernate-commons-annotations-4.0.5.Final.jar"/>
@@ -43,5 +42,6 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Tomcat v7.0"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

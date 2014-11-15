@@ -1,15 +1,20 @@
 package main.java.com.storehive.application.services.app.impl;
 
-import org.json.simple.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
 
 import main.java.com.storehive.application.domain.Store;
+import main.java.com.storehive.application.domain.Storelocation;
 import main.java.com.storehive.application.services.app.StoreOperationServices;
 import main.java.com.storehive.application.services.crud.StoreCrudServices;
 import main.java.com.storehive.application.services.crud.impl.StoreCrudServicesImpl;
 import main.java.com.storehive.application.utilities.ErrorCodes;
 import main.java.com.storehive.application.utilities.ResponseResult;
 
+import org.joda.time.DateTime;
+import org.json.simple.JSONObject;
 
+@SuppressWarnings("unchecked")
 public class StoreOperationServicesImpl implements StoreOperationServices{
 
 	StoreCrudServices scs;
@@ -36,6 +41,7 @@ public class StoreOperationServicesImpl implements StoreOperationServices{
 		return r;
 	}
 
+	
 	@Override
 	public JSONObject viewStoreDetails(Integer id) {
 		JSONObject j = new JSONObject();
@@ -49,31 +55,55 @@ public class StoreOperationServicesImpl implements StoreOperationServices{
 	}
 
 	@Override
-	public JSONObject openStore(Store s) {
-		JSONObject j = new JSONObject();
+	public JSONObject openStore(JSONObject openStore) {
+		JSONObject json = new JSONObject();
 		
-		Store updated = scs.update(s);
+		Storelocation sl = new Storelocation();
+		sl.setLatitude(openStore.get("latitude").toString());
+		sl.setLongitude(openStore.get("longitude").toString());
+		List<Storelocation> storeLocations = new ArrayList<Storelocation>();
+		storeLocations.add(sl);
+		
+		Integer storeId = Integer.valueOf(openStore.get("storeId").toString());
+		
+		Store storeToOpen = new Store();
+	    storeToOpen.setId(storeId);
+		storeToOpen.setLastOpenedDate(new DateTime().toDate());
+		storeToOpen.setIsOpen(openStore.get("isOpen").toString());
+		storeToOpen.setStorelocations(storeLocations);
+		
+		Store updated = scs.update(storeToOpen);
 		
 		if(updated!=null){
-			j.put("isSuccessfull", true);
+			json.put("isSuccessfull", true);
 		}else{
-			j.put("isSuccessfull", false);
+			json.put("isSuccessfull", false);
 		}
-		return j;
+		
+		return json;
 	}
 
 	@Override
-	public JSONObject closeStore(Store s) {
-		JSONObject j = new JSONObject();
+	public JSONObject closeStore(JSONObject closeStore) {
+		JSONObject json = new JSONObject();
 		
-		Store updated = scs.update(s);
+		
+		Integer storeId = Integer.valueOf(closeStore.get("storeId").toString());
+		
+		Store storeToOpen = new Store();
+	    storeToOpen.setId(storeId);
+		storeToOpen.setLastOpenedDate(new DateTime().toDate());
+		storeToOpen.setIsOpen(closeStore.get("isOpen").toString());
+		
+		Store updated = scs.update(storeToOpen);
 		
 		if(updated!=null){
-			j.put("isSuccessfull", true);
+			json.put("isSuccessfull", true);
 		}else{
-			j.put("isSuccessfull", false);
+			json.put("isSuccessfull", false);
 		}
-		return j;
+		
+		return json;
 	}
 
 }

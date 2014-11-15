@@ -27,6 +27,6 @@ public class ErrorCodes {
 	//product errors
 	public static final String PROD_SUC_1 = "PROD_SUC_1"; //creation success
 	public static final String PROD_ERR_1 = "PROD_ERR_1"; //register error null pointer
-	public static final String PROD_ERR_2 = "PROD_ERR_2"; //
+	public static final String PROD_ERR_2 = "PROD_ERR2_DELETE"; //
 	public static final String PROD_ERR_3 = "PROD_ERR_3"; //product error update fail
 }

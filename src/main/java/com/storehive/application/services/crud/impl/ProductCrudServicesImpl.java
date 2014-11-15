@@ -3,26 +3,27 @@ package main.java.com.storehive.application.services.crud.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import main.java.com.storehive.application.domain.Product;
+import main.java.com.storehive.application.listeners.EMListener;
 import main.java.com.storehive.application.services.crud.ProductCrudServices;
 
 public class ProductCrudServicesImpl implements ProductCrudServices {
 	
-	@PersistenceContext(unitName="StoreHivePU")
-    EntityManager em;
+	private EntityManager em; 
 	
+	public ProductCrudServicesImpl() {
+		em = EMListener.createEntityManager();
+	}
 	@Override
 	public Product findById(Class<Product> s,Integer id) {
-		em.find(s.getClass(), id);	
-		return null;
+		return em.find(s, id);	
 	}
 
 	@Override
 	public List<Product> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Product> productList = em.createQuery("SELECT p FROM Product p", Product.class).getResultList();
+		return productList;
 	}
 
 	@Override
@@ -39,20 +40,41 @@ public class ProductCrudServicesImpl implements ProductCrudServices {
 
 	@Override
 	public Product createEntity(Product entity) {
-		this.em.persist(entity);
-        this.em.flush();
-        this.em.refresh(entity);
+		em.getTransaction( ).begin( );
+		em.persist(entity);
+        em.flush();
+        em.refresh(entity);
+        em.getTransaction( ).commit();
         return entity;
 	}
 
 	@Override
 	public void delete(Product entity) {
-		this.em.remove(entity);
+		em.getTransaction( ).begin( );
+		em.remove(entity);
+        em.getTransaction( ).commit();
 	}
 
 	@Override
 	public Product update(Product entity) {
-		return (Product)this.em.merge(entity);
+		Product old = findById(Product.class, entity.getId()); 
+		em.getTransaction().begin();
+		old.setProductName(entity.getProductName());
+		old.setProductDescription(entity.getProductDescription());
+		old.setProductPrice(entity.getProductPrice());
+		old.setProductQuantity(entity.getProductQuantity());
+		old.setCategory(entity.getCategory());
+		old.setStore(entity.getStore());
+		em.getTransaction().commit();
+		return old;
+	}
+	
+	@Override
+	public void deleteByQueryWithId(Integer id) {
+		em.getTransaction().begin();
+		em.createNativeQuery("DELETE from product where id = :id").setParameter("id", id).executeUpdate();
+		em.getTransaction().commit();
+		
 	}
 
 }

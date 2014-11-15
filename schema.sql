@@ -2,12 +2,6 @@ DROP DATABASE IF EXISTS storehive;
 CREATE DATABASE storehive;
 use storehive;
 
-create table storelocation
-(
- id int PRIMARY KEY AUTO_INCREMENT,
- latitude varchar(255) NOT NULL,
- longitude varchar(255) NOT NULL
-);
 create table storeowner
 (
  id int PRIMARY KEY AUTO_INCREMENT,
@@ -25,10 +19,16 @@ create table store
  description varchar(255) NOT NULL,
  last_opened_date date,
  is_open varchar(255) NOT NULL,
- l_id int,
- so_id int,
- FOREIGN KEY (l_id) REFERENCES storelocation(id),
- FOREIGN KEY (so_id) REFERENCES storeowner(id)
+ s_id int,
+ FOREIGN KEY (s_id) REFERENCES storeowner(id)
+);
+create table storelocation
+(
+ id int PRIMARY KEY AUTO_INCREMENT,
+ latitude varchar(255) NOT NULL,
+ longitude varchar(255) NOT NULL,
+ s_id int,
+ FOREIGN KEY (s_id) REFERENCES store(id)
 );
 create table category
 (
@@ -41,7 +41,8 @@ create table product
  id int PRIMARY KEY AUTO_INCREMENT,
  product_name varchar(255),
  product_description varchar(255),
- product_price int,
+ product_price FLOAT(2),
+ product_quantity int,
  c_id int,
  s_id int,
  FOREIGN KEY (c_id) REFERENCES category(id),
@@ -79,3 +80,10 @@ create table transactiongoods
  FOREIGN KEY (t_id) REFERENCES transaction(id)
 );
 
+insert into category values(1,'Electronics','All digital electronic equipment');
+insert into category values(2,'Sports & Leisure','All sporting equipment');
+insert into category values(3,'Baby & Kids','All kids and baby goods');
+insert into category values(4,'Home & Garden','DIY tools and equipment for home');
+insert into category values(5,'Fashion','All clothing accessories');
+insert into category values(6,'Food','All food goods');
+insert into category values(7,'Plastics & Utensils','All plastics goods and utensils');

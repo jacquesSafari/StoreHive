@@ -4,7 +4,11 @@ import javax.persistence.NoResultException;
 
 import main.java.com.storehive.application.domain.Storeowner;
 import main.java.com.storehive.application.services.app.StoreServices;
+import main.java.com.storehive.application.services.crud.StoreCrudServices;
+import main.java.com.storehive.application.services.crud.StoreLocationCrudServices;
 import main.java.com.storehive.application.services.crud.StoreOwnerCrudService;
+import main.java.com.storehive.application.services.crud.impl.StoreCrudServicesImpl;
+import main.java.com.storehive.application.services.crud.impl.StoreLocationServicesImpl;
 import main.java.com.storehive.application.services.crud.impl.StoreOwnerCrudServiceImpl;
 import main.java.com.storehive.application.utilities.ErrorCodes;
 import main.java.com.storehive.application.utilities.ResponseResult;
@@ -13,12 +17,17 @@ import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+@SuppressWarnings("unchecked")
 public class StoreServicesImpl implements StoreServices {
 
 	StoreOwnerCrudService scs;
+	StoreCrudServices ss;
+	StoreLocationCrudServices slcs;
 	
 	public StoreServicesImpl(){
 		scs = new StoreOwnerCrudServiceImpl();
+		ss = new StoreCrudServicesImpl();
+		slcs = new StoreLocationServicesImpl();
 	}
 	
 	@Override
@@ -28,7 +37,7 @@ public class StoreServicesImpl implements StoreServices {
 			Storeowner created = scs.createEntity(s);
 		
 			r.setErrorCode(ErrorCodes.REG_SUC_1);
-			r.setLink("/api/storeOwnerServices/viewStoreOwnerDetails/"+created.getId());
+			r.setLink("/storeOwnerServices/viewStoreOwnerDetails/"+created.getId());
 			r.setSuccessful(true);
 		}catch(Exception e){
 			r.setErrorCode(ErrorCodes.REG_ERR_2);
@@ -49,7 +58,7 @@ public class StoreServicesImpl implements StoreServices {
 			j.put("deviceId", s.getDeviceId());
 			j.put("email", s.getEmail());
 			j.put("registeredDate", s.getRegisteredDate().toString());
-			j.put("link","/api/storeOwnerServices/viewStoreOwnerDetails/"+s.getId());
+			j.put("link","/storeOwnerServices/viewStoreOwnerDetails/"+s.getId());
 			a.add(j);
 		}
 		return a;
@@ -82,6 +91,7 @@ public class StoreServicesImpl implements StoreServices {
 		Storeowner toDelete = scs.findById(Storeowner.class, id);
 		
 		if(toDelete!=null){
+			ss.deleteByQueryWithId(id);
 			scs.delete(toDelete);
 			r.setSuccessful(true);
 		}else{
@@ -104,7 +114,7 @@ public class StoreServicesImpl implements StoreServices {
 				if(sp.checkPassword(password, s.getPassword())){
 					r.setSuccessful(true);
 					r.setErrorCode(ErrorCodes.LOG_SUC_1);
-					r.setLink("/api/storeOwnerServices/viewStoreOwnerDetails/"+s.getId());
+					r.setLink("/storeOwnerServices/viewStoreOwnerDetails/"+s.getId());
 					r.setErrorMessage(""+s.getId()+"");
 				}else{
 					r.setSuccessful(false);

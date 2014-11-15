@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="storeowner", uniqueConstraints={@UniqueConstraint(columnNames = {"email"})})
+@Table(name="storeowner")
 @NamedQuery(name="Storeowner.findAll", query="SELECT s FROM Storeowner s")
 public class Storeowner implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -33,8 +33,7 @@ public class Storeowner implements Serializable {
 	private Date registeredDate;
 
 	//bi-directional one-to-one association to Store
-	@OneToOne(cascade={CascadeType.ALL})
-	@JoinColumn(name="id", referencedColumnName="so_id")
+	@OneToOne(mappedBy="storeowner")
 	private Store store;
 
 	public Storeowner() {

@@ -3,26 +3,28 @@ package main.java.com.storehive.application.services.crud.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import main.java.com.storehive.application.domain.Category;
+import main.java.com.storehive.application.listeners.EMListener;
 import main.java.com.storehive.application.services.crud.CategoryCrudService;
 
 public class CategoryCrudServiceImpl implements CategoryCrudService {
 
-	@PersistenceContext(unitName="StoreHivePU")
-    EntityManager em;
+	private EntityManager em; 
+	
+	public CategoryCrudServiceImpl() {
+		em = EMListener.createEntityManager();
+	}
 	
 	@Override
 	public Category findById(Class<Category> s,Integer id) {
-		em.find(s.getClass(), id);	
-		return null;
+		return em.find(s, id);	
 	}
 
 	@Override
 	public List<Category> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Category> categoryList = em.createQuery("SELECT c FROM Category c", Category.class).getResultList();
+		return categoryList;
 	}
 
 	@Override
@@ -39,20 +41,30 @@ public class CategoryCrudServiceImpl implements CategoryCrudService {
 
 	@Override
 	public Category createEntity(Category entity) {
-		this.em.persist(entity);
-        this.em.flush();
-        this.em.refresh(entity);
+		em.getTransaction( ).begin( );
+		em.persist(entity);
+        em.flush();
+        em.refresh(entity);
+        em.getTransaction( ).commit();
         return entity;
 	}
 
 	@Override
 	public void delete(Category entity) {
-		this.em.remove(entity);
+		em.getTransaction( ).begin( );
+		em.remove(entity);
+        em.getTransaction( ).commit();
 	}
 
 	@Override
 	public Category update(Category entity) {
 		return (Category)this.em.merge(entity);
+	}
+
+	@Override
+	public void deleteByQueryWithId(Integer id) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

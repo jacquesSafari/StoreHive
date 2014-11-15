@@ -2,6 +2,7 @@ package main.java.com.storehive.application.utilities.factory;
 
 import java.util.Date;
 
+import main.java.com.storehive.application.domain.Product;
 import main.java.com.storehive.application.domain.Storeowner;
 
 import org.json.simple.JSONObject;
@@ -47,12 +48,13 @@ public class ApplicationFactory {
 //		return l;
 //	}
 //	
-//	public static Products buildProduct(BasicDBObject productDetails){
-//		Products p = new Products();
-//		p.setProductName(productDetails.getString("productName"));
-//		p.setPrice(productDetails.getString("price"));
-//		p.setDescription(productDetails.getString("description"));
-//		p.setCategory(buildCategory((BasicDBObject)productDetails.get("category")));
-//		return p;
-//	}
+	public static Product buildProduct(JSONObject productDetails){
+		Product p = new Product();
+		p.setProductName(productDetails.get("productName").toString());
+		p.setProductPrice(Integer.valueOf(productDetails.get("productPrice").toString()));
+		p.setProductDescription(productDetails.get("productDescription").toString());
+		p.setProductQuantity(Integer.valueOf(productDetails.get("productQuantity").toString()));
+		return p;
+	}
+	
 }

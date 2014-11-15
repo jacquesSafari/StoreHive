@@ -4,12 +4,7 @@ import main.java.com.storehive.application.utilities.ResponseResult;
 
 import org.json.simple.JSONObject;
 
+public interface TransactionalServices {
 
-
-public interface BusinessServices {
-	
-	public ResponseResult registerClient(JSONObject jsonObject);
-	
-	public ResponseResult loginClient(JSONObject jsonObject);
-	
+	public ResponseResult sellProduct(JSONObject transaction);
 }

@@ -36,21 +36,23 @@ public class Store implements Serializable {
 	private String shopName;
 
 	//bi-directional many-to-one association to Product
-	@OneToMany(mappedBy="store", cascade={CascadeType.ALL})
+	@OneToMany(cascade={CascadeType.ALL})
+	@JoinColumn(name="s_id")
 	private List<Product> products;
 
-	//bi-directional one-to-one association to Storelocation
-	@OneToOne
-	@JoinColumn(name="l_id")
-	private Storelocation storelocation;
-
-	//bi-directional one-to-one association to Storeowner
-	@OneToOne(mappedBy="store")
-	private Storeowner storeowner;
+	//bi-directional many-to-one association to Storelocation
+	@OneToMany(cascade={CascadeType.ALL})
+    @JoinColumn(name="s_id")
+	private List<Storelocation> storelocations;
 
 	//bi-directional many-to-one association to Transaction
 	@OneToMany(mappedBy="store")
 	private List<Transaction> transactions;
+
+	//bi-directional one-to-one association to Storeowner
+	@OneToOne
+	@JoinColumn(name="s_id")
+	private Storeowner storeowner;
 
 	public Store() {
 	}
@@ -125,20 +127,26 @@ public class Store implements Serializable {
 		return product;
 	}
 
-	public Storelocation getStorelocation() {
-		return this.storelocation;
+	public List<Storelocation> getStorelocations() {
+		return this.storelocations;
 	}
 
-	public void setStorelocation(Storelocation storelocation) {
-		this.storelocation = storelocation;
+	public void setStorelocations(List<Storelocation> storelocations) {
+		this.storelocations = storelocations;
 	}
 
-	public Storeowner getStoreowner() {
-		return this.storeowner;
+	public Storelocation addStorelocation(Storelocation storelocation) {
+		getStorelocations().add(storelocation);
+		storelocation.setStore(this);
+
+		return storelocation;
 	}
 
-	public void setStoreowner(Storeowner storeowner) {
-		this.storeowner = storeowner;
+	public Storelocation removeStorelocation(Storelocation storelocation) {
+		getStorelocations().remove(storelocation);
+		storelocation.setStore(null);
+
+		return storelocation;
 	}
 
 	public List<Transaction> getTransactions() {
@@ -161,6 +169,14 @@ public class Store implements Serializable {
 		transaction.setStore(null);
 
 		return transaction;
+	}
+
+	public Storeowner getStoreowner() {
+		return this.storeowner;
+	}
+
+	public void setStoreowner(Storeowner storeowner) {
+		this.storeowner = storeowner;
 	}
 
 }

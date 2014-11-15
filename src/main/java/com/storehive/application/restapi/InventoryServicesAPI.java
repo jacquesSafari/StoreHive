@@ -1,77 +1,111 @@
 package main.java.com.storehive.application.restapi;
 
-import java.util.List;
-
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import main.java.com.storehive.application.domain.Category;
-import main.java.com.storehive.application.services.app.StoreOperationServices;
-import main.java.com.storehive.application.services.app.impl.StoreOperationServicesImpl;
+import main.java.com.storehive.application.services.app.InventoryServices;
+import main.java.com.storehive.application.services.app.impl.InventoryServicesImpl;
 import main.java.com.storehive.application.utilities.ResponseResult;
 import main.java.com.storehive.application.utilities.ResponseResultEnum;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 @Path("/inventoryServices")
 @SuppressWarnings("unchecked")
 public class InventoryServicesAPI {
 
-	private StoreOperationServices ss;
+	private InventoryServices ivs;
 	
 	public InventoryServicesAPI(){
-//		ss = new StoreOperationServicesImpl();
+		ivs = new InventoryServicesImpl();
 	}
-//	addProductToInventory
+	
 	@POST
 	@Path("/addProductToInventory")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public void addProduct(JSONObject newProduct){
+	public String addProduct(String newProd){
+		JSONObject message = new JSONObject();
+		try{
+		JSONParser jp = new JSONParser();
+		Object c = jp.parse(newProd);
+		JSONObject newProduct = (JSONObject)c;
 		
-//		ResponseResult success = ss.addProductToStore(newProduct);
-//		JSONObject message = new JSONObject();
-//		
-//		if(success.isSuccessful()){
-//			message.put(ResponseResultEnum.isSuccessful, success.isSuccessful());
-//			message.put("productName", success.getErrorMessage());
-//		}else{
-//			message.put(ResponseResultEnum.isSuccessful, success.isSuccessful());
-//			message.put(ResponseResultEnum.statusCode, success.getErrorCode());
-//			message.put(ResponseResultEnum.statusMessage, success.getErrorMessage());
-//		}
-//		return message;
+		ResponseResult success = ivs.addProductToStore(newProduct);
+
+		if(success.isSuccessful())
+			message.put(ResponseResultEnum.link, success.getLink());
+		
+		message.put(ResponseResultEnum.isSuccessful, success.isSuccessful());
+		message.put(ResponseResultEnum.statusCode, success.getErrorCode());
+		message.put(ResponseResultEnum.statusMessage, success.getErrorMessage());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return message.toJSONString();
 	}
-//	updateProductDetails
+
+//	@Deprecated
+	@PUT
+	@Path("/updateProductDetails")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String updateProductDetails(String updatedProduct){
+		JSONObject success = new JSONObject();
+		try{
+		JSONParser jp = new JSONParser();
+		Object c = jp.parse(updatedProduct);
+		JSONObject toBeUpdatedProduct = (JSONObject)c;
+		
+		success = ivs.updateProduct(toBeUpdatedProduct);
+
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return success.toJSONString();
+	}
 	
-//	removeProduct
+	@DELETE
+	@Path("/removeProduct/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String removeProduct(@PathParam("id")Integer id){
+		JSONObject message = new JSONObject();
+		ResponseResult r = ivs.deleteProductFromInventory(id);
+		
+		message.put(ResponseResultEnum.isSuccessful, r.isSuccessful());
+		message.put(ResponseResultEnum.statusCode, r.getErrorCode());
+		message.put(ResponseResultEnum.statusMessage, r.getErrorCode());
+		
+		return message.toJSONString();
+	}
 	
-//	viewProduct
+	@GET
+	@Path("/viewProduct/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String viewProduct(@PathParam("id")Integer id){
+		return ivs.viewProductDetails(id).toJSONString();
+	}
 	
-//	viewAllProducts
+	@GET
+	@Path("/viewAllProducts")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String viewAllProducts(){
+		return ivs.getAllProducts().toJSONString();
+	}
 	
-//	getAllCategories
 	@GET
 	@Path("/getAllCategories")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void getAllCategories(){
-//		List<Category> allCategories = ss.getCategoriesAvailable();
-//		JSONArray all = new JSONArray();
-//		if(allCategories.size()>0){
-//			for(Category c:allCategories){
-//				JSONObject j = new JSONObject();
-//				j.put("_id", c.getId());
-//				j.put("categoryName", c.getCategoryName());
-//				j.put("categoryDescription", c.getCategoryDescription());
-//				all.add(j);
-//			}
-//		}
-//		
-//		return all.toJSONString();
+	public String getAllCategories(){
+		return ivs.getAllCategories().toJSONString();
 	}
 }

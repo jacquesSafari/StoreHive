@@ -1,7 +1,10 @@
 package main.java.com.storehive.application.domain;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import java.util.List;
 
 
 /**
@@ -24,10 +27,9 @@ public class Category implements Serializable {
 	@Column(name="category_name")
 	private String categoryName;
 
-	//bi-directional one-to-one association to Product
-	@OneToOne
-	@JoinColumn(name="id", referencedColumnName="c_id")
-	private Product product;
+	//bi-directional many-to-one association to Product
+	@OneToMany(mappedBy = "category")
+	private List<Product> products;
 
 	//bi-directional one-to-one association to Shoppinglistitem
 	@OneToOne(mappedBy="category")
@@ -60,12 +62,26 @@ public class Category implements Serializable {
 		this.categoryName = categoryName;
 	}
 
-	public Product getProduct() {
-		return this.product;
+	public List<Product> getProducts() {
+		return this.products;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+
+	public Product addProduct(Product product) {
+		getProducts().add(product);
+		product.setCategory(this);
+
+		return product;
+	}
+
+	public Product removeProduct(Product product) {
+		getProducts().remove(product);
+		product.setCategory(null);
+
+		return product;
 	}
 
 	public Shoppinglistitem getShoppinglistitem() {

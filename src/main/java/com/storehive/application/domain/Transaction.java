@@ -1,7 +1,11 @@
 package main.java.com.storehive.application.domain;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import org.hibernate.annotations.Cascade;
+
 import java.util.Date;
 import java.util.List;
 

@@ -27,8 +27,12 @@ public class Product implements Serializable {
 	@Column(name="product_price")
 	private int productPrice;
 
-	//bi-directional one-to-one association to Category
-	@OneToOne(mappedBy="product")
+	@Column(name="product_quantity")
+	private int productQuantity;
+	
+	//bi-directional many-to-one association to Category
+	@ManyToOne
+	@JoinColumn(name="c_id")
 	private Category category;
 
 	//bi-directional many-to-one association to Store
@@ -99,4 +103,13 @@ public class Product implements Serializable {
 		this.transactiongood = transactiongood;
 	}
 
+	public int getProductQuantity() {
+		return productQuantity;
+	}
+
+	public void setProductQuantity(int productQuantity) {
+		this.productQuantity = productQuantity;
+	}
+
+	
 }

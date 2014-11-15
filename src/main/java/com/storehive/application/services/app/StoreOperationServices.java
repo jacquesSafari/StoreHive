@@ -12,7 +12,7 @@ public interface StoreOperationServices {
 	
 	public JSONObject viewStoreDetails(Integer id);
 	
-	public JSONObject openStore(Store s);
+	public JSONObject openStore(JSONObject j);
 	
-	public JSONObject closeStore(Store s);
+	public JSONObject closeStore(JSONObject j);
 }

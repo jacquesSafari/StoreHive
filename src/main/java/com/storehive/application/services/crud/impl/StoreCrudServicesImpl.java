@@ -7,13 +7,16 @@ import javax.persistence.EntityManager;
 import main.java.com.storehive.application.domain.Store;
 import main.java.com.storehive.application.listeners.EMListener;
 import main.java.com.storehive.application.services.crud.StoreCrudServices;
+import main.java.com.storehive.application.services.crud.StoreLocationCrudServices;
 
 public class StoreCrudServicesImpl implements StoreCrudServices {
 
 	private EntityManager em; 
+	private StoreLocationCrudServices slcs;
 	
 	public StoreCrudServicesImpl() {
 		em = EMListener.createEntityManager();
+		slcs = new StoreLocationServicesImpl();
 	}
 	@Override
 	public Store findById(Class<Store> s,Integer id) {
@@ -60,11 +63,18 @@ public class StoreCrudServicesImpl implements StoreCrudServices {
 		Store old = findById(Store.class, entity.getId()); 
 		em.getTransaction().begin();
 		old.setIsOpen(entity.getIsOpen());
-		old.setStorelocation(entity.getStorelocation());
 		old.setLastOpenedDate(entity.getLastOpenedDate());
+		
+		if(entity.getStorelocations()!=null)
+			old.getStorelocations().add(entity.getStorelocations().get(0));
+		
 		em.getTransaction().commit();
 		return old;
 	}
-
-
+	@Override
+	public void deleteByQueryWithId(Integer id) {
+		em.getTransaction().begin();
+		int deleted = em.createNativeQuery("DELETE from store where s_id = :sid").setParameter("sid", id).executeUpdate();
+		em.getTransaction().commit();
+	}
 }

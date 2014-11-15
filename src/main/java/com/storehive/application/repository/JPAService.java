@@ -16,5 +16,7 @@ public interface JPAService<T, K>{
 	
 	public void delete(T entity);
 	
+	public void deleteByQueryWithId(Integer id);
+	
 	public T update(T entity);
 }
