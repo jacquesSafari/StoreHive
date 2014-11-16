@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.android.volley.Response;
 import com.store.hive.R;
+import com.store.hive.model.Store;
 import com.store.hive.model.people.StoreOwner;
 import com.store.hive.model.response.ResponseResult;
 
@@ -24,5 +25,10 @@ public class StoreHiveAPI {
     public static void authenticateStoreOwner(Context context, StoreOwner storeOwner, Response.Listener listener){
         String url = context.getString(R.string.sh_api_login_path);
         RequestHandler.getInstance(context).handleRequest(context, url, ResponseResult.class, storeOwner, listener);
+    }
+
+    public static void registerStore(Context context, Store store, Response.Listener listener){
+        String url = context.getString(R.string.sh_api_register_store);
+        RequestHandler.getInstance(context).handleRequest(context, url, ResponseResult.class, store, listener);
     }
 }

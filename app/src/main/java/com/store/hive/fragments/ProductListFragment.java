@@ -65,7 +65,7 @@ public class ProductListFragment extends Fragment implements SwipeRefreshLayout.
         super.onResume();
 
         if(refreshLayout != null){
-            simulateGetData();
+          //  simulateGetData();
         }
     }
 

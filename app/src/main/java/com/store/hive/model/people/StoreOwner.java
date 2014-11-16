@@ -51,7 +51,7 @@ public class StoreOwner extends JSONModel {
         return userName;
     }
 
-    public void setUserName(String user_name) {
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 

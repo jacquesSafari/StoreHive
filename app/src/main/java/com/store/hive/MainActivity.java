@@ -63,7 +63,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         mSlidingTabLayout.setCustomTabView(R.layout.tab_indicator, R.id.tab_title);
 
         Resources res = getResources();
-        mSlidingTabLayout.setSelectedIndicatorColors(res.getColor(R.color.theme_accent));
+        mSlidingTabLayout.setSelectedIndicatorColors(res.getColor(R.color.white));
         mSlidingTabLayout.setDistributeEvenly(true);
         mSlidingTabLayout.setViewPager(mViewPager);
 
@@ -120,55 +120,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void testDialog(){
-        String[] items = {"Title and Message", "Message Only", "Message Title no Icon"};
-        final Activity activity = this;
-        dialog = new AppAlertDialog.Builder(this)
-                .setItems(items, new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        dialog.dismiss();
-
-                        switch (position){
-                            case 0:
-                                dialog = new AppAlertDialog.Builder(activity)
-                                        .setMessage(R.string.sh_details_about_app)
-                                        .setTitle(R.string.sh_already_have_account)
-                                        .setPositiveButton(R.string.sh_ok, null)
-                                        .build();
-                                break;
-                            case 1:
-                                dialog = new AppAlertDialog.Builder(activity)
-                                        .setMessage(R.string.sh_already_have_account)
-                                        .setPositiveButton(R.string.sh_ok, null)
-                                        .build();
-                                dialog.show();
-                                break;
-                            case 2:
-                                dialog = new AppAlertDialog.Builder(activity)
-                                        .setMessage(R.string.sh_details_about_app)
-                                        .setTitle(R.string.sh_already_have_account)
-                                        .setPositiveButton(R.string.sh_ok, null)
-                                        .build();
-                                break;
-                        }
-                        dialog.show();
-                    }
-                })
-                .setIcon(R.drawable.ic_action_info)
-                .setTitle(R.string.sh_options)
-                .build();
-     //  dialog.show();
-
-        new AlertDialog.Builder(this)
-                .setMessage(R.string.sh_details_about_app)
-                .setTitle(R.string.sh_already_have_account)
-                .setPositiveButton(R.string.sh_ok, null)
-                .show();
-
-
     }
 
 

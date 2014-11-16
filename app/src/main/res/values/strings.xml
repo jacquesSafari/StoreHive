@@ -37,6 +37,7 @@
     <string name="sh_error_user_exists">Username already exists</string>
     <string name="sh_error_default">There was a problem executing your request.\nPlease try again.</string>
     <string name="sh_error_no_network">An internet connection is required to complete this action. Please check your connection and try again.</string>
+    <string name="sh_error_input_required">This field is required</string>
     <string name="sh_no_connectivity">No Connectivity</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_section1">Section 1</string>
@@ -58,5 +59,6 @@
     <string name="sh_options">Options</string>
     <string name="sh_map">Map</string>
     <string name="title_activity_progress">ProgressA</string>
+    <string name="title_activity_open_store">Store Details</string>
 
 </resources>
