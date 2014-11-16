@@ -34,13 +34,15 @@ public class StoreOwnerCrudServiceImpl implements StoreOwnerCrudService{
 
 	@Override
 	public Storeowner findSingleItemByQuery(String query) throws NoResultException{
-		Query q = em.createQuery(query);
+		Query q = em.createQuery("select s from Storeowner s where s.email = :email").setParameter("email", query);
 		return (Storeowner)q.getSingleResult();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Storeowner> findByQuery(String query) {
-		return null;
+		List<Storeowner> raw = em.createNativeQuery("select * from storeowner where email = :email").setParameter("email", query).getResultList();
+		return (raw.size()>0)?raw:null;
 	}
 
 	@Override

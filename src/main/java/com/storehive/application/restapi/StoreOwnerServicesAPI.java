@@ -21,6 +21,7 @@ import main.java.com.storehive.application.utilities.ResponseResultEnum;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 @Path("/storeOwnerServices")
 @SuppressWarnings("unchecked")
@@ -70,21 +71,29 @@ public class StoreOwnerServicesAPI {
 	}
 	
 	@PUT
-	@Path("/loginStoreOwner/{email}-{password}")
+	@Path("/loginStoreOwner")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String loginClient(@PathParam("email")String email,@PathParam("password")String password){
-		ResponseResult success = ss.loginUser(email,password);
+	public String loginClient(String s){
 		JSONObject message = new JSONObject();
-		
-		if(success.isSuccessful()){
-			message.put(ResponseResultEnum.isSuccessful, success.isSuccessful());
-			message.put(ResponseResultEnum.link, success.getLink());
-			message.put("id", success.getErrorMessage());
-		}else{
-			message.put(ResponseResultEnum.isSuccessful, success.isSuccessful());
-			message.put(ResponseResultEnum.statusCode, success.getErrorCode());
-			message.put(ResponseResultEnum.statusMessage, success.getErrorMessage());
+		try{
+			JSONParser jp = new JSONParser();
+			Object c = jp.parse(s);
+			JSONObject user = (JSONObject)c;
+			
+			ResponseResult success = ss.loginUser(user.get("email").toString() ,user.get("password").toString());
+			
+			if(success.isSuccessful()){
+				message.put(ResponseResultEnum.isSuccessful, success.isSuccessful());
+				message.put(ResponseResultEnum.link, success.getLink());
+				message.put("id", success.getErrorMessage());
+			}else{
+				message.put(ResponseResultEnum.isSuccessful, success.isSuccessful());
+				message.put(ResponseResultEnum.statusCode, success.getErrorCode());
+				message.put(ResponseResultEnum.statusMessage, success.getErrorMessage());
+			}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		return message.toJSONString();
 	}

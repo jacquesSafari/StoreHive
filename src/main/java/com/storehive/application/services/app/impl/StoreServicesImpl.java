@@ -34,14 +34,21 @@ public class StoreServicesImpl implements StoreServices {
 	public ResponseResult registerNewClient(Storeowner s) {
 		ResponseResult r = new ResponseResult();
 		try{
-			Storeowner created = scs.createEntity(s);
-		
-			r.setErrorCode(ErrorCodes.REG_SUC_1);
-			r.setLink("/storeOwnerServices/viewStoreOwnerDetails/"+created.getId());
-			r.setSuccessful(true);
+			//do a check with raw query
+			if(scs.findByQuery(s.getEmail())==null){
+				Storeowner created = scs.createEntity(s);
+			
+				r.setErrorCode(ErrorCodes.REG_SUC_1);
+				r.setLink("/storeOwnerServices/viewStoreOwnerDetails/"+created.getId());
+				r.setSuccessful(true);
+			}else{
+				r.setErrorCode(ErrorCodes.REG_ERR_2);
+				r.setErrorMessage("User already exists with the email address provided");
+				r.setSuccessful(false);
+			}
 		}catch(Exception e){
 			r.setErrorCode(ErrorCodes.REG_ERR_2);
-			r.setErrorMessage("User already exists with the email address provided");
+			r.setErrorMessage("Something went wrong while registering the user");
 			r.setSuccessful(false);
 		}
 		return r;
@@ -107,8 +114,7 @@ public class StoreServicesImpl implements StoreServices {
 
 		ResponseResult r = new ResponseResult();
 		try{
-			String query = "Select s FROM Storeowner s where s.email = '"+email+"'";
-			Storeowner s = scs.findSingleItemByQuery(query);
+			Storeowner s = scs.findSingleItemByQuery(email);
 			if(s!=null){
 				StrongPasswordEncryptor sp = new StrongPasswordEncryptor();
 				if(sp.checkPassword(password, s.getPassword())){
