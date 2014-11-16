@@ -1,5 +1,6 @@
 package com.store.hive.model.products;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -33,7 +34,12 @@ public class ProductListGenerator {
 
         for(int i = 0; i < NUM_OF_PRODUCTS; i++){
 
-            Product product = new Product("ID365"+i, "Item #"+i+1, "Description for this product", "Category", "R36.00", urls[getRandomUrlPosition()]);
+            Product product = new Product();
+            product.setProductId(568);
+            product.setDescription("Description for this product");
+            product.setCategoryId(6);
+            product.setPrice(new BigDecimal("36.00"));
+            product.setImgUrl(urls[getRandomUrlPosition()]);
             products.add(product);
 
         }

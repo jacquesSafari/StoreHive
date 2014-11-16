@@ -28,7 +28,7 @@ public abstract class BaseMainActivity extends ActionBarActivity {
         toolbar.setNavigationIcon(iconRes);
     }
 
-    protected Toolbar getToolbar(){
+    public Toolbar getToolbar(){
         return toolbar;
     }
 

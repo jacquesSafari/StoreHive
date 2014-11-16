@@ -3,42 +3,43 @@ package com.store.hive.model.products;
 import com.google.gson.annotations.SerializedName;
 import com.store.hive.model.JSONModel;
 
+import java.math.BigDecimal;
+
 /**
  * Created by tinashe
  */
 public class Product extends JSONModel{
 
     @SerializedName("productId")
-    private String productId;
+    private int productId;
 
     @SerializedName("productName")
     private String productName;
 
-    @SerializedName("description")
+    @SerializedName("productDescription")
     private String description;
 
-    @SerializedName("category")
-    private String category;
+    @SerializedName("productQuantity")
+    private int productQuantity;
 
-    @SerializedName("price")
-    private String price;
+    @SerializedName("categoryId")
+    private int categoryId;
+
+    @SerializedName("productPrice")
+    private BigDecimal price;
 
     @SerializedName("imgUrl")
     private String imgUrl;
 
+    public Product(){
 
-    public Product(String productName, String description, String category, String price) {
-        this.productName = productName;
-        this.description = description;
-        this.category = category;
-        this.price = price;
     }
 
-    public Product(String productId, String productName, String description, String category, String price, String imgUrl) {
+    public Product(int productId, String productName, String description, int categoryId, BigDecimal price, String imgUrl) {
         this.productId = productId;
         this.productName = productName;
         this.description = description;
-        this.category = category;
+        this.categoryId = categoryId;
         this.price = price;
         this.imgUrl = imgUrl;
     }
@@ -47,11 +48,11 @@ public class Product extends JSONModel{
         return imgUrl != null;
     }
 
-    public String getProductId() {
+    public int getProductId() {
         return productId;
     }
 
-    public void setProductId(String productId) {
+    public void setProductId(int productId) {
         this.productId = productId;
     }
 
@@ -63,20 +64,12 @@ public class Product extends JSONModel{
         this.imgUrl = imgUrl;
     }
 
-    public String getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public String getDescription() {
@@ -93,5 +86,21 @@ public class Product extends JSONModel{
 
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+
+    public int getProductQuantity() {
+        return productQuantity;
+    }
+
+    public void setProductQuantity(int productQuantity) {
+        this.productQuantity = productQuantity;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 }

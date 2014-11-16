@@ -8,6 +8,9 @@ import com.store.hive.model.JSONModel;
  */
 public class StoreOwner extends JSONModel {
 
+    @SerializedName("ownerId")
+    private int ownerID;
+
     @SerializedName("fullname")
     private String fullName;
 
@@ -29,6 +32,14 @@ public class StoreOwner extends JSONModel {
         this.userName = userName;
         this.password = password;
         this.deviceID = deviceID;
+    }
+
+    public int getOwnerID() {
+        return ownerID;
+    }
+
+    public void setOwnerID(int ownerID) {
+        this.ownerID = ownerID;
     }
 
     public String getFullName() {

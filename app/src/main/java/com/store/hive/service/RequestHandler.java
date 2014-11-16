@@ -8,12 +8,11 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.store.hive.R;
-import com.store.hive.model.people.StoreOwner;
-import com.store.hive.model.response.ResponseResult;
 
 
 /**
@@ -73,8 +72,9 @@ public class RequestHandler<T>{
         return mImageLoader;
     }
 
-    public void handleRequest(Context context, String url, Class<T> returnType, Object jsonRequest, Response.Listener<T> listener ){
-        GSonRequest request = new GSonRequest(getBaseUrl(context) + url, returnType, jsonRequest, listener, getDefaultErrorListener(context));
+    public void handleRequest(Context context, int method, String url, Class<T> returnType, Object jsonRequest, Response.Listener<T> listener ){
+
+        GSonRequest request = new GSonRequest(method, getBaseUrl(context) + url, returnType, jsonRequest, listener, getDefaultErrorListener(context));
 
         getRequestQueue(context).add(request);
     }
@@ -84,7 +84,7 @@ public class RequestHandler<T>{
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.d(TAG, "DefaultErrorListener");
+                Log.d(TAG, "DefaultErrorListener\n"+volleyError.getMessage());
                 Toast.makeText(context, context.getString(R.string.sh_error_default), Toast.LENGTH_LONG).show();
             }
         };

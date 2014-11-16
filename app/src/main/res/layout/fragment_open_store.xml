@@ -7,9 +7,16 @@
     tools:ignore="HardCodedText"
     tools:context="com.store.hive.store_owner.OpenStoreActivity$PlaceholderFragment">
 
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Give your store a name a description"
+            android:gravity="center"
+            android:layout_above="@+id/input_layout"
+            android:layout_marginBottom="30dp"/>
 
     <LinearLayout
+        android:id="@+id/input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -21,7 +28,7 @@
             android:layout_height="wrap_content"
             android:hint="Store Name"
             android:singleLine="true"
-            />
+            android:inputType="textCapSentences"/>
 
         <EditText
             android:id="@+id/storeDesc"
@@ -29,7 +36,8 @@
             android:layout_height="wrap_content"
             android:hint="Description"
             android:lines="2"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp"
+            android:inputType="textCapSentences"/>
 
         <Button
             android:id="@+id/btnRegisterStore"

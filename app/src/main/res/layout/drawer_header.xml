@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFfafafa">
+
+    <View
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/theme_primary" />
+
+    <ImageView
+        android:id="@+id/circularImageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ownerName"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_account_circle" />
+
+    <TextView
+        android:id="@+id/ownerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ownerEmail"
+        android:layout_centerHorizontal="true"
+        android:gravity="top"
+        tools:text="MyFull name"
+        android:textColor="#fffafafa"
+        android:textSize="18.0sp"
+         />
+
+    <TextView
+        android:id="@+id/ownerEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:paddingBottom="10dp"
+        tools:text="test@email.com"
+        android:textColor="#ffe5e5e5"
+        android:textSize="14.0sp"
+     />
+
+    <ListView
+        android:id="@+id/drawer_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/imageView1"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="#cccc"/>
+
+
+</RelativeLayout>

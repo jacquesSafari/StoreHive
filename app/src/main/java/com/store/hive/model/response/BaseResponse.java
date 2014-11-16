@@ -6,7 +6,7 @@ import com.store.hive.model.JSONModel;
 /**
  * Created by tinashe
  */
-public class ResponseResult extends JSONModel{
+public class BaseResponse extends JSONModel{
 
     @SerializedName("isSuccessful")
     private boolean isSuccessful;

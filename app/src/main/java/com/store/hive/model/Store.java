@@ -84,4 +84,18 @@ public class Store extends JSONModel{
     public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
+
+
+    @Override
+    public String toString() {
+        return "Store{" +
+                "shopName='" + shopName + '\'' +
+                ", storeId=" + storeId +
+                ", ownerId=" + ownerId +
+                ", description='" + description + '\'' +
+                ", isOpen=" + isOpen +
+                ", latitude='" + latitude + '\'' +
+                ", longitude='" + longitude + '\'' +
+                '}';
+    }
 }

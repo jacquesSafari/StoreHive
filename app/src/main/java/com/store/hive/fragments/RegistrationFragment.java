@@ -28,15 +28,14 @@ import com.store.hive.R;
 import com.store.hive.custom.ClickSpan;
 import com.store.hive.model.people.RegisteredUser;
 import com.store.hive.model.people.StoreOwner;
+import com.store.hive.model.response.BaseResponse;
 import com.store.hive.model.response.ErrorCodes;
-import com.store.hive.model.response.ResponseResult;
+import com.store.hive.model.response.RegisterOwnerResponse;
 import com.store.hive.service.ServiceUtil;
 import com.store.hive.service.StoreHiveAPI;
 import com.store.hive.store_owner.OpenStoreActivity;
 import com.store.hive.utils.AccountsManager;
 import com.store.hive.utils.AppConfig;
-
-import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
 /**
  * Created by tinashe.
@@ -199,35 +198,38 @@ public class RegistrationFragment extends Fragment {
                 }
                 else{
                     smoothProgressBar.setVisibility(View.VISIBLE);
+                    String deviceID = Settings.Secure.getString(getActivity().getContentResolver(),
+                            Settings.Secure.ANDROID_ID);
 
-                    performRegistrationRemoteCall(user_name, user_mail, user_pass);
+                    StoreOwner owner = new StoreOwner(user_name, user_mail, user_pass, deviceID);
+                    performRegistrationRemoteCall(owner);
                 }
             }
         });
 
     }
 
-    private void performRegistrationRemoteCall(final String fullName, String username, String password){
+    private void performRegistrationRemoteCall(final StoreOwner owner){
 
         if(ServiceUtil.isConnected(getActivity())){
-            String deviceID = Settings.Secure.getString(getActivity().getContentResolver(),
-                    Settings.Secure.ANDROID_ID);
 
-
-            StoreHiveAPI.registerStoreOwner(getActivity(), new StoreOwner(fullName, username, password, deviceID), new Response.Listener<ResponseResult>() {
+            StoreHiveAPI.registerStoreOwner(getActivity(), owner, new Response.Listener<RegisterOwnerResponse>() {
                 @Override
-                public void onResponse(ResponseResult response) {
+                public void onResponse(RegisterOwnerResponse response) {
                     smoothProgressBar.setVisibility(View.GONE);
 
                     if (response != null) {
 
-                        Log.d(TAG, "Got response");
+                        Log.d(TAG, response.toString());
 
                         if (response.isSuccessful()) {
                             Log.d(TAG, "is successful");
-                            AppConfig.saveAuthState(getActivity(), new RegisteredUser(true, fullName));
+                            AppConfig.saveAuthState(getActivity(), new RegisteredUser(true, owner.getFullName(), owner.getUserName()));
 
                             Intent intent = new Intent(getActivity(), OpenStoreActivity.class);
+                            owner.setOwnerID(response.getOwnerID());
+                            intent.putExtra(OpenStoreActivity.OWNER_SERIALIZED_KEY, owner);
+
                             getActivity().startActivity(intent);
                             getActivity().finish();
 
@@ -288,9 +290,9 @@ public class RegistrationFragment extends Fragment {
                         owner.setUserName(userName);
                         owner.setPassword(password);
 
-                        StoreHiveAPI.authenticateStoreOwner(getActivity(), owner, new Response.Listener<ResponseResult>() {
+                        StoreHiveAPI.authenticateStoreOwner(getActivity(), owner, new Response.Listener<BaseResponse>() {
                             @Override
-                            public void onResponse(ResponseResult response) {
+                            public void onResponse(BaseResponse response) {
                                 smoothProgressBar.setVisibility(View.GONE);
 
                                 if (response != null) {

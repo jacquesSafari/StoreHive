@@ -32,20 +32,22 @@ public class AppConfig {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(context.getString(R.string.sh_pref_is_logged_in), user.isLoggedIn());
         editor.putString(context.getString(R.string.sh_pref_full_name), user.getFullName());
+        editor.putString("user_email", user.getEmail());
         editor.apply();
     }
 
     public static RegisteredUser getRegisteredUser(Context context){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return new RegisteredUser(preferences.getBoolean(context.getString(R.string.sh_pref_is_logged_in), false),
-                preferences.getString(context.getString(R.string.sh_pref_full_name), ""));
+                preferences.getString(context.getString(R.string.sh_pref_full_name), ""),
+                preferences.getString("user_email", ""));
     }
 
     public static void logoutUser(Activity activity){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(activity.getString(R.string.sh_pref_is_logged_in), false);
-        editor.commit();
+        editor.apply();
 
         Intent intent = new Intent(activity, OnBoardingActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

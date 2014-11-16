@@ -1,7 +1,6 @@
 package com.store.hive.store_owner;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
 import android.location.Location;
@@ -9,13 +8,11 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.google.android.gms.common.ConnectionResult;
@@ -23,10 +20,10 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.store.hive.R;
 import com.store.hive.model.Store;
-import com.store.hive.model.people.RegisteredUser;
-import com.store.hive.model.response.ResponseResult;
+import com.store.hive.model.people.StoreOwner;
+import com.store.hive.model.response.BaseResponse;
+import com.store.hive.model.response.RegisterStoreResponse;
 import com.store.hive.service.StoreHiveAPI;
-import com.store.hive.utils.AppConfig;
 
 public class OpenStoreActivity extends Activity implements
         GooglePlayServicesClient.ConnectionCallbacks,
@@ -34,10 +31,13 @@ public class OpenStoreActivity extends Activity implements
 
     private static final String TAG = OpenStoreActivity.class.getName();
 
+    public static final String OWNER_SERIALIZED_KEY = "store_owner";
+
     private LocationClient mLocationClient;
     private Location mLocation;
 
-    private static String fullName;
+    private static StoreOwner mStoreOwner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,14 +46,17 @@ public class OpenStoreActivity extends Activity implements
         mLocationClient = new LocationClient(this, this, this);
 
 
-        fullName = getIntent().getStringExtra(getString(R.string.sh_pref_full_name));
-
+        mStoreOwner = (StoreOwner)getIntent().getSerializableExtra(OWNER_SERIALIZED_KEY);
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new RegisterStoreFragment())
                     .commit();
         }
+    }
+
+    public Location getmLocation(){
+        return mLocation;
     }
 
     @Override
@@ -129,17 +132,30 @@ public class OpenStoreActivity extends Activity implements
                         @Override
                         public void onClick(View v) {
                             if(isValid()){
-                                StoreHiveAPI.registerStore(getActivity(), mStore, new Response.Listener<ResponseResult>() {
+                                Log.d(TAG, "Making call: "+ mStore.getDescription());
+
+                                StoreHiveAPI.registerStore(getActivity(), mStore, new Response.Listener<RegisterStoreResponse>() {
                                     @Override
-                                    public void onResponse(ResponseResult response) {
+                                    public void onResponse(RegisterStoreResponse response) {
                                         if(response != null){
                                             if(response.isSuccessful()){
-                                                Intent intent = new Intent(getActivity(), com.store.hive.store_owner.MainActivity.class);
-                                                intent.putExtra(getString(R.string.sh_pref_full_name), fullName);
+                                                mStore.setStoreId(response.getStoreId());
+                                                mStore.setOpen(true);
 
-                                                 startActivity(intent);
+                                                Location loc = ((OpenStoreActivity)getActivity()).getmLocation();
+                                                if(loc != null){
+                                                    mStore.setLatitude(String.valueOf(loc.getLatitude()));
+                                                    mStore.setLongitude(String.valueOf(loc.getLongitude()));
+
+                                                    openStore();
+                                                } else {
+                                                    Toast.makeText(getActivity(), "Location not set", Toast.LENGTH_LONG).show();
+                                                }
+
+
                                             } else {
-                                                Log.d(TAG, "Response unsuccessfull "+ response.getErrorMessage());
+
+                                                Log.d(TAG, "Response unsuccessful " + response.getErrorMessage());
                                             }
                                         }
                                     }
@@ -173,8 +189,25 @@ public class OpenStoreActivity extends Activity implements
             mStore = new Store();
             mStore.setShopName(name);
             mStore.setDescription(desc);
+            mStore.setOwnerId(mStoreOwner.getOwnerID());
+
+            Log.d(TAG, "Details set: "+mStore.toString());
 
             return true;
+        }
+
+        private void openStore(){
+            StoreHiveAPI.openStore(getActivity(), mStore, new Response.Listener<BaseResponse>() {
+                @Override
+                public void onResponse(BaseResponse response) {
+                    if(response.isSuccessful()){
+                        Intent intent = new Intent(getActivity(), com.store.hive.store_owner.MainActivity.class);
+                        intent.putExtra(getString(R.string.sh_pref_full_name), mStoreOwner.getFullName());
+
+                        startActivity(intent);
+                    }
+                }
+            });
         }
     }
 }
