@@ -84,6 +84,7 @@ public class RequestHandler<T>{
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                Log.d(TAG, "DefaultErrorListener");
                 Toast.makeText(context, context.getString(R.string.sh_error_default), Toast.LENGTH_LONG).show();
             }
         };

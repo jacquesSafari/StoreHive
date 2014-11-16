@@ -7,6 +7,7 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,14 +45,13 @@ public class RegistrationFragment extends Fragment {
     
     private static final String TAG = RegistrationFragment.class.getName();
     private static final int MAX_ANIM_DURATION = 700;
-    
-    
-    private SmoothProgressBar smoothProgressBar;
+
+    private ProgressBar smoothProgressBar;
     
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.layout_onboarding_item_three, null);
+        return inflater.inflate(R.layout.layout_onboarding_item_three, container, false);
     }
 
 
@@ -67,7 +68,7 @@ public class RegistrationFragment extends Fragment {
         
         View view = getView();
         if(view != null){
-            smoothProgressBar = (SmoothProgressBar)view.findViewById(R.id.app_progress_indicator);
+            smoothProgressBar = (ProgressBar)view.findViewById(R.id.app_progress_indicator);
 
             final View registerLayout = view.findViewById(R.id.layout_register);
             final View signInLayout = view.findViewById(R.id.sign_in_layout);
@@ -219,17 +220,20 @@ public class RegistrationFragment extends Fragment {
                     smoothProgressBar.setVisibility(View.GONE);
 
                     if (response != null) {
-                        boolean isSuccess = response.isSuccessful();
 
-                        if (isSuccess) {
-                           // Intent intent = new Intent(getActivity(), com.store.hive.store_owner.MainActivity.class);
-                           // intent.putExtra(getString(R.string.sh_pref_full_name), fullName);
+                        Log.d(TAG, "Got response");
+
+                        if (response.isSuccessful()) {
+                            Log.d(TAG, "is successful");
                             AppConfig.saveAuthState(getActivity(), new RegisteredUser(true, fullName));
-                           // startActivity(intent);
-                            startActivity(new Intent(getActivity(), OpenStoreActivity.class));
+
+                            Intent intent = new Intent(getActivity(), OpenStoreActivity.class);
+                            getActivity().startActivity(intent);
                             getActivity().finish();
 
                         } else {
+                            Log.d(TAG, "not successful: "+response.getErrorMessage());
+
                             if (getView() != null) {
                                 AutoCompleteTextView email_textView = (AutoCompleteTextView) getView().findViewById(R.id.user_email);
                                 email_textView.requestFocus();
@@ -240,6 +244,7 @@ public class RegistrationFragment extends Fragment {
 
                         }
                     } else {
+                        Log.d(TAG, "Null response");
                         Toast.makeText(getActivity(), getString(R.string.sh_error_default), Toast.LENGTH_LONG).show();
                     }
 

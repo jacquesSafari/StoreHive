@@ -138,6 +138,8 @@ public class OpenStoreActivity extends Activity implements
                                                 intent.putExtra(getString(R.string.sh_pref_full_name), fullName);
 
                                                  startActivity(intent);
+                                            } else {
+                                                Log.d(TAG, "Response unsuccessfull "+ response.getErrorMessage());
                                             }
                                         }
                                     }
