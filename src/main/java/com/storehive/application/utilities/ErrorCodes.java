@@ -12,6 +12,7 @@ public class ErrorCodes {
 	public static final String REG_ERR_1 = "REG_ERR_NULL_POINTER"; //register error null pointer
 	public static final String REG_ERR_2 = "REG_ERR_USERNAME_EXIST"; //register error username exists
 	public static final String OWNER_ERR1_DELETE = "DELETE_PROFILE_ERROR"; //register error username exists
+	
 	//categories errors
 	public static final String CAT_SUC_1 = "CAT_SUC_1"; //creation success
 	public static final String CAT_ERR_1 = "CAT_ERR_1"; //register error null pointer
