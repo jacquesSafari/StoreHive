@@ -1,8 +1,10 @@
 package main.java.com.storehive.application.restapi;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -40,5 +42,12 @@ public class StoreTransactionServicesAPI {
 			e.printStackTrace();
 		}
 		return message.toJSONString();
+	}
+	
+	@GET
+	@Path("/viewAllStoreTransactionsToday/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String viewAllStoreTransactionsToday(@PathParam("id")Integer id){
+		return ts.viewAllTransactionsToday(id).toJSONString();
 	}
 }

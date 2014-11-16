@@ -33,11 +33,11 @@ public class TransactionalCrudServiceImpl implements TransactionalCrudService{
 		Query q = em.createQuery(query);
 		return (Transaction)q.getSingleResult();
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Transaction> findByQuery(String query) {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<Transaction>)em.createQuery("From Transaction where s_id = :id").setParameter("id", query).getResultList();
 	}
 
 	@Override

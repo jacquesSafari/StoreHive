@@ -36,8 +36,8 @@ public class Transaction implements Serializable {
 	@JoinColumn(name="s_id")
 	private Store store;
 
-	//bi-directional many-to-one association to Transactiongood
-	@OneToMany(mappedBy="transaction")
+	//bi-directional many-to-one association to Transactiongood,fetch=FetchType.LAZY
+	@OneToMany(cascade=CascadeType.ALL,mappedBy="transaction")
 	private List<Transactiongood> transactiongoods;
 
 	public Transaction() {

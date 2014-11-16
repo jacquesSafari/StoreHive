@@ -1,6 +1,7 @@
 package main.java.com.storehive.application.services.app.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class TransactionalServicesImpl implements TransactionalServices {
 			int quantity = Integer.valueOf(product.get("quantity").toString());
 			int leftOverProductQuantity = p.getProductQuantity()-quantity;
 			if(leftOverProductQuantity>=0){
-				//	initialize transaction object
+				
 				Transactiongood good = new Transactiongood();
 				good.setProduct(p);
 				good.setQuantity(quantity);
@@ -62,7 +63,7 @@ public class TransactionalServicesImpl implements TransactionalServices {
 				good.setTotal(quantity*p.getProductPrice());
 				good.setTransaction(t);
 				tgoods.add(good);
-				tgcs.createEntity(good);
+//				tgcs.createEntity(good);
 				
 				p.setProductQuantity(leftOverProductQuantity);
 				pcs.update(p);
@@ -85,4 +86,59 @@ public class TransactionalServicesImpl implements TransactionalServices {
 		return r;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public JSONArray viewAllTransactionsToday(Integer id) {
+		List<Transaction> allToday = tcs.findByQuery(id.toString());
+		
+		JSONArray transactionList = new JSONArray();
+		
+		if(allToday!=null&&allToday.size()>0){
+			Calendar current = Calendar.getInstance();
+			
+			for(Transaction t:allToday){
+				JSONObject transaction = new JSONObject();
+				transaction.put("storeId", id);
+				
+				JSONArray transactionItemList = new JSONArray();
+				
+				String temp = current.get(Calendar.YEAR)+"-"+current.get(Calendar.MONTH)+"-"+current.get(Calendar.DATE);
+				Calendar convert = dateToCalendar(t.getTimeStamp());
+				String now = convert.get(Calendar.YEAR)+"-"+convert.get(Calendar.MONTH)+"-"+convert.get(Calendar.DATE);
+				
+				if(now.equals(temp)){
+					JSONObject transactionItem = new JSONObject();
+					
+					for(Transactiongood tg: t.getTransactiongoods()){
+						transactionItem.put("productName", tg.getProduct().getProductName());
+						transactionItem.put("productQuantity", tg.getQuantity());
+						transactionItem.put("productPrice", tg.getTotal());
+						transactionItem.put("link","/inventoryServices/viewProduct/"+tg.getProduct().getId());
+						transactionItemList.add(transactionItem);
+					}
+				}
+				
+				transaction.put("transactionList", transactionItemList);
+				transaction.put("transactionTotal", ""+t.getAmountDue());
+				transactionList.add(transaction);
+			}
+			
+		}else{
+			JSONObject noTransactions = new JSONObject();
+			noTransactions.put("NoTransactions", "No Transactions for : "+new Date().toString());
+		}
+		return transactionList;
+	}
+
+	@Override
+	public JSONArray viewAllTransactionsForDate(Integer id,String date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static Calendar dateToCalendar(Date date){ 
+	  Calendar cal = Calendar.getInstance();
+	  cal.setTime(date);
+	  return cal;
+	}
 }

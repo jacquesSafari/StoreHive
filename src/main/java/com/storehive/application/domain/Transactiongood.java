@@ -28,7 +28,7 @@ public class Transactiongood implements Serializable {
 	private Product product;
 
 	//bi-directional many-to-one association to Transaction
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="t_id")
 	private Transaction transaction;
 

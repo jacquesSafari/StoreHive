@@ -80,6 +80,7 @@ public class InventoryServicesImpl implements InventoryServices {
 		j.put("productName", p.getProductName());
 		j.put("productDescription", p.getProductDescription());
 		j.put("productCategory", p.getCategory().getCategoryName());
+		j.put("productQuantity", p.getProductQuantity());
 		
 		return j;
 	}

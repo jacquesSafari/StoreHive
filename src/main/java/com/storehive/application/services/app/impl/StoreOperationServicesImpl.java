@@ -40,7 +40,6 @@ public class StoreOperationServicesImpl implements StoreOperationServices{
 		}
 		return r;
 	}
-
 	
 	@Override
 	public JSONObject viewStoreDetails(Integer id) {
