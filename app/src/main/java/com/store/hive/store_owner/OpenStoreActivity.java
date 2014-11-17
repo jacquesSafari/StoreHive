@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -21,9 +22,12 @@ import com.google.android.gms.location.LocationClient;
 import com.store.hive.R;
 import com.store.hive.model.Store;
 import com.store.hive.model.people.StoreOwner;
+import com.store.hive.model.request.RegisterStoreRequest;
 import com.store.hive.model.response.BaseResponse;
 import com.store.hive.model.response.RegisterStoreResponse;
 import com.store.hive.service.StoreHiveAPI;
+
+import org.json.JSONObject;
 
 public class OpenStoreActivity extends Activity implements
         GooglePlayServicesClient.ConnectionCallbacks,
@@ -105,6 +109,8 @@ public class OpenStoreActivity extends Activity implements
         private EditText storeDescription;
         private Store mStore;
 
+        private ProgressBar progresBar;
+
         public RegisterStoreFragment() {
         }
 
@@ -126,17 +132,55 @@ public class OpenStoreActivity extends Activity implements
                     storeName = (EditText) view.findViewById(R.id.storeName);
                     storeDescription = (EditText) view.findViewById(R.id.storeDesc);
 
+                    progresBar = (ProgressBar) view.findViewById(R.id.progress);
                     final Button register = (Button) view.findViewById(R.id.btnRegisterStore);
 
                     register.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if(isValid()){
+                                progresBar.setVisibility(View.VISIBLE);
                                 Log.d(TAG, "Making call: "+ mStore.getDescription());
 
-                                StoreHiveAPI.registerStore(getActivity(), mStore, new Response.Listener<RegisterStoreResponse>() {
+                                RegisterStoreRequest request = new RegisterStoreRequest();
+                                request.setShopName(mStore.getShopName());
+                                request.setDescription(mStore.getDescription());
+                                request.setOwnerId(mStore.getOwnerId());
+
+                                StoreHiveAPI.registerStore(getActivity(), request, new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject object) {
+                                        progresBar.setVisibility(View.GONE);
+
+                                        System.out.println(object);
+                                        RegisterStoreResponse response = new RegisterStoreResponse(object);
+                                        Log.d(TAG, "StoreId: "+ response.getStoreId());
+
+                                        if(response.isSuccessful()){
+                                            mStore.setStoreId(response.getStoreId());
+                                            mStore.setOpen(true);
+
+                                            Location loc = ((OpenStoreActivity)getActivity()).getmLocation();
+                                            if(loc != null){
+                                                mStore.setLatitude(String.valueOf(loc.getLatitude()));
+                                                mStore.setLongitude(String.valueOf(loc.getLongitude()));
+
+                                                openStore();
+                                            } else {
+                                                Toast.makeText(getActivity(), "Location not set", Toast.LENGTH_LONG).show();
+                                            }
+
+                                        }else {
+
+                                            Log.d(TAG, "Response unsuccessful " + response.toString());
+                                        }
+                                    }
+                                });
+
+                               /* StoreHiveAPI.registerStore(getActivity(), request, new Response.Listener<RegisterStoreResponse>() {
                                     @Override
                                     public void onResponse(RegisterStoreResponse response) {
+                                        progresBar.setVisibility(View.GONE);
                                         if(response != null){
                                             if(response.isSuccessful()){
                                                 mStore.setStoreId(response.getStoreId());
@@ -155,11 +199,13 @@ public class OpenStoreActivity extends Activity implements
 
                                             } else {
 
-                                                Log.d(TAG, "Response unsuccessful " + response.getErrorMessage());
+                                                Log.d(TAG, "Response unsuccessful " + response.toString());
                                             }
+                                        } else {
+                                            Log.d(TAG, "null response" + response.toString());
                                         }
                                     }
-                                });
+                                });*/
                             }
                         }
                     });
@@ -190,6 +236,7 @@ public class OpenStoreActivity extends Activity implements
             mStore.setShopName(name);
             mStore.setDescription(desc);
             mStore.setOwnerId(mStoreOwner.getOwnerID());
+            mStore.setOpen(false);
 
             Log.d(TAG, "Details set: "+mStore.toString());
 
@@ -197,14 +244,20 @@ public class OpenStoreActivity extends Activity implements
         }
 
         private void openStore(){
+            Log.d(TAG, "openStore");
+
+            progresBar.setVisibility(View.VISIBLE);
             StoreHiveAPI.openStore(getActivity(), mStore, new Response.Listener<BaseResponse>() {
                 @Override
                 public void onResponse(BaseResponse response) {
+                    progresBar.setVisibility(View.GONE);
                     if(response.isSuccessful()){
                         Intent intent = new Intent(getActivity(), com.store.hive.store_owner.MainActivity.class);
                         intent.putExtra(getString(R.string.sh_pref_full_name), mStoreOwner.getFullName());
 
-                        startActivity(intent);
+                        getActivity().startActivity(intent);
+                    }else{
+                        Log.d(TAG, "openStore not succesful" + response.getErrorMessage());
                     }
                 }
             });

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.store.hive.BaseActivity;
 import com.store.hive.BaseMainActivity;
 import com.store.hive.R;
+import com.store.hive.fragments.OwnerProductsListFragment;
 import com.store.hive.utils.AppConfig;
 
 public class MainActivity extends BaseMainActivity
@@ -53,8 +54,6 @@ public class MainActivity extends BaseMainActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
-
-
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
@@ -65,9 +64,15 @@ public class MainActivity extends BaseMainActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
+        Fragment fragment;
+        if(position == 0){
+            fragment = new OwnerProductsListFragment();
+        } else {
+            fragment = PlaceholderFragment.newInstance(position + 1);
+        }
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.container, fragment)
                 .commit();
     }
 

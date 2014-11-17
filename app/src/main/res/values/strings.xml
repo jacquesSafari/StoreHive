@@ -40,7 +40,7 @@
     <string name="sh_error_input_required">This field is required</string>
     <string name="sh_no_connectivity">No Connectivity</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_section1">Section 1</string>
+    <string name="title_section1">Products</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -60,5 +60,7 @@
     <string name="sh_map">Map</string>
     <string name="title_activity_progress">ProgressA</string>
     <string name="title_activity_open_store">Store Details</string>
+
+    <string name="blank"> </string>
 
 </resources>

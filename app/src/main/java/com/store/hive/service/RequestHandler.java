@@ -6,13 +6,20 @@ import android.support.v4.util.LruCache;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.store.hive.R;
+import com.store.hive.model.request.RegisterStoreRequest;
+import com.store.hive.model.response.RegisterStoreResponse;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -77,6 +84,29 @@ public class RequestHandler<T>{
         GSonRequest request = new GSonRequest(method, getBaseUrl(context) + url, returnType, jsonRequest, listener, getDefaultErrorListener(context));
 
         getRequestQueue(context).add(request);
+    }
+
+    public void registerStore(Context context, String url, RegisterStoreRequest request, Response.Listener<JSONObject> listener){
+        JSONObject object = new JSONObject();
+        try{
+            object.put("shopName", request.getShopName());
+            object.put("description", request.getDescription());
+            object.put("ownerId", request.getOwnerId());
+        }catch (JSONException ex){
+
+        }
+
+
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST, getBaseUrl(context) + url,object,
+                listener,
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                      Log.d(TAG, error.getMessage());
+                    }
+                });
+
+        getRequestQueue(context).add(jsObjRequest);
     }
 
 

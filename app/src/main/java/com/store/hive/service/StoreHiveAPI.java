@@ -7,6 +7,7 @@ import com.android.volley.Response;
 import com.store.hive.R;
 import com.store.hive.model.Store;
 import com.store.hive.model.people.StoreOwner;
+import com.store.hive.model.request.RegisterStoreRequest;
 import com.store.hive.model.response.BaseResponse;
 import com.store.hive.model.response.RegisterOwnerResponse;
 import com.store.hive.model.response.RegisterStoreResponse;
@@ -30,9 +31,11 @@ public class StoreHiveAPI {
         RequestHandler.getInstance(context).handleRequest(context, Method.PUT, url, BaseResponse.class, storeOwner, listener);
     }
 
-    public static void registerStore(Context context, Store store, Response.Listener listener){
-        String url = context.getString(R.string.sh_api_register_store);
-        RequestHandler.getInstance(context).handleRequest(context, Method.POST, url, RegisterStoreResponse.class, store, listener);
+    public static void registerStore(Context context, RegisterStoreRequest store, Response.Listener listener){
+        String url = context.getString(R.string.sh_api_register_store); //storeServices/registerNewStore
+
+        RequestHandler.getInstance(context).registerStore(context, url, store, listener);
+       // RequestHandler.getInstance(context).handleRequest(context, Method.POST, url, RegisterStoreResponse.class, store, listener);
     }
 
     public static void openStore(Context context, Store store, Response.Listener listener){

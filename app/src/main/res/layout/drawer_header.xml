@@ -9,7 +9,6 @@
         android:id="@+id/imageView1"
         android:layout_width="match_parent"
         android:layout_height="220dp"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:background="@color/theme_primary" />
 
@@ -20,7 +19,8 @@
         android:layout_above="@+id/ownerName"
         android:layout_centerHorizontal="true"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_account_circle" />
+        android:src="@drawable/ic_account_circle"
+        android:contentDescription="@string/blank"/>
 
     <TextView
         android:id="@+id/ownerName"
@@ -29,7 +29,7 @@
         android:layout_above="@+id/ownerEmail"
         android:layout_centerHorizontal="true"
         android:gravity="top"
-        tools:text="MyFull name"
+        tools:text="MyFull Name"
         android:textColor="#fffafafa"
         android:textSize="18.0sp"
          />

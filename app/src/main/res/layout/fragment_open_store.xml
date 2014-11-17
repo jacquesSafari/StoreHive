@@ -7,6 +7,15 @@
     tools:ignore="HardCodedText"
     tools:context="com.store.hive.store_owner.OpenStoreActivity$PlaceholderFragment">
 
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:layout_alignParentTop="true"/>
+
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

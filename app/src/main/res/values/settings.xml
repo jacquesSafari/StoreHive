@@ -4,7 +4,7 @@
     <string name="sh_api_url">http://41.185.26.135/api/</string>
     <string name="sh_api_register_user">storeOwnerServices/registerNewStoreOwner/</string>
     <string name="sh_api_login_path">storeOwnerServices/loginStoreOwner/</string>
-    <string name="sh_api_register_store">storeServices/registerNewStore/</string>
+    <string name="sh_api_register_store">storeServices/registerNewStorePart2/</string>
     <string name="sh_api_open_store">storeServices/openStore/</string>
     <string name="sh_api_close_store">storeServices/closeStore/</string>
 
