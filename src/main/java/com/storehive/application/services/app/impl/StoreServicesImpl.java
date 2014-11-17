@@ -1,5 +1,7 @@
 package main.java.com.storehive.application.services.app.impl;
 
+import java.util.Date;
+
 import javax.persistence.NoResultException;
 
 import main.java.com.storehive.application.domain.Storeowner;
@@ -31,13 +33,23 @@ public class StoreServicesImpl implements StoreServices {
 	}
 	
 	@Override
-	public ResponseResult registerNewClient(Storeowner s) {
+	public ResponseResult registerNewClient(JSONObject s) {
 		ResponseResult r = new ResponseResult();
+		StrongPasswordEncryptor spe = new StrongPasswordEncryptor();
+		
+		Storeowner so = new Storeowner();
+		so.setDeviceId(s.get("deviceId").toString());
+		so.setEmail(s.get("email").toString());
+		so.setFullname(s.get("fullname").toString());
+		so.setRegisteredDate(new Date());
+		
+		String clearTextPassword = s.get("password").toString();
+		so.setPassword(spe.encryptPassword(clearTextPassword));
 		try{
 			//do a check with raw query
-			if(scs.findByQuery(s.getEmail())==null){
-				Storeowner created = scs.createEntity(s);
-			
+			if(scs.findByQuery(so.getEmail())==null){
+				Storeowner created = scs.createEntity(so);
+				r.setErrorMessage(""+so.getId()+"");
 				r.setErrorCode(ErrorCodes.REG_SUC_1);
 				r.setLink("/storeOwnerServices/viewStoreOwnerDetails/"+created.getId());
 				r.setSuccessful(true);

@@ -6,4 +6,5 @@ import main.java.com.storehive.application.repository.JPAService;
 
 public interface StoreOwnerCrudService extends JPAService<Storeowner, Integer>{
 
+	public Storeowner findByIdNativeQuery(Integer id);
 }

@@ -6,6 +6,7 @@ import main.java.com.storehive.application.utilities.gps_algorithm.GlobalPositio
 
 
 
+
 public class Test {
 	
 	public static void main(String[] args) throws Exception {

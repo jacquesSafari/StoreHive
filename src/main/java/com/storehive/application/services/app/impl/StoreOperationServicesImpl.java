@@ -65,12 +65,11 @@ public class StoreOperationServicesImpl implements StoreOperationServices{
 		
 		Integer storeId = Integer.valueOf(openStore.get("storeId").toString());
 		
-		Store storeToOpen = new Store();
-	    storeToOpen.setId(storeId);
+		Store storeToOpen = scs.findById(Store.class, storeId);
 		storeToOpen.setLastOpenedDate(new DateTime().toDate());
 		storeToOpen.setIsOpen(openStore.get("isOpen").toString());
 		storeToOpen.setStorelocations(storeLocations);
-		
+		sl.setStore(storeToOpen);
 		Store updated = scs.update(storeToOpen);
 		
 		if(updated!=null){

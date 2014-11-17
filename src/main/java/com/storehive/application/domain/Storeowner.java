@@ -33,7 +33,7 @@ public class Storeowner implements Serializable {
 	private Date registeredDate;
 
 	//bi-directional one-to-one association to Store
-	@OneToOne(mappedBy="storeowner")
+	@OneToOne(mappedBy="storeowner",fetch=FetchType.EAGER)
 	private Store store;
 
 	public Storeowner() {

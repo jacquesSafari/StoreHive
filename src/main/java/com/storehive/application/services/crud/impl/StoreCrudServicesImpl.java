@@ -3,20 +3,18 @@ package main.java.com.storehive.application.services.crud.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 import main.java.com.storehive.application.domain.Store;
 import main.java.com.storehive.application.listeners.EMListener;
 import main.java.com.storehive.application.services.crud.StoreCrudServices;
-import main.java.com.storehive.application.services.crud.StoreLocationCrudServices;
 
 public class StoreCrudServicesImpl implements StoreCrudServices {
 
 	private EntityManager em; 
-	private StoreLocationCrudServices slcs;
 	
 	public StoreCrudServicesImpl() {
 		em = EMListener.createEntityManager();
-		slcs = new StoreLocationServicesImpl();
 	}
 	@Override
 	public Store findById(Class<Store> s,Integer id) {
@@ -31,7 +29,7 @@ public class StoreCrudServicesImpl implements StoreCrudServices {
 
 	@Override
 	public Store findSingleItemByQuery(String query) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -43,11 +41,18 @@ public class StoreCrudServicesImpl implements StoreCrudServices {
 
 	@Override
 	public Store createEntity(Store entity) {
-		em.getTransaction( ).begin( );
-		em.persist(entity);
-        em.flush();
-        em.refresh(entity);
-        em.getTransaction( ).commit();
+		EntityTransaction t = em.getTransaction();
+		try{
+			t.begin();
+			em.persist(entity);
+	        em.flush();
+	        em.refresh(entity);
+	        t.commit();
+		}catch(Exception e){
+			if(t.isActive()) {
+                t.rollback();
+            }
+		}
         return entity;
 	}
 
@@ -68,6 +73,9 @@ public class StoreCrudServicesImpl implements StoreCrudServices {
 		if(entity.getStorelocations()!=null)
 			old.getStorelocations().add(entity.getStorelocations().get(0));
 		
+		em.flush();
+        em.refresh(old);
+        
 		em.getTransaction().commit();
 		return old;
 	}

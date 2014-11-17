@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 
 import main.java.com.storehive.application.restapi.InventoryServicesAPI;
+import main.java.com.storehive.application.restapi.SearchServicesAPI;
 import main.java.com.storehive.application.restapi.StoreOwnerServicesAPI;
 import main.java.com.storehive.application.restapi.StoreServicesAPI;
 import main.java.com.storehive.application.restapi.StoreTransactionServicesAPI;
@@ -23,6 +24,7 @@ public class StoreHiveApplication extends JAXRSConfiguration {
 		singletons.add(new StoreServicesAPI());
 		singletons.add(new InventoryServicesAPI());
 		singletons.add(new StoreTransactionServicesAPI());
+		singletons.add(new SearchServicesAPI());
 	}
 
 	@Override
@@ -36,3 +38,4 @@ public class StoreHiveApplication extends JAXRSConfiguration {
 	}
 
 }
+

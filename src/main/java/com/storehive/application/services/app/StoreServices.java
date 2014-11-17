@@ -8,7 +8,7 @@ import org.json.simple.JSONObject;
 
 public interface StoreServices {
 
-	public ResponseResult registerNewClient(Storeowner s);
+	public ResponseResult registerNewClient(JSONObject s);
 	
 	public JSONArray getAllStoreOwners();
 	

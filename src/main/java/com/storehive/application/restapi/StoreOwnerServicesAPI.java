@@ -1,7 +1,5 @@
 package main.java.com.storehive.application.restapi;
 
-import java.util.Date;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -19,7 +17,6 @@ import main.java.com.storehive.application.utilities.ResponseResult;
 import main.java.com.storehive.application.utilities.ResponseResultEnum;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -39,23 +36,18 @@ public class StoreOwnerServicesAPI {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String registerClient(String s){
 		ResponseResult success = new ResponseResult();
-		StrongPasswordEncryptor spe = new StrongPasswordEncryptor();
-		
-		ObjectMapper mapper = new ObjectMapper();
-		
 		JSONObject message = new JSONObject();
 		
 		try {
-			Storeowner so = mapper.readValue(s, Storeowner.class);
-			String clearTextPassword = so.getPassword();
-			so.setRegisteredDate(new Date());
-			so.setPassword(spe.encryptPassword(clearTextPassword));
+			JSONParser jp = new JSONParser();
+			Object c = jp.parse(s);
+			JSONObject user = (JSONObject)c;
 			
-			success = ss.registerNewClient(so);
+			success = ss.registerNewClient(user);
 			message.put(ResponseResultEnum.isSuccessful, success.isSuccessful());
 			message.put(ResponseResultEnum.statusCode, success.getErrorCode());
 			message.put(ResponseResultEnum.link, success.getLink());
-			message.put("id", so.getId());
+			message.put("ownerId", success.getErrorMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -86,7 +78,7 @@ public class StoreOwnerServicesAPI {
 			if(success.isSuccessful()){
 				message.put(ResponseResultEnum.isSuccessful, success.isSuccessful());
 				message.put(ResponseResultEnum.link, success.getLink());
-				message.put("id", success.getErrorMessage());
+				message.put("ownerId", success.getErrorMessage());
 			}else{
 				message.put(ResponseResultEnum.isSuccessful, success.isSuccessful());
 				message.put(ResponseResultEnum.statusCode, success.getErrorCode());

@@ -3,6 +3,7 @@ package main.java.com.storehive.application.services.crud.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 import main.java.com.storehive.application.domain.Category;
 import main.java.com.storehive.application.listeners.EMListener;
@@ -41,11 +42,18 @@ public class CategoryCrudServiceImpl implements CategoryCrudService {
 
 	@Override
 	public Category createEntity(Category entity) {
-		em.getTransaction( ).begin( );
-		em.persist(entity);
-        em.flush();
-        em.refresh(entity);
-        em.getTransaction( ).commit();
+		EntityTransaction t = em.getTransaction();
+		try{
+			t.begin();
+			em.persist(entity);
+	        em.flush();
+	        em.refresh(entity);
+	        t.commit();
+		}catch(Exception e){
+			if(t.isActive()) {
+                t.rollback();
+            }
+		}
         return entity;
 	}
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.validation.ConstraintViolationException;
@@ -22,8 +23,12 @@ public class StoreOwnerCrudServiceImpl implements StoreOwnerCrudService{
 	}
 	
 	@Override
-	public Storeowner findById(Class<Storeowner> s,Integer id) {
-		return em.find(s, id);
+	public Storeowner findById(Class<Storeowner> s,Integer id) throws NoResultException{
+		em.getTransaction().begin();
+		em.flush();
+		Storeowner st = em.find(Storeowner.class, id);
+		em.getTransaction().commit();
+		return st;
 	}
 
 	@Override
@@ -47,12 +52,22 @@ public class StoreOwnerCrudServiceImpl implements StoreOwnerCrudService{
 
 	@Override
 	public Storeowner createEntity(Storeowner entity) throws ConstraintViolationException {
-		em.getTransaction( ).begin( );
-		em.persist(entity);
-        em.flush();
-        em.refresh(entity);
-        em.getTransaction( ).commit();
-        return entity;
+		EntityTransaction t = em.getTransaction();
+		Storeowner entityInserted = null;
+		try{
+			t.begin();
+			em.persist(entity);
+	        em.flush();
+	        em.refresh(entity);
+	        t.commit();
+	        
+	        entityInserted = findById(Storeowner.class,entity.getId());
+		}catch(Exception e){
+			if(t.isActive()) {
+                t.rollback();
+            }
+		}
+        return entityInserted;
 	}
 
 	@Override
@@ -71,6 +86,13 @@ public class StoreOwnerCrudServiceImpl implements StoreOwnerCrudService{
 	public void deleteByQueryWithId(Integer id) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Storeowner findByIdNativeQuery(Integer id) {
+		Query q = em.createNativeQuery("select * from storeowner where id = :id",Storeowner.class).setParameter("id", id);
+		Storeowner s = (Storeowner)q.getSingleResult();
+		return s;
 	}
 
 }

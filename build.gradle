@@ -1,11 +1,18 @@
-apply plugin: 'java'
-apply plugin: 'eclipse'
+apply plugin: 'ssh'
 apply plugin: 'war'
 
 version = '1.0 SNAPSHOT'
 
 repositories {
-   mavenCentral()                                               
+   mavenCentral() 
+   }
+   dependencies {
+   	classpath 'org.hidetake:gradle-ssh-plugin:0.1.7'
+   }                                              
+}
+
+war {
+	archiveName = 'ROOT.war'
 }
 
 dependencies {
@@ -39,6 +46,43 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.+'
 }
 
-war {
-	from configurations.compile.collect { zipTree it }
+ssh {
+	config(StrictHostKeyChecking: 'no')
+}
+
+remotes {
+	testserver {
+		host = '41.185.26.135'
+		user = root
+		identity = file("${System.properties['user.home']}/.ssh/id_dsa")
+	}
+}
+
+task deployTestServer << {
+	deploy(remotes.testserver)
+}
+
+deployTestServer.dependsOn build
+ 
+def deploy(def server) {
+	logger.lifecycle("Deploying to $server")
+	logger.lifecycle("Copying ${war.archivePath.absolutePath} to $server ... Be patient .. takes time ...")
+sshexec {
+	session(server) {
+	put(war.archivePath.absolutePath, war.archiveName)
+}
+}
+	sshexecute(server, '/usr/share/tomcat7/bin/tomcat7 stop')
+	sshexecute(server, 'rm -rf /var/lib/tomcat7/webapps/rest*')
+	sshexecute(server, "cp ${war.archiveName}  /var/lib/tomcat7/webapps")
+	sshexecute(server, '/usr/share/tomcat7/bin/tomcat7 start')
+	sshexecute(server, '/usr/share/tomcat7/bin/tomcat7 status')
+}
+ 
+def sshexecute(def server, def cmd) {
+	logger.lifecycle("Executing '$cmd'  ...")
+	sshexec {
+		session(server) {
+		execute(cmd, pty: true)
+	}
 }

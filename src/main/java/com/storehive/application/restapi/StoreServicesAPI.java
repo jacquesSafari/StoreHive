@@ -1,5 +1,9 @@
 package main.java.com.storehive.application.restapi;
 
+import java.util.List;
+
+import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -38,6 +42,7 @@ public class StoreServicesAPI {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String registerClient(String s){
+		ResponseResult r = new ResponseResult();
 		JSONObject message = new JSONObject();
 		JSONParser jp = new JSONParser();
 		Object c;
@@ -46,8 +51,9 @@ public class StoreServicesAPI {
 			JSONObject j = (JSONObject)c;
 			
 			Integer storeOwnerId = Integer.valueOf(j.get("ownerId").toString());
+			System.out.println(storeOwnerId);
 			Storeowner storeBelongTo = scs.findById(Storeowner.class, storeOwnerId);
-			
+
 			Store store = new Store();
 			store.setDescription(j.get("description").toString());
 			store.setShopName(j.get("shopName").toString());
@@ -55,8 +61,7 @@ public class StoreServicesAPI {
 			store.setStoreowner(storeBelongTo);
 			store.setIsOpen("false");
 			
-			
-			ResponseResult r = ss.registerStore(store);
+			r = ss.registerStore(store);
 			
 			if(r.isSuccessful()){
 				message.put(ResponseResultEnum.isSuccessful, r.isSuccessful());
@@ -68,7 +73,18 @@ public class StoreServicesAPI {
 				message.put(ResponseResultEnum.statusMessage, r.getErrorMessage());
 			}
 			
-		} catch (ParseException e) {
+		}catch (NoResultException e) {
+			message.put(ResponseResultEnum.isSuccessful, false);
+			message.put(ResponseResultEnum.statusMessage, "No User Found With That Id");
+			e.printStackTrace();
+		}catch (ParseException e) {
+			message.put(ResponseResultEnum.isSuccessful, r.isSuccessful());
+			message.put(ResponseResultEnum.statusCode, r.getErrorCode());
+			message.put(ResponseResultEnum.statusMessage, e);
+			e.printStackTrace();
+		}catch (NullPointerException e) {
+			message.put(ResponseResultEnum.isSuccessful, false);
+			message.put(ResponseResultEnum.statusMessage, "Something terrible went wrong, a null pointer");
 			e.printStackTrace();
 		}
 		

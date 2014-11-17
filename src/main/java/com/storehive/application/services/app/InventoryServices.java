@@ -18,4 +18,6 @@ public interface InventoryServices {
 	public ResponseResult deleteProductFromInventory(Integer id);
 	
 	public JSONObject updateProduct(JSONObject productDetails);
+	
+	public JSONArray viewAllStoreProducts(Integer id);
 }

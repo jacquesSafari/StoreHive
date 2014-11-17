@@ -3,7 +3,9 @@ package main.java.com.storehive.application.services.crud.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import javax.transaction.Transaction;
 
 import main.java.com.storehive.application.domain.Transactiongood;
 import main.java.com.storehive.application.listeners.EMListener;
@@ -42,11 +44,18 @@ public class TransactionGoodCrudServiceImpl implements TransactionalGoodCrudServ
 
 	@Override
 	public Transactiongood createEntity(Transactiongood entity) {
-		em.getTransaction( ).begin( );
-		em.persist(entity);
-        em.flush();
-        em.refresh(entity);
-        em.getTransaction( ).commit();
+		EntityTransaction t = em.getTransaction();
+		try{
+			t.begin();
+			em.persist(entity);
+	        em.flush();
+	        em.refresh(entity);
+	        t.commit();
+		}catch(Exception e){
+			if(t.isActive()) {
+                t.rollback();
+            }
+		}
         return entity;
 	}
 

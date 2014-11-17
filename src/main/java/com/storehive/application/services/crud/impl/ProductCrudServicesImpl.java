@@ -34,8 +34,8 @@ public class ProductCrudServicesImpl implements ProductCrudServices {
 
 	@Override
 	public List<Product> findByQuery(String query) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Product> productList = em.createQuery("FROM Product where s_id = :id", Product.class).setParameter("id", query).getResultList();
+		return productList;
 	}
 
 	@Override

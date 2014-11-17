@@ -108,4 +108,11 @@ public class InventoryServicesAPI {
 	public String getAllCategories(){
 		return ivs.getAllCategories().toJSONString();
 	}
+	
+	@GET
+	@Path("/viewAllStoreProducts/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String viewAllStoreProducts(@PathParam("id")Integer id){
+		return ivs.viewAllStoreProducts(id).toJSONString();
+	}
 }

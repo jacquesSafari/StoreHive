@@ -150,5 +150,24 @@ public class InventoryServicesImpl implements InventoryServices {
 		return j;
 	}
 
+	@Override
+	public JSONArray viewAllStoreProducts(Integer id) {
+		JSONArray j = new JSONArray();
+		List<Product> allProducts = pcs.findByQuery(id.toString());
+		
+		for(Product p:allProducts){
+			JSONObject prod = new JSONObject();
+			prod.put("productName", p.getProductName());
+			prod.put("productDescription", p.getProductDescription());
+			prod.put("productPrice", p.getProductPrice());
+			prod.put("productQuantity", p.getProductQuantity());
+			prod.put("categoryName", ""+p.getCategory().getCategoryName());
+			prod.put("link", "/inventoryServices/viewProduct/"+p.getId());
+			j.add(prod);
+		}
+		
+		return j;
+	}
+
 }
 
