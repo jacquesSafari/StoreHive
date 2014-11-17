@@ -19,6 +19,10 @@ public class TransactionGoodCrudServiceImpl implements TransactionalGoodCrudServ
 		em = EMListener.createEntityManager();
 	}
 	
+	public TransactionGoodCrudServiceImpl(EntityManager em){
+		this.em = em;
+	}
+	
 	@Override
 	public Transactiongood findById(Class<Transactiongood> t, Integer id) {
 		return em.find(t, id);

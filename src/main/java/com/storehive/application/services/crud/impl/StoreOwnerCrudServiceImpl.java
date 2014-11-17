@@ -22,6 +22,10 @@ public class StoreOwnerCrudServiceImpl implements StoreOwnerCrudService{
 		em = EMListener.createEntityManager();
 	}
 	
+	public StoreOwnerCrudServiceImpl(EntityManager em){
+		this.em = em;
+	}
+	
 	@Override
 	public Storeowner findById(Class<Storeowner> s,Integer id) throws NoResultException{
 		em.getTransaction().begin();

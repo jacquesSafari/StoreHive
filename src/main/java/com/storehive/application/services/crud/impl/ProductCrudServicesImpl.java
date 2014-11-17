@@ -15,6 +15,11 @@ public class ProductCrudServicesImpl implements ProductCrudServices {
 	public ProductCrudServicesImpl() {
 		em = EMListener.createEntityManager();
 	}
+	
+	public ProductCrudServicesImpl(EntityManager em) {
+		this.em = em;
+	}
+	
 	@Override
 	public Product findById(Class<Product> s,Integer id) {
 		return em.find(s, id);	

@@ -19,6 +19,10 @@ public class StoreLocationServicesImpl implements StoreLocationCrudServices {
 		em = EMListener.createEntityManager();
 	}
 	
+	public StoreLocationServicesImpl(EntityManager em){
+		this.em = em;
+	}
+	
 	@Override
 	public Storelocation findById(Class<Storelocation> t, Integer id) {
 		return em.find(t, id);	

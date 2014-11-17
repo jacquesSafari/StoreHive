@@ -91,6 +91,61 @@ public class StoreServicesAPI {
 		return message.toJSONString();
 	}
 	
+	@POST
+	@Path("/registerNewStorePart2")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String registerClientPart2(String s){
+		ResponseResult r = new ResponseResult();
+		JSONObject message = new JSONObject();
+		JSONParser jp = new JSONParser();
+		Object c;
+		try {
+			c = jp.parse(s);
+			JSONObject j = (JSONObject)c;
+			
+			Integer storeOwnerId = Integer.valueOf(j.get("ownerId").toString());
+			System.out.println(storeOwnerId);
+			Storeowner storeBelongTo = scs.findById(Storeowner.class, storeOwnerId);
+
+			Store store = new Store();
+			store.setDescription(j.get("description").toString());
+			store.setShopName(j.get("shopName").toString());
+			store.setOwnerEmail(storeBelongTo.getEmail());
+			store.setStoreowner(storeBelongTo);
+			store.setIsOpen("false");
+			
+			r = ss.registerStore(store);
+			
+			if(r.isSuccessful()){
+				message.put(ResponseResultEnum.isSuccessful, r.isSuccessful());
+				message.put(ResponseResultEnum.link, r.getLink());
+				message.put("storeId", r.getErrorMessage());
+			}else{
+				message.put(ResponseResultEnum.isSuccessful, r.isSuccessful());
+				message.put(ResponseResultEnum.statusCode, r.getErrorCode());
+				message.put(ResponseResultEnum.statusMessage, r.getErrorMessage());
+			}
+			
+		}catch (NoResultException e) {
+			message.put(ResponseResultEnum.isSuccessful, false);
+			message.put(ResponseResultEnum.statusMessage, "No User Found With That Id");
+			e.printStackTrace();
+		}catch (ParseException e) {
+			message.put(ResponseResultEnum.isSuccessful, r.isSuccessful());
+			message.put(ResponseResultEnum.statusCode, r.getErrorCode());
+			message.put(ResponseResultEnum.statusMessage, e);
+			e.printStackTrace();
+		}catch (NullPointerException e) {
+			message.put(ResponseResultEnum.isSuccessful, false);
+			message.put(ResponseResultEnum.statusMessage, "Something terrible went wrong, a null pointer");
+			e.printStackTrace();
+		}
+		
+		return message.toJSONString();
+	}
+	
+	
 	@GET
 	@Path("/viewStoreDetails/{id}")
 	@Produces(MediaType.APPLICATION_JSON)

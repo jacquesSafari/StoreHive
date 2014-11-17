@@ -18,6 +18,9 @@ public class TransactionalCrudServiceImpl implements TransactionalCrudService{
 		em = EMListener.createEntityManager();
 	}
 	
+	public TransactionalCrudServiceImpl(EntityManager em){
+		this.em = em;
+	}
 	@Override
 	public Transaction findById(Class<Transaction> t, Integer id) {
 		 return em.find(t, id);

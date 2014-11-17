@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
+import main.java.com.storehive.application.domain.Product;
 import main.java.com.storehive.application.domain.Store;
 import main.java.com.storehive.application.listeners.EMListener;
 import main.java.com.storehive.application.services.crud.StoreCrudServices;
@@ -16,6 +17,11 @@ public class StoreCrudServicesImpl implements StoreCrudServices {
 	public StoreCrudServicesImpl() {
 		em = EMListener.createEntityManager();
 	}
+	
+	public StoreCrudServicesImpl(EntityManager em) {
+		this.em = em;
+	}
+	
 	@Override
 	public Store findById(Class<Store> s,Integer id) {
 		return em.find(s, id);	
@@ -23,8 +29,8 @@ public class StoreCrudServicesImpl implements StoreCrudServices {
 
 	@Override
 	public List<Store> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Store> storeList = em.createQuery("SELECT p FROM Store p", Store.class).getResultList();
+		return storeList;
 	}
 
 	@Override
