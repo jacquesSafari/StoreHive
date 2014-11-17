@@ -12,3 +12,5 @@ https://github.com/TinasheMzondiwa/StoreHive/tree/tyron
 
 ## Documentation
 https://github.com/TinasheMzondiwa/StoreHive/wiki
+
+©2014; Tatenda Mufakose, Tyrone Adams, Tinashe Mzondiwa, Corne Rossouw; All rights reserved.
