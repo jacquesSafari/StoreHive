@@ -224,10 +224,11 @@ public class RegistrationFragment extends Fragment {
 
                         if (response.isSuccessful()) {
                             Log.d(TAG, "is successful");
-                            AppConfig.saveAuthState(getActivity(), new RegisteredUser(true, owner.getFullName(), owner.getUserName()));
+
 
                             Intent intent = new Intent(getActivity(), OpenStoreActivity.class);
                             owner.setOwnerID(response.getOwnerID());
+                            AppConfig.saveAuthState(getActivity(), new RegisteredUser(true, owner.getOwnerID(), owner.getFullName(), owner.getUserName()));
                             intent.putExtra(OpenStoreActivity.OWNER_SERIALIZED_KEY, owner);
 
                             getActivity().startActivity(intent);

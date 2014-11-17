@@ -140,7 +140,6 @@ public class OpenStoreActivity extends Activity implements
                         public void onClick(View v) {
                             if(isValid()){
                                 progresBar.setVisibility(View.VISIBLE);
-                                Log.d(TAG, "Making call: "+ mStore.getDescription());
 
                                 RegisterStoreRequest request = new RegisterStoreRequest();
                                 request.setShopName(mStore.getShopName());
@@ -154,7 +153,7 @@ public class OpenStoreActivity extends Activity implements
 
                                         System.out.println(object);
                                         RegisterStoreResponse response = new RegisterStoreResponse(object);
-                                        Log.d(TAG, "StoreId: "+ response.getStoreId());
+
 
                                         if(response.isSuccessful()){
                                             mStore.setStoreId(response.getStoreId());
@@ -177,35 +176,6 @@ public class OpenStoreActivity extends Activity implements
                                     }
                                 });
 
-                               /* StoreHiveAPI.registerStore(getActivity(), request, new Response.Listener<RegisterStoreResponse>() {
-                                    @Override
-                                    public void onResponse(RegisterStoreResponse response) {
-                                        progresBar.setVisibility(View.GONE);
-                                        if(response != null){
-                                            if(response.isSuccessful()){
-                                                mStore.setStoreId(response.getStoreId());
-                                                mStore.setOpen(true);
-
-                                                Location loc = ((OpenStoreActivity)getActivity()).getmLocation();
-                                                if(loc != null){
-                                                    mStore.setLatitude(String.valueOf(loc.getLatitude()));
-                                                    mStore.setLongitude(String.valueOf(loc.getLongitude()));
-
-                                                    openStore();
-                                                } else {
-                                                    Toast.makeText(getActivity(), "Location not set", Toast.LENGTH_LONG).show();
-                                                }
-
-
-                                            } else {
-
-                                                Log.d(TAG, "Response unsuccessful " + response.toString());
-                                            }
-                                        } else {
-                                            Log.d(TAG, "null response" + response.toString());
-                                        }
-                                    }
-                                });*/
                             }
                         }
                     });
@@ -238,26 +208,25 @@ public class OpenStoreActivity extends Activity implements
             mStore.setOwnerId(mStoreOwner.getOwnerID());
             mStore.setOpen(false);
 
-            Log.d(TAG, "Details set: "+mStore.toString());
-
             return true;
         }
 
         private void openStore(){
-            Log.d(TAG, "openStore");
 
             progresBar.setVisibility(View.VISIBLE);
             StoreHiveAPI.openStore(getActivity(), mStore, new Response.Listener<BaseResponse>() {
                 @Override
                 public void onResponse(BaseResponse response) {
+                    System.out.println(response.toString());
+
                     progresBar.setVisibility(View.GONE);
-                    if(response.isSuccessful()){
+                    if(response != null){
                         Intent intent = new Intent(getActivity(), com.store.hive.store_owner.MainActivity.class);
                         intent.putExtra(getString(R.string.sh_pref_full_name), mStoreOwner.getFullName());
 
                         getActivity().startActivity(intent);
                     }else{
-                        Log.d(TAG, "openStore not succesful" + response.getErrorMessage());
+                        Toast.makeText(getActivity(), getString(R.string.sh_error_default), Toast.LENGTH_LONG).show();
                     }
                 }
             });

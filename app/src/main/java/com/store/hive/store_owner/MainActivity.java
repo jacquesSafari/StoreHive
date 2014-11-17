@@ -1,7 +1,9 @@
 package com.store.hive.store_owner;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,14 +22,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.android.volley.Response;
 import com.store.hive.BaseActivity;
 import com.store.hive.BaseMainActivity;
 import com.store.hive.R;
 import com.store.hive.fragments.OwnerProductsListFragment;
+import com.store.hive.model.people.StoreOwner;
+import com.store.hive.model.response.GetCategoriesResponse;
+import com.store.hive.service.StoreHiveAPI;
 import com.store.hive.utils.AppConfig;
 
 public class MainActivity extends BaseMainActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+
+    private static final String TAG = MainActivity.class.getName();
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -38,6 +47,10 @@ public class MainActivity extends BaseMainActivity
      */
     private CharSequence mTitle;
 
+    private StoreOwner mStoreOwner;
+
+    private SharedPreferences prefs;
+
     @Override
     protected int getLayoutResource() {
         return R.layout.owner_activity_main;
@@ -47,8 +60,7 @@ public class MainActivity extends BaseMainActivity
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String name = getIntent().getStringExtra("user_full_name");
-        getSupportActionBar().setSubtitle(name);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -60,6 +72,7 @@ public class MainActivity extends BaseMainActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout),
                 AppConfig.getRegisteredUser(this));
     }
+
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {

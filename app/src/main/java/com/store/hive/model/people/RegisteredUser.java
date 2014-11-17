@@ -10,12 +10,6 @@ public class RegisteredUser {
     private String fullName;
     private String email;
 
-    public RegisteredUser(boolean isLoggedIn, String fullName, String email) {
-        this.isLoggedIn = isLoggedIn;
-        this.fullName = fullName;
-        this.email = email;
-    }
-
     public RegisteredUser(boolean isLoggedIn, int ownerId, String fullName, String email) {
         this.isLoggedIn = isLoggedIn;
         this.ownerId = ownerId;

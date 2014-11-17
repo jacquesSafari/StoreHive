@@ -33,12 +33,14 @@ public class AppConfig {
         editor.putBoolean(context.getString(R.string.sh_pref_is_logged_in), user.isLoggedIn());
         editor.putString(context.getString(R.string.sh_pref_full_name), user.getFullName());
         editor.putString("user_email", user.getEmail());
+        editor.putInt("user_id", user.getOwnerId());
         editor.apply();
     }
 
     public static RegisteredUser getRegisteredUser(Context context){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return new RegisteredUser(preferences.getBoolean(context.getString(R.string.sh_pref_is_logged_in), false),
+                preferences.getInt("user_id", 0),
                 preferences.getString(context.getString(R.string.sh_pref_full_name), ""),
                 preferences.getString("user_email", ""));
     }

@@ -35,4 +35,14 @@ public class BaseResponse extends JSONModel{
     public String getLink() {
         return link;
     }
+
+    @Override
+    public String toString() {
+        return "BaseResponse{" +
+                "isSuccessful=" + isSuccessful +
+                ", link='" + link + '\'' +
+                ", errorMessage='" + errorMessage + '\'' +
+                ", errorCode='" + errorCode + '\'' +
+                '}';
+    }
 }

@@ -16,17 +16,19 @@
         android:layout_height="wrap_content"
         android:text="You have not added products"
         android:gravity="center"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        />
 
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_action_content_new"
-        fab:fab_colorNormal="@color/primary"
-        fab:fab_colorPressed="@color/primary_pressed"
-        fab:fab_colorRipple="@color/ripple" />
+        android:src="@drawable/ic_add"
+        fab:fab_colorNormal="@color/theme_primary"
+        fab:fab_colorPressed="@color/theme_primary_dark"
+        fab:fab_colorRipple="@color/white" />
 
 </RelativeLayout>
